@@ -1,13 +1,13 @@
 {
   "manifest_version": 2,
-  "name": "cVim",
-  "version": "1.4.6",
+  "name": "ChromeVim",
+  "version": "2.0.0",
   "description": "An extension adding Vim-like bindings to Google Chrome",
   "update_url": "https://clients2.google.com/service/update2/crx",
   "icons": {
     "128": "icons/128.png",
-    "48":  "icons/48.png",
-    "16":  "icons/16.png"
+    "48": "icons/48.png",
+    "16": "icons/16.png"
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
   "commands": {
@@ -50,10 +50,10 @@
       "19": "icons/disabled.png",
       "38": "icons/disabled-38.png"
     },
-    "default_title": "cVim",
+    "default_title": "ChromeVim",
     "default_popup": "pages/popup.html"
   },
-  "author": "Jake Eaton",
+  "author": "Jake Eaton, metasong",
   "permissions": [
     "<all_urls>",
     "tabs",

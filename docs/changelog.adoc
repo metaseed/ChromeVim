@@ -4,10 +4,18 @@
 :nofooter:
 link:index.html[Home]
 
+== ChromeVim changelog
+
+## 2.0.0
+. support CVIM in mapping.html, options page and new-tab(blank.html) page.
+. add defaut key map to pop up(detach) tab into new window; <kdb>wd</kbd> map to :tabdetach<cr>
+. add defaut key map to pop up(detachWithChildren) tab into new window; <kdb>wD</kbd> map to tabDetachWithChildren
+. todo: add feature to save and read config in gist.
+
 == Mouseless Changelog
 
 
-## 1.4.6
+## 1.4.6:
 
  . Fixed `openLastDownload` in #127 #138
  . Fixed `UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 487: ordinal not in range(128)`  in #139
@@ -16,8 +24,6 @@ link:index.html[Home]
  . added #132 tabs detach + goto (outliner based). Only works if chrome keeps the `openerTabId`.
  . fixed #134 disabled chrome url support
 
-
-  
 
 ## 1.4.5
 
@@ -38,18 +44,18 @@ site '*://*' {
   . Fixed toggling bookmarks saving url as title and added `toggleWindowBookmarks` as a fixup for already saved bookmarks.
    load all bookmarks in a window and use the command
   . Fixed #572 preventing anyone from sending keyboard events to extension via JS
-  
+
 
 ## 1.4.4
 
   . Fixed #547 site mapping being overwritten
   . Merged refactored code for domain history switching
-  . Merged frame/port changes 
+  . Merged frame/port changes
   . Fixed editWithVim ajax injection using cross origin domain. Python server can no longer run any unix command. VIM_COMMAND only
 
 ## 1.4.3
 
-  . Fixed #529 buffers search 
+  . Fixed #529 buffers search
   . Fixed #115 #114 errors when creating new tab
   . Fixed #108 pasting urls starting by a space now gets trimmed
   . Fixed documentation commands.adoc search commands
@@ -66,14 +72,14 @@ site '*://*' {
   . Merged changes
   .. workaround for Chrome collapseToEnd() bug #527 - command bar focus
 
-  
+
 
 ## 1.4.0
 
   . Merged changes
   .. fix 819232726ea22e90c317f9e4487f12eff19f172d #516 pegjs single line comment issue
-  .. Changed buffers priority 
-  .. Fixed CSS Options 
+  .. Changed buffers priority
+  .. Fixed CSS Options
   .. A lot of refactoring in 7031222822f3e5389f8ad594c54cf9e8e3f18b33 and 43e5a6bbf79468f56d68274e84f18adfa2f3c45d
   .. Removing reverse image change
   .. Reverted pull #502
@@ -104,16 +110,16 @@ site '*://*' {
  . Added alias `incrementURLFirstPath` to command `incrementURLPath` and `decrementURLFirstPath` to `decrementURLPath` https://github.com/hbt/mouseless/issues/59
  . Added `incrementURLLastPath` `decrementURLLastPath` commands  https://github.com/hbt/mouseless/issues/59
  . Added `viewSourceExternalEditor` command https://github.com/hbt/mouseless/issues/57
- . Enhanced documentation and released on http://mouseless.hbtlabs.com and https://hbt.github.io/mouseless 
-  
+ . Enhanced documentation and released on http://mouseless.hbtlabs.com and https://hbt.github.io/mouseless
+
 ## 1.3.0
 
-New Settings: 
+New Settings:
 
 - ignorenumerickeys - https://github.com/hbt/mouseless/commit/145126dd83edd6b05b780e7245bf1988d2c26bb9
 - debug - https://github.com/hbt/mouseless/commit/3dbbfe831412c44ec16ba5dea6411514b56e48a0
 - experimental  - turns on experiments (view below)
-- mouselesshintcharacters = "dsafrewq,tgcx" - https://github.com/hbt/mouseless/commit/acd2c474ee940872500aca98a75648d0bf4d3efa 
+- mouselesshintcharacters = "dsafrewq,tgcx" - https://github.com/hbt/mouseless/commit/acd2c474ee940872500aca98a75648d0bf4d3efa
 - newtabalwaysontheright https://github.com/hbt/mouseless/commit/a17f3e3f0c9917af1f944b4d5ff21ccc30da7085
 - automakelinks https://github.com/hbt/mouseless/commit/ba34618a09fd78f9aed3c22c0708aeb0ac02bcdc
 - newtaburl https://github.com/hbt/mouseless/commit/2ea0bcf53df09cc83edf0dcea278f9965212abef
@@ -158,9 +164,9 @@ Features:
 - enabled on chrome:// pages https://github.com/hbt/mouseless/commit/5d30159913f5acd0c1277e2d06e1ff46521a22e1
 - unmap removes keys recursively https://github.com/hbt/mouseless/commit/53053184d32529d1b60e1396fee1b134c6b8f1ef
 - external editor set cursor position https://github.com/hbt/mouseless/commit/d1ae58d5c283bcbca581772d8caed798a47de760
-- windows are maximized instead of natural height/width https://github.com/hbt/mouseless/commit/90ae0986bd28e08c6b2d3e54533242be22dd965d 
+- windows are maximized instead of natural height/width https://github.com/hbt/mouseless/commit/90ae0986bd28e08c6b2d3e54533242be22dd965d
 - #515 #3 custom hinttags - https://github.com/hbt/mouseless/commit/486dc99bc36ac9c53d548a7b4c5b9692af446144
-- #18 custom hints generation algo - https://github.com/hbt/mouseless/commit/acd2c474ee940872500aca98a75648d0bf4d3efa 
+- #18 custom hints generation algo - https://github.com/hbt/mouseless/commit/acd2c474ee940872500aca98a75648d0bf4d3efa
 - #5 save local marks per domain - https://github.com/hbt/mouseless/commit/82e342948bc5eb1dafaeff64a40d405b90f0930d
 - #23 stylesheet toggler https://github.com/hbt/mouseless/commit/8368a0821665d1f4dd5e899e39dc2e0ec6be8912
 - #24 bookmarks toggler https://github.com/hbt/mouseless/commit/f3dbf256777b0c946565ec64a9949d546a672718
@@ -182,7 +188,7 @@ Fixes:
 
 Experiments:
 
-- #17 - hints appear over visible elements even when they are floating (css property) and their height/width might be 0px 
+- #17 - hints appear over visible elements even when they are floating (css property) and their height/width might be 0px
 https://github.com/hbt/mouseless/commit/d016e6e1d968fc09e22ab657dddbb931833207ef
 
 

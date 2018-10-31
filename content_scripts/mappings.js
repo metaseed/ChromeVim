@@ -1,6 +1,6 @@
 var insertMappings = new Trie(),
-    mappingTrie = new Trie(),
-    currentTrieNode = mappingTrie;
+  mappingTrie = new Trie(),
+  currentTrieNode = mappingTrie;
 
 var Mappings = {
   repeats: '',
@@ -14,131 +14,133 @@ var Mappings = {
 };
 
 Mappings.defaults = [
-  ['j',         'scrollDown'],
-  ['gg',        'scrollToTop'],
-  ['a',         ':tabnew google '],
-  ['o',         ':open '],
-  ['O',         ':open @%'],
-  ['b',         ':bookmarks '],
-  ['t',         ':tabnew '],
-  ['I',         ':history '],
-  ['T',         ':tabnew @%'],
-  ['B',         ':buffer '],
-  ['gd',        ':chrome downloads!<cr>'],
-  ['ge',        ':chrome extensions!<cr>'],
-  ['x',         'closeTab'],
-  ['gxT',       'closeTabLeft'],
-  ['gxt',       'closeTabRight'],
-  ['gx0',       'closeTabsToLeft'],
-  ['gx$',       'closeTabsToRight'],
-  ['s',         'scrollDown'],
-  ['j',         'scrollDown'],
-  ['w',         'scrollUp'],
-  ['k',         'scrollUp'],
-  ['e',         'scrollPageUp'],
-  ['u',         'scrollPageUp'],
-  ['d',         'scrollPageDown'],
-  ['gg',        'scrollToTop'],
-  ['G',         'scrollToBottom'],
-  ['h',         'scrollLeft'],
-  ['l',         'scrollRight'],
-  ['0',         'scrollToLeft'],
-  ['$',         'scrollToRight'],
-  ['i',         'insertMode'],
-  ['r',         'reloadTab'],
-  ['cr',        'reloadAllButCurrent'],
-  ['gR',        'reloadTabUncached'],
-  ['f',         'createHint'],
-  ['mf',        'createMultiHint'],
-  [']]',        'nextMatchPattern'],
-  ['[[',        'previousMatchPattern'],
-  ['W',         'createHintWindow'],
-  ['gp',        'pinTab'],
-  ['>',         'moveTabRight'],
-  ['<',         'moveTabLeft'],
-  ['H',         'goBack'],
-  ['S',         'goBack'],
-  ['gr',        'reverseImage'],
-  ['mr',        'multiReverseImage'],
-  ['L',         'goForward'],
-  ['D',         'goForward'],
-  ['[d',        'previousDomain'],
-  [']d',        'nextDomain'],
-  ['g0',        'firstTab'],
-  ['M*',        'addQuickMark'],
-  ['A',         'openLastHint'],
-  ['go*',       'openQuickMark'],
-  ['gn*',       'openQuickMarkTabbed'],
-  ['gw*',       'openQuickMarkWindowed'],
-  ['gq',        'cancelWebRequest'],
-  ['<C-S-h>',   'openLastLinkInTab'],
-  ['gh',        'openLastLinkInTab'],
-  ['<C-S-l>',   'openNextLinkInTab'],
-  ['gl',        'openNextLinkInTab'],
-  ['gQ',        'cancelAllWebRequests'],
-  ['q',         'createHoverHint'],
-  ['Q',         'createUnhoverHint'],
-  ['g$',        'lastTab'],
-  ['X',         'lastClosedTab'],
-  ['gj',        'hideDownloadsShelf'],
-  ['F',         'createTabbedHint'],
-  ['gi',        'goToInput'],
-  ['gI',        'goToLastInput'],
-  ['K',         'nextTab'],
-  ['R',         'nextTab'],
-  ['gt',        'nextTab'],
-  ['gf',        'nextFrame'],
-  ['gF',        'rootFrame'],
-  ['g\'',       'lastActiveTab'],
-  ['g%',        'percentScroll'],
-  ['%',         'goToTab'],
-  ['z<Enter>',  'toggleImageZoom'],
-  ['zi',        'zoomPageIn'],
-  ['zo',        'zoomPageOut'],
-  ['z0',        'zoomOrig'],
-  ['\'\'',      'lastScrollPosition'],
-  ['<C-o>',     'previousScrollPosition'],
-  ['<C-i>',     'nextScrollPosition'],
-  ['\'*',       'goToMark'],
-  [';*',        'setMark'],
-  ['zt',        'centerMatchT'],
-  ['zb',        'centerMatchB'],
-  ['zz',        'centerMatchH'],
-  ['gs',        ':viewsource!<CR>'],
-  ['gU',        'goToRootUrl'],
-  ['gu',        'goUpUrl'],
-  ['gy',        'yankUrl'],
-  ['my',        'multiYankUrl'],
-  ['yy',        'yankDocumentUrl'],
-  ['yY',        'yankFrameUrl'],
-  ['ya',        'yankWindowUrls'],
-  ['yh',        'yankHighlight'],
-  ['p',         'openPaste'],
-  ['v',         'toggleVisualMode'],
-  ['V',         'toggleVisualLineMode'],
-  ['P',         'openPasteTab'],
-  ['J',         'previousTab'],
-  ['E',         'previousTab'],
-  ['gT',        'previousTab'],
-  ['n',         'nextSearchResult'],
-  ['N',         'previousSearchResult'],
-  ['/',         'openSearchBar'],
-  ['?',         'openSearchBarReverse'],
-  [':',         'openCommandBar'],
-  ['<C-6>',     'lastUsedTab'],
-  ['.',         'repeatCommand'],
-  ['<C-b>',     'createBookmark'],
-  ['g+',        'incrementURLPath'],
-  ['g-',        'decrementURLPath'],
-  ['#',         'resetScrollFocus'],
-  ['cm',        'muteTab']
+  ['j', 'scrollDown'],
+  ['gg', 'scrollToTop'],
+  ['a', ':tabnew google '],
+  ['o', ':open '],
+  ['O', ':open @%'],
+  ['b', ':bookmarks '],
+  ['t', ':tabnew '],
+  ['I', ':history '],
+  ['T', ':tabnew @%'],
+  ['B', ':buffer '],
+  ['gd', ':chrome downloads!<cr>'],
+  ['ge', ':chrome extensions!<cr>'],
+  ['x', 'closeTab'],
+  ['gxT', 'closeTabLeft'],
+  ['gxt', 'closeTabRight'],
+  ['gx0', 'closeTabsToLeft'],
+  ['gx$', 'closeTabsToRight'],
+  ['s', 'scrollDown'],
+  ['j', 'scrollDown'],
+  ['wd', ':tabdetach<cr>'],
+  ['wD', 'tabDetachWithChildren'],
+  ['k', 'scrollUp'],
+  ['e', 'scrollPageUp'],
+  ['u', 'scrollPageUp'],
+  ['d', 'scrollPageDown'],
+  ['gg', 'scrollToTop'],
+  ['G', 'scrollToBottom'],
+  ['h', 'scrollLeft'],
+  ['l', 'scrollRight'],
+  ['0', 'scrollToLeft'],
+  ['$', 'scrollToRight'],
+  ['i', 'insertMode'],
+  ['r', 'reloadTab'],
+  ['cr', 'reloadAllButCurrent'],
+  ['gR', 'reloadTabUncached'],
+  ['f', 'createHint'],
+  ['mf', 'createMultiHint'],
+  [']]', 'nextMatchPattern'],
+  ['[[', 'previousMatchPattern'],
+  ['W', 'createHintWindow'],
+  ['gp', 'pinTab'],
+  ['>', 'moveTabRight'],
+  ['<', 'moveTabLeft'],
+  ['H', 'goBack'],
+  ['S', 'goBack'],
+  ['gr', 'reverseImage'],
+  ['mr', 'multiReverseImage'],
+  ['L', 'goForward'],
+  ['D', 'goForward'],
+  ['[d', 'previousDomain'],
+  [']d', 'nextDomain'],
+  ['g0', 'firstTab'],
+  ['M*', 'addQuickMark'],
+  ['A', 'openLastHint'],
+  ['go*', 'openQuickMark'],
+  ['gn*', 'openQuickMarkTabbed'],
+  ['gw*', 'openQuickMarkWindowed'],
+  ['gq', 'cancelWebRequest'],
+  ['<C-S-h>', 'openLastLinkInTab'],
+  ['gh', 'openLastLinkInTab'],
+  ['<C-S-l>', 'openNextLinkInTab'],
+  ['gl', 'openNextLinkInTab'],
+  ['gQ', 'cancelAllWebRequests'],
+  ['q', 'createHoverHint'],
+  ['Q', 'createUnhoverHint'],
+  ['g$', 'lastTab'],
+  ['X', 'lastClosedTab'],
+  ['gj', 'hideDownloadsShelf'],
+  ['F', 'createTabbedHint'],
+  ['gi', 'goToInput'],
+  ['gI', 'goToLastInput'],
+  ['K', 'nextTab'],
+  ['R', 'nextTab'],
+  ['gt', 'nextTab'],
+  ['gf', 'nextFrame'],
+  ['gF', 'rootFrame'],
+  ["g'", 'lastActiveTab'],
+  ['g%', 'percentScroll'],
+  ['%', 'goToTab'],
+  ['z<Enter>', 'toggleImageZoom'],
+  ['zi', 'zoomPageIn'],
+  ['zo', 'zoomPageOut'],
+  ['z0', 'zoomOrig'],
+  ["''", 'lastScrollPosition'],
+  ['<C-o>', 'previousScrollPosition'],
+  ['<C-i>', 'nextScrollPosition'],
+  ["'*", 'goToMark'],
+  [';*', 'setMark'],
+  ['zt', 'centerMatchT'],
+  ['zb', 'centerMatchB'],
+  ['zz', 'centerMatchH'],
+  ['gs', ':viewsource!<CR>'],
+  ['gU', 'goToRootUrl'],
+  ['gu', 'goUpUrl'],
+  ['gy', 'yankUrl'],
+  ['my', 'multiYankUrl'],
+  ['yy', 'yankDocumentUrl'],
+  ['yY', 'yankFrameUrl'],
+  ['ya', 'yankWindowUrls'],
+  ['yh', 'yankHighlight'],
+  ['p', 'openPaste'],
+  ['v', 'toggleVisualMode'],
+  ['V', 'toggleVisualLineMode'],
+  ['P', 'openPasteTab'],
+  ['J', 'previousTab'],
+  ['E', 'previousTab'],
+  ['gT', 'previousTab'],
+  ['n', 'nextSearchResult'],
+  ['N', 'previousSearchResult'],
+  ['/', 'openSearchBar'],
+  ['?', 'openSearchBarReverse'],
+  [':', 'openCommandBar'],
+  ['<C-6>', 'lastUsedTab'],
+  ['.', 'repeatCommand'],
+  ['<C-b>', 'createBookmark'],
+  ['g+', 'incrementURLPath'],
+  ['g-', 'decrementURLPath'],
+  ['#', 'resetScrollFocus'],
+  ['cm', 'muteTab']
 ];
 
 Mappings.defaultsClone = Object.clone(Mappings.defaults);
 
 Mappings.actions = {
-
-  lastUsedTab: function() { RUNTIME('lastUsedTab'); },
+  lastUsedTab: function() {
+    RUNTIME('lastUsedTab');
+  },
   '<Nop>': function() {},
   toggleVisualMode: function() {
     Command.callOnCvimLoad(function() {
@@ -200,38 +202,47 @@ Mappings.actions = {
     RUNTIME('cancelAllWebRequests');
   },
   percentScroll: function(repeats) {
-    repeats = (Mappings.repeats === '0' || Mappings.repeats === '')
-              ? 0 : repeats;
+    repeats = Mappings.repeats === '0' || Mappings.repeats === '' ? 0 : repeats;
     document.scrollingElement.scrollTop =
-      (document.body.scrollHeight - window.innerHeight) * repeats / 100;
+      ((document.body.scrollHeight - window.innerHeight) * repeats) / 100;
   },
   goToTab: function(repeats) {
-    RUNTIME('goToTab', {index: repeats - 1});
+    RUNTIME('goToTab', { index: repeats - 1 });
   },
   goToRootUrl: function() {
     RUNTIME('openLink', {
-      url: location.protocol + '//' + location.hostname +
-           (location.port ? ':' + location.port : ''),
+      url:
+        location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : ''),
       tab: { pinned: null }
     });
   },
   goUpUrl: function(repeats) {
-    var path = '/' + location.pathname.split('/')
-      .filter(function(e) { return e; })
-      .slice(0, -repeats).join('/');
+    var path =
+      '/' +
+      location.pathname
+        .split('/')
+        .filter(function(e) {
+          return e;
+        })
+        .slice(0, -repeats)
+        .join('/');
     if (path !== location.pathname) {
       RUNTIME('openLink', {
-        url: location.protocol + '//' + location.hostname +
-             (location.port ? ':' + location.port : '') + path,
+        url:
+          location.protocol +
+          '//' +
+          location.hostname +
+          (location.port ? ':' + location.port : '') +
+          path,
         tab: { pinned: null }
       });
     }
   },
   nextFrame: function(repeats) {
-    RUNTIME('focusFrame', {repeats: repeats});
+    RUNTIME('focusFrame', { repeats: repeats });
   },
   rootFrame: function() {
-    RUNTIME('focusFrame', {isRoot: true});
+    RUNTIME('focusFrame', { isRoot: true });
   },
 
   dumpBookmarksFolder: function(repeats, folderName) {
@@ -249,7 +260,7 @@ Mappings.actions = {
       }
     });
   },
-  
+
   toggleBookmark: function(repeats, folderName) {
     PORT('toggleBookmark', {
       msg: {
@@ -265,93 +276,96 @@ Mappings.actions = {
       }
     });
   },
-  
+
   toggleDomainStylesheets: function(repeats, url) {
-    RUNTIME('toggleDomainStylesheets', {url: url, hostname: getHostname(window.location.href)})
+    RUNTIME('toggleDomainStylesheets', { url: url, hostname: getHostname(window.location.href) });
   },
   markMergeTab: function() {
     RUNTIME('mergeMarkTab', {
-      msg: {
-      }
-    })
+      msg: {}
+    });
   },
   markMergeWindow: function() {
-     RUNTIME('mergeMarkTab', {
+    RUNTIME('mergeMarkTab', {
       msg: {
         all: true
       }
-    })   
+    });
   },
   putMergeTabs: function() {
-      RUNTIME('mergePutTab', {
-      msg: {
-      }
-    })      
+    RUNTIME('mergePutTab', {
+      msg: {}
+    });
   },
   myCloseWindowsOthers: function() {
-    RUNTIME('myCloseTab', {msg: {
-      otherWindows: true,
-      type: 'otherWindows'
-    }})
+    RUNTIME('myCloseTab', {
+      msg: {
+        otherWindows: true,
+        type: 'otherWindows'
+      }
+    });
   },
   myCloseTabsLeft: function() {
-    RUNTIME('myCloseTab', {msg: {
-      type: 'closeLeft'
-    }})
+    RUNTIME('myCloseTab', {
+      msg: {
+        type: 'closeLeft'
+      }
+    });
   },
   myCloseTabsRight: function() {
-    RUNTIME('myCloseTab', {msg: {
-      type: 'closeRight'
-    }})
+    RUNTIME('myCloseTab', {
+      msg: {
+        type: 'closeRight'
+      }
+    });
   },
   myCloseTabsOthers: function() {
-    RUNTIME('myCloseTab', {msg: {
-      type: 'closeOther'
-    }})
+    RUNTIME('myCloseTab', {
+      msg: {
+        type: 'closeOther'
+      }
+    });
   },
   myCloseTabsAllExcept: function() {
     RUNTIME('myCloseTab', {
       msg: {
         type: 'closeOther'
       }
-    })
+    });
     RUNTIME('myCloseTab', {
       msg: {
         otherWindows: true,
         type: 'otherWindows'
       }
-    })
+    });
   },
   windowUnpinAllTabs: function() {
-    RUNTIME('unpinTabs', {msg: {}})
+    RUNTIME('unpinTabs', { msg: {} });
   },
   browserUnpinAllTabs: function() {
     RUNTIME('unpinTabs', {
       msg: {
         allWindows: true
       }
-    })
+    });
   },
 
-
-  toggleIncognitoTab: function () {
-    RUNTIME('toggleIncognitoTab')
+  toggleIncognitoTab: function() {
+    RUNTIME('toggleIncognitoTab');
   },
 
-
-  toggleIncognitoWindow: function () {
-    RUNTIME('toggleIncognitoWindow')
+  toggleIncognitoWindow: function() {
+    RUNTIME('toggleIncognitoWindow');
   },
-
 
   closeTab: function(repeats) {
-    RUNTIME('closeTab', {repeats: repeats});
+    RUNTIME('closeTab', { repeats: repeats });
   },
   closeTabLeft: function(repeats) {
-    RUNTIME('closeTabLeft', {repeats: repeats});
+    RUNTIME('closeTabLeft', { repeats: repeats });
   },
   closeTabRight: function(repeats) {
-    RUNTIME('closeTabRight', {repeats: repeats});
+    RUNTIME('closeTabRight', { repeats: repeats });
   },
   closeTabsToLeft: function() {
     RUNTIME('closeTabsToLeft');
@@ -372,22 +386,23 @@ Mappings.actions = {
     RUNTIME('openLast', { repeats: repeats });
   },
   moveTabRight: function(repeats) {
-    RUNTIME('moveTabRight', {repeats: repeats});
+    RUNTIME('moveTabRight', { repeats: repeats });
   },
   moveTabLeft: function(repeats) {
-    RUNTIME('moveTabLeft', {repeats: repeats});
+    RUNTIME('moveTabLeft', { repeats: repeats });
   },
   lastActiveTab: function() {
     RUNTIME('lastActiveTab');
   },
   reverseImage: function() {
-    if (/\(\d+×\d+\)$/.test(document.title) === true &&
-        document.body.firstChild.localName === 'img') {
+    if (
+      /\(\d+×\d+\)$/.test(document.title) === true &&
+      document.body.firstChild.localName === 'img'
+    ) {
       if (document.body.firstChild.src) {
         RUNTIME('openLinkTab', {
           active: false,
-          url: 'https://www.google.com/searchbyimage?image_url=' +
-                document.body.firstChild.src,
+          url: 'https://www.google.com/searchbyimage?image_url=' + document.body.firstChild.src,
           noconvert: true
         });
         return;
@@ -412,17 +427,17 @@ Mappings.actions = {
     }
   },
   zoomPageIn: function(repeats) {
-    RUNTIME('zoomIn', {repeats: repeats}, function() {
+    RUNTIME('zoomIn', { repeats: repeats }, function() {
       document.body.style.zoom =
-        (+document.body.style.zoom ? parseFloat(document.body.style.zoom) : 1)
-        + settings.zoomfactor * repeats;
+        (+document.body.style.zoom ? parseFloat(document.body.style.zoom) : 1) +
+        settings.zoomfactor * repeats;
     });
   },
   zoomPageOut: function(repeats) {
-    RUNTIME('zoomOut', {repeats: repeats}, function() {
+    RUNTIME('zoomOut', { repeats: repeats }, function() {
       document.body.style.zoom =
-        (+document.body.style.zoom ? parseFloat(document.body.style.zoom) : 1)
-        - settings.zoomfactor * repeats;
+        (+document.body.style.zoom ? parseFloat(document.body.style.zoom) : 1) -
+        settings.zoomfactor * repeats;
     });
   },
   zoomOrig: function() {
@@ -433,37 +448,40 @@ Mappings.actions = {
   centerMatchT: function() {
     var documentZoom = parseFloat(document.body.style.zoom) || 1;
     if (Find.matches.length && Find.matches[Find.index]) {
-      window.scrollBy(0, Find.matches[Find.index].getBoundingClientRect().top *
-                         documentZoom);
+      window.scrollBy(0, Find.matches[Find.index].getBoundingClientRect().top * documentZoom);
     }
   },
   centerMatchH: function() {
     var documentZoom = parseFloat(document.body.style.zoom) || 1;
     if (Find.matches.length && Find.matches[Find.index]) {
-      var scrollOffset = (function() {
-        return this.matches[this.index].getBoundingClientRect().top *
-               documentZoom + this.matches[this.index].offsetHeight -
-               0.5 * window.innerHeight;
-      }).call(Find);
+      var scrollOffset = function() {
+        return (
+          this.matches[this.index].getBoundingClientRect().top * documentZoom +
+          this.matches[this.index].offsetHeight -
+          0.5 * window.innerHeight
+        );
+      }.call(Find);
       window.scrollBy(0, scrollOffset);
     }
   },
   centerMatchB: function() {
     var documentZoom = parseFloat(document.body.style.zoom) || 1;
     if (Find.matches.length && Find.matches[Find.index]) {
-      var scrollOffset = (function() {
-        return this.matches[this.index].getBoundingClientRect().top *
-               documentZoom + this.matches[this.index].offsetHeight *
-               documentZoom - window.innerHeight;
-      }).call(Find);
+      var scrollOffset = function() {
+        return (
+          this.matches[this.index].getBoundingClientRect().top * documentZoom +
+          this.matches[this.index].offsetHeight * documentZoom -
+          window.innerHeight
+        );
+      }.call(Find);
       window.scrollBy(0, scrollOffset);
     }
   },
   openLastLinkInTab: function(repeats) {
-    RUNTIME('openLastLinkInTab', {repeats: repeats});
+    RUNTIME('openLastLinkInTab', { repeats: repeats });
   },
   openNextLinkInTab: function(repeats) {
-    RUNTIME('openNextLinkInTab', {repeats: repeats});
+    RUNTIME('openNextLinkInTab', { repeats: repeats });
   },
   scrollDown: function(repeats) {
     Scroll.scroll('down', repeats);
@@ -505,7 +523,10 @@ Mappings.actions = {
     if (!Scroll.lastPosition) {
       return;
     }
-    var currentPosition = [document.scrollingElement.scrollLeft, document.scrollingElement.scrollTop];
+    var currentPosition = [
+      document.scrollingElement.scrollLeft,
+      document.scrollingElement.scrollTop
+    ];
     window.scrollTo.apply(null, Scroll.lastPosition);
     Scroll.lastPosition = currentPosition;
   },
@@ -516,45 +537,64 @@ Mappings.actions = {
     Scroll.nextHistoryState();
   },
   goToMark: function() {
-    settings.localMarks = settings.localMarks || {}
-    settings.localMarks[getHostname(window.location.href)] = settings.localMarks[getHostname(window.location.href)] || {}
+    settings.localMarks = settings.localMarks || {};
+    settings.localMarks[getHostname(window.location.href)] =
+      settings.localMarks[getHostname(window.location.href)] || {};
 
     var key = Mappings.lastCommand.queue.slice(-1);
     if (settings.localMarks[getHostname(window.location.href)].hasOwnProperty(key)) {
-      Scroll.positions[key] = settings.localMarks[getHostname(window.location.href)][key]
-      Scroll.lastPosition =
-        [document.scrollingElement.scrollLeft, document.scrollingElement.scrollTop];
+      Scroll.positions[key] = settings.localMarks[getHostname(window.location.href)][key];
+      Scroll.lastPosition = [
+        document.scrollingElement.scrollLeft,
+        document.scrollingElement.scrollTop
+      ];
       window.scrollTo.apply(null, Scroll.positions[key]);
     } else {
       Status.setMessage('Mark not set', 1, 'error');
     }
   },
   setMark: function() {
-    var mark = Mappings.lastCommand.queue.slice(-1)
+    var mark = Mappings.lastCommand.queue.slice(-1);
     var pos = [document.scrollingElement.scrollLeft, document.scrollingElement.scrollTop];
-    Scroll.positions[mark] = pos
+    Scroll.positions[mark] = pos;
 
     // save position in settings
     // TODO(hbt) ENHANCE add localMarks to settings in options.js same as domainStylesheets -- refactor goToMark
-    settings.localMarks = settings.localMarks || {}
-    settings.localMarks[getHostname(window.location.href)] = settings.localMarks[getHostname(window.location.href)] || {}
-    settings.localMarks[getHostname(window.location.href)][mark] = pos
-    PORT('syncSettings', {settings: settings});
+    settings.localMarks = settings.localMarks || {};
+    settings.localMarks[getHostname(window.location.href)] =
+      settings.localMarks[getHostname(window.location.href)] || {};
+    settings.localMarks[getHostname(window.location.href)][mark] = pos;
+    PORT('syncSettings', { settings: settings });
     chrome.runtime.sendMessage({
       action: 'saveSettings',
       settings: settings,
       sendSettings: true
     });
-    
   },
-  createHint: function() { Hints.create(); },
-  createTabbedHint: function() { Hints.create('tabbed'); },
-  createActiveTabbedHint: function() { Hints.create('tabbedActive'); },
-  createMultiHint: function() { Hints.create('multi'); },
-  createHintWindow: function() { Hints.create('window'); },
-  createEditHint: function() { Hints.create('edit'); },
-  createHoverHint: function() { Hints.create('hover'); },
-  createUnhoverHint: function() { Hints.create('unhover'); },
+  createHint: function() {
+    Hints.create();
+  },
+  createTabbedHint: function() {
+    Hints.create('tabbed');
+  },
+  createActiveTabbedHint: function() {
+    Hints.create('tabbedActive');
+  },
+  createMultiHint: function() {
+    Hints.create('multi');
+  },
+  createHintWindow: function() {
+    Hints.create('window');
+  },
+  createEditHint: function() {
+    Hints.create('edit');
+  },
+  createHoverHint: function() {
+    Hints.create('hover');
+  },
+  createUnhoverHint: function() {
+    Hints.create('unhover');
+  },
   createScriptHint: function(repeats, scriptName) {
     Hints.scriptFunction = scriptName;
     if (settings.FUNCTIONS.hasOwnProperty(scriptName)) {
@@ -565,11 +605,17 @@ Mappings.actions = {
     PORT('editWithVim', {
       text: window.location.href,
       callback: 'openUrlExternalEditorCallback'
-      });
+    });
   },
-  yankUrl: function() { Hints.create('yank'); },
-  multiYankUrl: function() { Hints.create('multiyank'); },
-  fullImageHint: function() { Hints.create('fullimage'); },
+  yankUrl: function() {
+    Hints.create('yank');
+  },
+  multiYankUrl: function() {
+    Hints.create('multiyank');
+  },
+  fullImageHint: function() {
+    Hints.create('fullimage');
+  },
   yankDocumentUrl: function() {
     RUNTIME('getRootUrl', function(url) {
       Clipboard.copy(url);
@@ -603,30 +649,40 @@ Mappings.actions = {
     }
   },
   nextCompletionResult: function() {
-    if (Command.commandBarFocused())
-      Search.nextResult(false);
+    if (Command.commandBarFocused()) Search.nextResult(false);
   },
   previousCompletionResult: function() {
-    if (Command.commandBarFocused())
-      Search.nextResult(true);
+    if (Command.commandBarFocused()) Search.nextResult(true);
   },
   addQuickMark: function() {
     Marks.addQuickMark(Mappings.lastCommand.queue.slice(-1));
   },
   openQuickMark: function(repeats) {
-    Marks.openQuickMark(Mappings.lastCommand.queue.slice(-1), {
-      tab: {},
-    }, repeats);
+    Marks.openQuickMark(
+      Mappings.lastCommand.queue.slice(-1),
+      {
+        tab: {}
+      },
+      repeats
+    );
   },
   openQuickMarkTabbed: function(repeats) {
-    Marks.openQuickMark(Mappings.lastCommand.queue.slice(-1), {
-      tab: {tabbed: true}
-    }, repeats);
+    Marks.openQuickMark(
+      Mappings.lastCommand.queue.slice(-1),
+      {
+        tab: { tabbed: true }
+      },
+      repeats
+    );
   },
   openQuickMarkWindowed: function(repeats) {
-    Marks.openQuickMark(Mappings.lastCommand.queue.slice(-1), {
-      tab: {newWindow: true}
-    }, repeats);
+    Marks.openQuickMark(
+      Mappings.lastCommand.queue.slice(-1),
+      {
+        tab: { newWindow: true }
+      },
+      repeats
+    );
   },
   insertMode: function() {
     Command.callOnCvimLoad(function() {
@@ -635,22 +691,21 @@ Mappings.actions = {
     insertMode = true;
   },
   reloadTab: function() {
-    RUNTIME('reloadTab', {nocache: false});
+    RUNTIME('reloadTab', { nocache: false });
   },
   reloadTabUncached: function() {
-    RUNTIME('reloadTab', {nocache: true});
+    RUNTIME('reloadTab', { nocache: true });
   },
   reloadAllButCurrent: function() {
-    RUNTIME('reloadAllTabs', {nocache: false, current: true});
+    RUNTIME('reloadAllTabs', { nocache: false, current: true });
   },
   reloadAllTabs: function() {
-    RUNTIME('reloadAllTabs', {nocache: false, current: false});
+    RUNTIME('reloadAllTabs', { nocache: false, current: false });
   },
   nextSearchResult: function(repeats) {
     if (Find.matches.length) {
       Find.search(Find.mode || '/', repeats);
-    } else if (Find.lastSearch !== void 0 &&
-               typeof Find.lastSearch === 'string') {
+    } else if (Find.lastSearch !== void 0 && typeof Find.lastSearch === 'string') {
       Find.highlight({
         base: document.body,
         mode: Find.mode || '/',
@@ -664,14 +719,13 @@ Mappings.actions = {
   previousSearchResult: function(repeats) {
     if (Find.matches.length) {
       Find.search(Find.mode || '?', -repeats);
-    } else if (Find.lastSearch !== void 0 &&
-               typeof Find.lastSearch === 'string') {
+    } else if (Find.lastSearch !== void 0 && typeof Find.lastSearch === 'string') {
       Find.highlight({
         base: document.body,
         mode: Find.mode || '?',
         search: Find.lastSearch,
         setIndex: true,
-        executeSearch: false,
+        executeSearch: false
       });
       Find.search(Find.mode || '?', -(Find.mode !== '?'));
     }
@@ -680,13 +734,13 @@ Mappings.actions = {
     RUNTIME('tabDetachWithChildren');
   },
   tabGoToParent: function(r) {
-    RUNTIME('tabGoToParent', {repeats: r});
+    RUNTIME('tabGoToParent', { repeats: r });
   },
   nextTab: function(r) {
-    RUNTIME('nextTab', {repeats: r});
+    RUNTIME('nextTab', { repeats: r });
   },
   previousTab: function(r) {
-    RUNTIME('previousTab', {repeats: r});
+    RUNTIME('previousTab', { repeats: r });
   },
   goBack: function(repeats) {
     history.go(-1 * repeats);
@@ -697,14 +751,14 @@ Mappings.actions = {
 
   _switchDomain: function(direction, repeats) {
     RUNTIME('getHistoryStates', null, function(response) {
-      if (response.links.length === 0)
-        return;
+      if (response.links.length === 0) return;
 
       var curDomain = new URL(response.links[response.state]).hostname;
 
-      var searchSpace = direction > 0 ?
-        response.links.slice(response.state) :
-        response.links.slice(0, response.state + 1).reverse();
+      var searchSpace =
+        direction > 0
+          ? response.links.slice(response.state)
+          : response.links.slice(0, response.state + 1).reverse();
 
       for (var i = 1, domainDistance = 0; i < searchSpace.length; i++) {
         var targetDomain = new URL(searchSpace[i]).hostname;
@@ -731,28 +785,31 @@ Mappings.actions = {
   },
   goToInput: function(repeats) {
     this.inputElements = [];
-    var allInput = document.
-      querySelectorAll('input,textarea,*[contenteditable]');
+    var allInput = document.querySelectorAll('input,textarea,*[contenteditable]');
     for (var i = 0, l = allInput.length; i < l; i++) {
-      if (DOM.isEditable(allInput[i]) &&
-          DOM.isVisible(allInput[i]) &&
-          allInput[i].id !== 'cVim-command-bar-input') {
+      if (
+        DOM.isEditable(allInput[i]) &&
+        DOM.isVisible(allInput[i]) &&
+        allInput[i].id !== 'cVim-command-bar-input'
+      ) {
         this.inputElements.push(allInput[i]);
       }
     }
     if (this.inputElements.length === 0) {
       return false;
     }
-    this.inputElementsIndex = repeats % this.inputElements.length - 1;
+    this.inputElementsIndex = (repeats % this.inputElements.length) - 1;
     if (this.inputElementsIndex < 0) {
       this.inputElementsIndex = 0;
     }
     for (i = 0, l = this.inputElements.length; i < l; i++) {
       var br = this.inputElements[i].getBoundingClientRect();
-      if (br.top + br.height >= 0 &&
-          br.left + br.width >= 0 &&
-          br.right - br.width <= window.innerWidth &&
-          br.top < window.innerHeight) {
+      if (
+        br.top + br.height >= 0 &&
+        br.left + br.width >= 0 &&
+        br.right - br.width <= window.innerWidth &&
+        br.top < window.innerHeight
+      ) {
         this.inputElementsIndex = i;
         break;
       }
@@ -769,9 +826,12 @@ Mappings.actions = {
   shortCuts: function(command, repeats) {
     commandMode = true;
     if (command.indexOf('@%') !== -1) {
-      RUNTIME('getRootUrl', function(url) {
-        this.shortCuts(command.split('@%').join(url), repeats);
-      }.bind(this));
+      RUNTIME(
+        'getRootUrl',
+        function(url) {
+          this.shortCuts(command.split('@%').join(url), repeats);
+        }.bind(this)
+      );
       return;
     }
     return window.setTimeout(function() {
@@ -779,7 +839,7 @@ Mappings.actions = {
       command = command
         .replace(/^:/, '')
         .replace(/<cr>(\s+)?$/i, '')
-        .replace(/<space>/ig, ' ');
+        .replace(/<space>/gi, ' ');
       if (!shouldComplete) {
         Command.execute(command, repeats);
         return;
@@ -822,10 +882,11 @@ Mappings.actions = {
   },
   repeatCommand: function(repeats) {
     if (this.hasOwnProperty(Mappings.lastCommand.fn)) {
-      this[Mappings.lastCommand.fn]
-        .call(this,
-              Mappings.lastCommand.repeats * repeats,
-              Mappings.lastCommand.params);
+      this[Mappings.lastCommand.fn].call(
+        this,
+        Mappings.lastCommand.repeats * repeats,
+        Mappings.lastCommand.params
+      );
     }
   },
   createBookmark: function() {
@@ -834,17 +895,23 @@ Mappings.actions = {
       title: document.title
     });
   },
-  quitChrome: function() { PORT('quitChrome'); },
-  passKeys: function(repeats) { Mappings.keyPassesLeft = repeats; },
+  quitChrome: function() {
+    PORT('quitChrome');
+  },
+  passKeys: function(repeats) {
+    Mappings.keyPassesLeft = repeats;
+  },
   enterPassMode: function() {
-    passMode = true
-    Status.setMessage('Entering pass-mode', 1)
+    passMode = true;
+    Status.setMessage('Entering pass-mode', 1);
   },
   exitPassMode: function() {
-    passMode = false
-    Status.setMessage('Exited pass-mode', 1)
+    passMode = false;
+    Status.setMessage('Exited pass-mode', 1);
   },
-  resetScrollFocus: function() { window.resetScrollFocus(); },
+  resetScrollFocus: function() {
+    window.resetScrollFocus();
+  },
   clearSearchHighlight: function() {
     Find.clear();
     HUD.hide();
@@ -853,52 +920,50 @@ Mappings.actions = {
     RUNTIME('muteTab');
   },
   exportSettings: function() {
-    var content = JSON.stringify(settings)
-    var uriContent = "data:text/plain;charset=utf-8," + encodeURIComponent(content);
-    var a = document.createElement('a')
-    a.href = uriContent
-    a.download = "cvim-settings.json"
-    a.click()
+    var content = JSON.stringify(settings);
+    var uriContent = 'data:text/plain;charset=utf-8,' + encodeURIComponent(content);
+    var a = document.createElement('a');
+    a.href = uriContent;
+    a.download = 'cvim-settings.json';
+    a.click();
   },
   viewSourceExternalEditor: function() {
-    RUNTIME('viewSourceExternalEditor', {url: window.location.href});
+    RUNTIME('viewSourceExternalEditor', { url: window.location.href });
   },
   hideDownloadsShelf: function() {
     RUNTIME('hideDownloadsShelf');
   },
   openLastDownload: function() {
     // TODO(hbt) ENHANCE add counter support where it would download the the second last download for example
-    RUNTIME('openLastDownloadedFile')
+    RUNTIME('openLastDownloadedFile');
   },
   pauseDownloads: () => {
-    RUNTIME('pauseDownloads')
+    RUNTIME('pauseDownloads');
   },
   resumeDownloads: () => {
-    RUNTIME('resumeDownloads')
+    RUNTIME('resumeDownloads');
   },
   cancelDownloads: () => {
-    RUNTIME('cancelDownloads')
+    RUNTIME('cancelDownloads');
   },
   restartLastDownload: () => {
-    RUNTIME('restartLastDownload')
+    RUNTIME('restartLastDownload');
   },
   copyURLDownloads: () => {
     RUNTIME('copyURLDownloads', function(o) {
-      console.log(o)
-    })
+      console.log(o);
+    });
   },
   makeLinks: () => {
     // TODO(hbt) ENHANCE only load linkify deps on demand instead of having 3 js files in manifest loaded every time
-    linkifyElement(document.body)
+    linkifyElement(document.body);
   }
-  
 };
 
 (function() {
   var replaceURLNumber = function(callback) {
     var url = document.URL.replace(/\b\d+\b/, callback);
-    if (url !== document.URL)
-      RUNTIME('openLink', { url: url, tab: { tabbed: false } });
+    if (url !== document.URL) RUNTIME('openLink', { url: url, tab: { tabbed: false } });
   };
   var replaceURLLastNumber = function(repeats) {
     if (document.location.href.match(/(.*?)(\d+)(\D*)$/)) {
@@ -907,35 +972,39 @@ Mappings.actions = {
         post = RegExp.$3;
       var newNumber = parseInt(number, 10) + repeats;
       var newNumberStr = String(newNumber > 0 ? newNumber : 0);
-      if (number.match(/^0/)) { // add 0009<C-a> should become 0010
+      if (number.match(/^0/)) {
+        // add 0009<C-a> should become 0010
         while (newNumberStr.length < number.length) {
-          newNumberStr = "0" + newNumberStr;
+          newNumberStr = '0' + newNumberStr;
         }
       }
 
-      var url = pre + newNumberStr + post
+      var url = pre + newNumberStr + post;
       RUNTIME('openLink', { url: url, tab: { tabbed: false } });
     }
-  }
+  };
   Mappings.actions.incrementURLPath = function(repeats) {
-    replaceURLNumber(function(e) { return +e + repeats; });
+    replaceURLNumber(function(e) {
+      return +e + repeats;
+    });
   };
   Mappings.actions.incrementURLFirstPath = function(repeats) {
     Mappings.actions.incrementURLPath(repeats);
   };
   Mappings.actions.decrementURLPath = function(repeats) {
-    replaceURLNumber(function(e) { return Math.max(0, +e - repeats); });
+    replaceURLNumber(function(e) {
+      return Math.max(0, +e - repeats);
+    });
   };
   Mappings.actions.decrementURLFirstPath = function(repeats) {
     Mappings.actions.decrementURLPath(repeats);
   };
   Mappings.actions.incrementURLLastPath = function(repeats) {
-    replaceURLLastNumber(repeats)
+    replaceURLLastNumber(repeats);
   };
   Mappings.actions.decrementURLLastPath = function(repeats) {
-    replaceURLLastNumber(repeats * -1)
+    replaceURLLastNumber(repeats * -1);
   };
-  
 })();
 
 Mappings.insertDefaults = [
@@ -950,7 +1019,7 @@ Mappings.insertDefaults = [
   ['<C-j>', 'forwardLine'],
   ['<C-k>', 'backwardLine'],
   ['<C-l>', 'forwardWord'],
-  ['<C-h>', 'backwardWord'],
+  ['<C-h>', 'backwardWord']
 ];
 
 Mappings.insertFunctions = (function() {
@@ -961,10 +1030,9 @@ Mappings.insertFunctions = (function() {
       selection.modify.apply(selection, arguments);
       return;
     }
-    selection.modify.bind(
-        selection,
-        selection.type === 'Range' ? 'extend' : 'move'
-    ).apply(null, arguments);
+    selection.modify
+      .bind(selection, selection.type === 'Range' ? 'extend' : 'move')
+      .apply(null, arguments);
   }
 
   function deleteSelection() {
@@ -985,11 +1053,11 @@ Mappings.insertFunctions = (function() {
     editWithVim: function() {
       var value = element.value || element.innerHTML;
       var text = value.substr(0, element.selectionStart);
-      var line = 1 + text.replace(/[^\n]/g, "").length;
-      var column = 1 + text.replace(/[^]*\n/, "").length;
-      var __ = window._
-      var mid = __.uniqueId('mouseless')
-      $(element).addClass(mid)
+      var line = 1 + text.replace(/[^\n]/g, '').length;
+      var column = 1 + text.replace(/[^]*\n/, '').length;
+      var __ = window._;
+      var mid = __.uniqueId('mouseless');
+      $(element).addClass(mid);
       PORT('editWithVim', {
         text: value,
         line: line,
@@ -1001,11 +1069,13 @@ Mappings.insertFunctions = (function() {
     backwardChar: modify.bind(null, 'left', 'character'),
     backwardWord: function() {
       if (element.value !== void 0) {
-        var text = element.value.split('').reverse().join('');
+        var text = element.value
+          .split('')
+          .reverse()
+          .join('');
         var len = text.length;
         var start = len - element.selectionStart;
-        var end = text.slice(start)
-          .match(/[\s\n]*[a-zA-Z_0-9]+|(\n|[^a-zA-Z_0-9])+/);
+        var end = text.slice(start).match(/[\s\n]*[a-zA-Z_0-9]+|(\n|[^a-zA-Z_0-9])+/);
         end = start + (end ? end[0].length : 0);
         element.selectionStart = len - end;
         element.selectionEnd = len - end;
@@ -1016,8 +1086,7 @@ Mappings.insertFunctions = (function() {
     forwardWord: function() {
       if (element.value !== void 0) {
         var start = element.selectionStart;
-        var end = element.value.slice(start)
-          .match(/[a-zA-Z_0-9]+[\s\n]*|(\n|[^a-zA-Z_0-9])+/);
+        var end = element.value.slice(start).match(/[a-zA-Z_0-9]+[\s\n]*|(\n|[^a-zA-Z_0-9])+/);
         end = start + (end ? end[0].length : 0);
         element.selectionStart = end;
         element.selectionEnd = end;
@@ -1042,7 +1111,7 @@ Mappings.insertFunctions = (function() {
     },
     beginningOfLineOrSelectAll: function() {
       var selection = function() {
-        var s = [ element.selectionStart, element.selectionEnd ];
+        var s = [element.selectionStart, element.selectionEnd];
         return {
           start: Math.min.apply(null, s),
           end: Math.max.apply(null, s)
@@ -1067,8 +1136,7 @@ Mappings.insertFunctions = (function() {
     deleteForwardWord: function() {
       if (element.value !== void 0) {
         var start = element.selectionStart;
-        var end = element.value.slice(start)
-          .match(/[a-zA-Z_0-9]+[\s\n]*|(\n|[^a-zA-Z_0-9])\1*/);
+        var end = element.value.slice(start).match(/[a-zA-Z_0-9]+[\s\n]*|(\n|[^a-zA-Z_0-9])\1*/);
         end = start + (end ? end[0].length : 0);
         element.selectionStart = start;
         element.selectionEnd = end;
@@ -1130,57 +1198,66 @@ Mappings.parseLine = function(line) {
   var map = Utils.compressArray(line.split(/ +/));
   if (map.length) {
     switch (map[0]) {
-    case 'unmapAll':
-      mappingTrie.children = {};
-      return;
-    case 'iunmapAll':
-      insertMappings.children = {};
-      return;
-    case 'map':
-    case 'remap':
-      if (map[1] === map[2]) {
+      case 'unmapAll':
+        mappingTrie.children = {};
         return;
-      }
-      map[1] = map[1].replace(/<leader>/ig, settings.mapleader);
-      mappingTrie.removeByKey(this.splitMapping(map[1]));
-      mappingTrie.insert(this.splitMapping(map[1]), map.slice(2).join(' '));
-      return;
-    case 'imap':
-    case 'iremap':
-      if (map[1] === map[2]) {
+      case 'iunmapAll':
+        insertMappings.children = {};
         return;
-      }
-      insertMappings.removeByKey(map[1]);
-      return insertMappings.insert(this.splitMapping(map[1]),
-          insertMappings.findValue(this.splitMapping(map[2])) ||
-          map.slice(2).join(' ').replace(/\s+".*/, ''));
-    case 'iunmap':
-      map.slice(1).forEach(function(unmap) {
-        insertMappings.removeByKey(this.splitMapping(unmap));
-      }.bind(this));
-      return;
-    case 'unmap':
-      map.slice(1).forEach(function(unmap) {
-        mappingTrie.removeRecursiveByKey(this.splitMapping(unmap));
-      }.bind(this));
-      return;
-    case 'call':
-      waitForLoad(function() {
-        map = Utils.trim(map.slice(1).join(' '));
-        if (map[0] === ':') {
-          Command.execute(map.slice(1).replace(/<CR>/i, ''), 1);
-        } else if (Mappings.actions[map]) {
-          ECHO('callMapFunction', {
-            name: map
-          });
-        } else {
-          ECHO('eval', {
-            name: map.replace(/\(.*/, ''),
-            args: map.replace(/[^(]+/, '') || '()'
-          });
+      case 'map':
+      case 'remap':
+        if (map[1] === map[2]) {
+          return;
         }
-      });
-      break;
+        map[1] = map[1].replace(/<leader>/gi, settings.mapleader);
+        mappingTrie.removeByKey(this.splitMapping(map[1]));
+        mappingTrie.insert(this.splitMapping(map[1]), map.slice(2).join(' '));
+        return;
+      case 'imap':
+      case 'iremap':
+        if (map[1] === map[2]) {
+          return;
+        }
+        insertMappings.removeByKey(map[1]);
+        return insertMappings.insert(
+          this.splitMapping(map[1]),
+          insertMappings.findValue(this.splitMapping(map[2])) ||
+            map
+              .slice(2)
+              .join(' ')
+              .replace(/\s+".*/, '')
+        );
+      case 'iunmap':
+        map.slice(1).forEach(
+          function(unmap) {
+            insertMappings.removeByKey(this.splitMapping(unmap));
+          }.bind(this)
+        );
+        return;
+      case 'unmap':
+        map.slice(1).forEach(
+          function(unmap) {
+            mappingTrie.removeRecursiveByKey(this.splitMapping(unmap));
+          }.bind(this)
+        );
+        return;
+      case 'call':
+        waitForLoad(function() {
+          map = Utils.trim(map.slice(1).join(' '));
+          if (map[0] === ':') {
+            Command.execute(map.slice(1).replace(/<CR>/i, ''), 1);
+          } else if (Mappings.actions[map]) {
+            ECHO('callMapFunction', {
+              name: map
+            });
+          } else {
+            ECHO('eval', {
+              name: map.replace(/\(.*/, ''),
+              args: map.replace(/[^(]+/, '') || '()'
+            });
+          }
+        });
+        break;
     }
   }
 };
@@ -1255,7 +1332,7 @@ Mappings.handleEscapeKey = function() {
   }
 
   // TODO(hbt) ENHANCE review where else Dom.isEditable is used + if it has similar bugs as #61
-  if(document.activeElement) {
+  if (document.activeElement) {
     document.activeElement.blur();
     this.actions.inputFocused = false;
   }
@@ -1308,9 +1385,11 @@ Mappings.shouldPrevent = function(key) {
   if (key === '<Esc>' || key === '<C-[>' || Hints.active) {
     return true;
   }
-  if (/^[0-9]$/.test(key) &&
-      !(currentTrieNode.hasKey(key) && this.repeats === '') &&
-      !(key === '0' && this.repeats === '')) {
+  if (
+    /^[0-9]$/.test(key) &&
+    !(currentTrieNode.hasKey(key) && this.repeats === '') &&
+    !(key === '0' && this.repeats === '')
+  ) {
     return true;
   }
   if (!currentTrieNode.hasKey(key)) {
@@ -1324,7 +1403,6 @@ Mappings.shouldPrevent = function(key) {
 };
 
 Mappings.convertToAction = function(key) {
-
   if (key === '<Esc>' || key === '<C-[>') {
     this.handleEscapeKey();
     return false;
@@ -1334,10 +1412,11 @@ Mappings.convertToAction = function(key) {
     return true;
   }
 
-  if (/^[0-9]$/.test(key) &&
-      !(currentTrieNode.hasKey(key) &&
-        this.repeats === '') &&
-      !(key === '0' && this.repeats === '')) {
+  if (
+    /^[0-9]$/.test(key) &&
+    !(currentTrieNode.hasKey(key) && this.repeats === '') &&
+    !(key === '0' && this.repeats === '')
+  ) {
     this.repeats += key;
     return;
   }
@@ -1356,7 +1435,8 @@ Mappings.convertToAction = function(key) {
   }
 
   var mapVal = currentTrieNode.value || '';
-  var actionParams; (function() {
+  var actionParams;
+  (function() {
     if (mapVal.charAt(0) !== ':') {
       mapVal = mapVal.replace(/\([^)]+\)/, function(e) {
         actionParams = e.slice(1, -1);
@@ -1370,10 +1450,12 @@ Mappings.convertToAction = function(key) {
       this.repeats = +mapVal.replace(/\D.*/g, '') || 1;
       mapVal = mapVal.replace(/^\d+/, '');
     }
-    settings.debug && console.log(mapVal)
-    for (var mapLinks = [mapVal];
-         !this.actions[mapVal] && mapVal.charAt(0) !== ':';
-         mapLinks.push(mapVal)) {
+    settings.debug && console.log(mapVal);
+    for (
+      var mapLinks = [mapVal];
+      !this.actions[mapVal] && mapVal.charAt(0) !== ':';
+      mapLinks.push(mapVal)
+    ) {
       mapVal = mappingTrie.findValue(this.splitMapping(mapVal));
       if (mapVal === null) {
         this.clearQueue();
@@ -1385,8 +1467,7 @@ Mappings.convertToAction = function(key) {
         return false;
       }
     }
-    if (mapVal !== 'repeatCommand' &&
-        this.nonRepeatableCommands.indexOf(mapVal) === -1) {
+    if (mapVal !== 'repeatCommand' && this.nonRepeatableCommands.indexOf(mapVal) === -1) {
       this.lastCommand.queue = this.queue;
       this.lastCommand.repeats = +this.repeats || 1;
       this.lastCommand.fn = mapVal;
@@ -1409,5 +1490,4 @@ Mappings.convertToAction = function(key) {
   }
 
   return true;
-
 };
