@@ -2,43 +2,44 @@ var Command = {};
 var settings, sessions;
 
 Command.descriptions = [
-  ['open',         'Open a link in the current tab'],
-  ['tabnew',       'Open a link in a new tab'],
-  ['tabnext',      'Switch to the next open tab'],
-  ['tabprevious',  'Switch to the previous open tab'],
-  ['new',          'Open a link in a new window'],
-  ['buffer',       'Select from a list of current tabs'],
-  ['history',      'Search through your browser history'],
-  ['bookmarks',    'Search through your bookmarks'],
-  ['file',         'Browse local directories'],
-  ['source',       'Load a config from a local file'],
-  ['set',          'Configure boolean settings'],
-  ['call',         'Call a cVim command'],
-  ['let',          'Configure non-boolean settings'],
-  ['tabhistory',   'Open a tab from its history states'],
-  ['execute',      'Execute a sequence of keys'],
-  ['session',      'Open a saved session in a new window'],
-  ['restore',      'Open a recently closed tab'],
-  ['mksession',    'Create a saved session of current tabs'],
-  ['delsession',   'Delete sessions'],
-  ['map',          'Map a command'],
-  ['unmap',        'Unmap a command'],
-  ['tabattach',    'Move current tab to another window'],
-  ['tabdetach',    'Move current tab to a new window'],
-  ['chrome',       'Opens Chrome urls'],
-  ['duplicate',    'Clone the current tab'],
-  ['settings',     'Open the options page for this extension'],
-  ['help',         'Shows the help page'],
-  ['changelog',    'Shows the changelog page'],
-  ['quit',         'Close the current tab'],
-  ['qall',         'Close the current window'],
-  ['stop',         'Stop the current page from loading'],
-  ['stopall',      'Stop all pages in Chrome from loading'],
-  ['undo',         'Reopen the last closed tab'],
-  ['togglepin',    'Toggle the tab\'s pinned state'],
-  ['nohlsearch',   'Clears the search highlight'],
-  ['viewsource',   'View the source for the current document'],
-  ['script',       'Run JavaScript on the current page']
+  ['open', 'Open a link in the current tab'],
+  ['tabnew', 'Open a link in a new tab'],
+  ['tabnext', 'Switch to the next open tab'],
+  ['tabprevious', 'Switch to the previous open tab'],
+  ['new', 'Open a link in a new window'],
+  ['buffer', 'Select from a list of current tabs'],
+  ['history', 'Search through your browser history'],
+  ['bookmarks', 'Search through your bookmarks'],
+  ['file', 'Browse local directories'],
+  ['source', 'Load a config from a local file'],
+  ['set', 'Configure boolean settings'],
+  ['call', 'Call a cVim command'],
+  ['let', 'Configure non-boolean settings'],
+  ['tabhistory', 'Open a tab from its history states'],
+  ['execute', 'Execute a sequence of keys'],
+  ['session', 'Open a saved session in a new window'],
+  ['restore', 'Open a recently closed tab'],
+  ['mksession', 'Create a saved session of current tabs'],
+  ['delsession', 'Delete sessions'],
+  ['map', 'Map a command'],
+  ['unmap', 'Unmap a command'],
+  ['tabattach', 'Move current tab to another window'],
+  ['tabdetach', 'Move current tab to a new window'],
+  ['tabdetachwithchildren', "Move current tab with it's child windows to a new window"],
+  ['chrome', 'Opens Chrome urls'],
+  ['duplicate', 'Clone the current tab'],
+  ['settings', 'Open the options page for this extension'],
+  ['help', 'Shows the help page'],
+  ['changelog', 'Shows the changelog page'],
+  ['quit', 'Close the current tab'],
+  ['qall', 'Close the current window'],
+  ['stop', 'Stop the current page from loading'],
+  ['stopall', 'Stop all pages in Chrome from loading'],
+  ['undo', 'Reopen the last closed tab'],
+  ['togglepin', "Toggle the tab's pinned state"],
+  ['nohlsearch', 'Clears the search highlight'],
+  ['viewsource', 'View the source for the current document'],
+  ['script', 'Run JavaScript on the current page']
 ];
 
 Command.dataElements = [];
@@ -50,7 +51,7 @@ Command.setupFrameElements = function() {
   this.bar = document.createElement('div');
   this.bar.id = 'cVim-command-bar';
   this.bar.cVim = true;
-  this.bar.style[(this.onBottom) ? 'bottom' : 'top'] = '0';
+  this.bar.style[this.onBottom ? 'bottom' : 'top'] = '0';
   this.modeIdentifier = document.createElement('span');
   this.modeIdentifier.id = 'cVim-command-bar-mode';
   this.modeIdentifier.cVim = true;
@@ -91,19 +92,22 @@ Command.setup = function() {
   this.input.cVim = true;
   this.statusBar = document.createElement('div');
   this.statusBar.id = 'cVim-status-bar';
-  this.statusBar.style[(this.onBottom) ? 'bottom' : 'top'] = '0';
+  this.statusBar.style[this.onBottom ? 'bottom' : 'top'] = '0';
   try {
     document.lastChild.appendChild(this.statusBar);
   } catch (e) {
     document.body.appendChild(this.statusBar);
   }
-  if (window.isCommandFrame)
-    Command.setupFrameElements();
+  if (window.isCommandFrame) Command.setupFrameElements();
 };
 
 Command.commandBarFocused = function() {
-  return commandMode && this.active && document.activeElement &&
-    document.activeElement.id === 'cVim-command-bar-input';
+  return (
+    commandMode &&
+    this.active &&
+    document.activeElement &&
+    document.activeElement.id === 'cVim-command-bar-input'
+  );
 };
 
 Command.history = {
@@ -129,7 +133,7 @@ Command.history = {
       return false;
     }
     var len = this[type].length,
-        index = this.index[type];
+      index = this.index[type];
     if (index === void 0) {
       index = len;
     }
@@ -137,8 +141,7 @@ Command.history = {
     index += reverse ? -1 : 1;
     if (Command.typed && Command.typed.trim()) {
       while (this.setInfo(type, index)) {
-        if (this[type][index].substring(0, Command.typed.length)
-            === Command.typed) {
+        if (this[type][index].substring(0, Command.typed.length) === Command.typed) {
           break;
         }
         index += reverse ? -1 : 1;
@@ -161,10 +164,10 @@ Command.history = {
 Command.completions = {};
 
 Command.completionStyles = {
-  engines:   ['Se',  '#87ff87'],
-  topsites:  ['Ts',  '#00afaf'],
-  history:   ['Hi',  '#87afff'],
-  bookmarks: ['Bk',  '#af5fff']
+  engines: ['Se', '#87ff87'],
+  topsites: ['Ts', '#00afaf'],
+  history: ['Hi', '#87afff'],
+  bookmarks: ['Bk', '#af5fff']
 };
 
 Command.completionOrder = {
@@ -181,16 +184,16 @@ Command.completionOrder = {
 };
 
 Command.updateCompletions = function(useStyles) {
-  if (!window.isCommandFrame)
-    return;
+  if (!window.isCommandFrame) return;
   this.completionResults = [];
   this.dataElements = [];
   this.data.innerHTML = '';
   var key, i;
-  var completionKeys = Object.keys(this.completions).sort(function(a, b) {
-    return this.completionOrder.getImportance(b) -
-           this.completionOrder.getImportance(a);
-  }.bind(this));
+  var completionKeys = Object.keys(this.completions).sort(
+    function(a, b) {
+      return this.completionOrder.getImportance(b) - this.completionOrder.getImportance(a);
+    }.bind(this)
+  );
   for (i = 0; i < completionKeys.length; i++) {
     key = completionKeys[i];
     for (var j = 0; j < this.completions[key].length; ++j) {
@@ -204,8 +207,7 @@ Command.updateCompletions = function(useStyles) {
     var item = document.createElement('div');
     item.className = 'cVim-completion-item';
     var identifier;
-    if (useStyles &&
-        this.completionStyles.hasOwnProperty(this.completionResults[i][0])) {
+    if (useStyles && this.completionStyles.hasOwnProperty(this.completionResults[i][0])) {
       var styles = this.completionStyles[this.completionResults[i][0]];
       identifier = document.createElement('span');
       identifier.style.backgroundColor = styles[1];
@@ -270,47 +272,59 @@ Command.expandCompletion = function(value) {
   }
   if (firstWord && !exactMatch) {
     firstWord = firstWord[0];
-    var completedWord = (function() {
+    var completedWord = function() {
       for (var i = 0; i < this.descriptions.length; i++)
-        if (this.descriptions[i][0].indexOf(firstWord) === 0 &&
-            !this.customCommands.hasOwnProperty(this.descriptions[i][0]))
+        if (
+          this.descriptions[i][0].indexOf(firstWord) === 0 &&
+          !this.customCommands.hasOwnProperty(this.descriptions[i][0])
+        )
           return this.descriptions[i][0];
       for (var key in this.customCommands)
-        if (key.indexOf(firstWord) === 0)
-          return this.customCommands[key];
-    }.bind(this))();
-    if (completedWord)
-      return value.replace(firstWord, completedWord);
+        if (key.indexOf(firstWord) === 0) return this.customCommands[key];
+    }.bind(this)();
+    if (completedWord) return value.replace(firstWord, completedWord);
   }
   return value;
 };
 
 Command.callCompletionFunction = (function() {
-
   var self = Command;
   var search;
 
   var searchCompletion = function(value) {
     self.deleteCompletions('engines,bookmarks,complete,chrome,search');
     search = Utils.compressArray(search.split(/ +/));
-    if ((search.length < 2 && value.slice(-1) !== ' ') ||
-        (!Complete.engineEnabled(search[0]) && !Complete.hasAlias(search[0]))) {
+    if (
+      (search.length < 2 && value.slice(-1) !== ' ') ||
+      (!Complete.engineEnabled(search[0]) && !Complete.hasAlias(search[0]))
+    ) {
       self.completions.engines = Complete.getMatchingEngines(search.join(' ')).map(function(name) {
         return [name, Complete.engines[name].requestUrl];
       });
       self.updateCompletions(true);
-      self.completions.topsites = Search.topSites.filter(function(e) {
-        return ~(e[0] + ' ' + e[1]).toLowerCase()
-          .indexOf(search.slice(0).join(' ').toLowerCase());
-      }).slice(0, 5).map(function(e) {
-        return [e[0], e[1]];
-      });
+      self.completions.topsites = Search.topSites
+        .filter(function(e) {
+          return ~(e[0] + ' ' + e[1]).toLowerCase().indexOf(
+            search
+              .slice(0)
+              .join(' ')
+              .toLowerCase()
+          );
+        })
+        .slice(0, 5)
+        .map(function(e) {
+          return [e[0], e[1]];
+        });
       self.updateCompletions(true);
       if (search.length) {
-        Marks.match(search.join(' '), function(response) {
-          self.completions.bookmarks = response;
-          self.updateCompletions(true);
-        }, 2);
+        Marks.match(
+          search.join(' '),
+          function(response) {
+            self.completions.bookmarks = response;
+            self.updateCompletions(true);
+          },
+          2
+        );
       }
       self.historyMode = false;
       self.searchMode = true;
@@ -320,7 +334,7 @@ Command.callCompletionFunction = (function() {
       });
       return;
     }
-    if (search[0] = (Complete.getAlias(search[0]) || search[0])) {
+    if ((search[0] = Complete.getAlias(search[0]) || search[0])) {
       if (search.length < 2) {
         self.hideData();
         return;
@@ -350,14 +364,16 @@ Command.callCompletionFunction = (function() {
   var restoreTabCompletion = function(value) {
     RUNTIME('getChromeSessions', null, function(sessions) {
       self.completions = {
-        chromesessions: Object.keys(sessions).map(function(e) {
-          return [sessions[e].id + ': ' + sessions[e].title,
-                  sessions[e].url,
-                  sessions[e].id];
-        }).filter(function(e) {
-          return ~e.join('').toLowerCase()
-            .indexOf(value.replace(/^\S+\s+/, '').toLowerCase());
-        })
+        chromesessions: Object.keys(sessions)
+          .map(function(e) {
+            return [sessions[e].id + ': ' + sessions[e].title, sessions[e].url, sessions[e].id];
+          })
+          .filter(function(e) {
+            return ~e
+              .join('')
+              .toLowerCase()
+              .indexOf(value.replace(/^\S+\s+/, '').toLowerCase());
+          })
       };
       self.updateCompletions();
     });
@@ -386,96 +402,94 @@ Command.callCompletionFunction = (function() {
     search = value.replace(/^(chrome:\/\/|\S+ +)/, '');
     var baseCommand = (value.match(/^\S+/) || [null])[0];
     switch (baseCommand) {
-    case 'tabnew':
-    case 'tabedit':
-    case 'tabopen':
-    case 'open':
-    case 'new':
-      searchCompletion(value);
-      return true;
-    case 'chrome':
-      Search.chromeMatch(search, function(matches) {
-        self.completions = { chrome: matches };
-        self.updateCompletions();
-      });
-      return true;
-    case 'tabhistory':
-      tabHistoryCompletion(value);
-      return true;
-    case 'tabattach':
-      RUNTIME('getWindows', function(wins) {
-        if (Command.active === true) {
-          Command.completions = {
-            windows: Object.keys(wins).map(function(e, i) {
-              var tlen = wins[e].length.toString();
-              return [
-                (i + 1).toString() + ' (' + tlen +
-                 (tlen === '1' ? ' Tab)' : ' Tabs)'),
-                wins[e].join(', '),
-                e
-              ];
-            })
-          };
-          Command.completions.windows.unshift(['0 (New window)', '']);
-          Command.updateCompletions();
+      case 'tabnew':
+      case 'tabedit':
+      case 'tabopen':
+      case 'open':
+      case 'new':
+        searchCompletion(value);
+        return true;
+      case 'chrome':
+        Search.chromeMatch(search, function(matches) {
+          self.completions = { chrome: matches };
+          self.updateCompletions();
+        });
+        return true;
+      case 'tabhistory':
+        tabHistoryCompletion(value);
+        return true;
+      case 'tabattach':
+        RUNTIME('getWindows', function(wins) {
+          if (Command.active === true) {
+            Command.completions = {
+              windows: Object.keys(wins).map(function(e, i) {
+                var tlen = wins[e].length.toString();
+                return [
+                  (i + 1).toString() + ' (' + tlen + (tlen === '1' ? ' Tab)' : ' Tabs)'),
+                  wins[e].join(', '),
+                  e
+                ];
+              })
+            };
+            Command.completions.windows.unshift(['0 (New window)', '']);
+            Command.updateCompletions();
+          }
+        });
+        self.completions = {};
+        return true;
+      case 'buffer':
+        PORT('getBuffers');
+        return true;
+      case 'restore':
+        restoreTabCompletion(value);
+        return true;
+      case 'session':
+      case 'mksession':
+      case 'delsession':
+        deleteSessionCompletion(value);
+        return true;
+      case 'set':
+        Search.settingsMatch(search, function(matches) {
+          self.completions = { settings: matches };
+          self.updateCompletions();
+        });
+        return true;
+      case 'let':
+        return true;
+      case 'history':
+        if (search.trim() === '') {
+          self.hideData();
+          return;
         }
-      });
-      self.completions = {};
-      return true;
-    case 'buffer':
-      PORT('getBuffers');
-      return true;
-    case 'restore':
-      restoreTabCompletion(value);
-      return true;
-    case 'session':
-    case 'mksession':
-    case 'delsession':
-      deleteSessionCompletion(value);
-      return true;
-    case 'set':
-      Search.settingsMatch(search, function(matches) {
-        self.completions = {settings: matches};
-        self.updateCompletions();
-      });
-      return true;
-    case 'let': 
-      return true;
-    case 'history':
-      if (search.trim() === '') {
-        self.hideData();
-        return;
-      }
-      self.historyMode = true;
-      PORT('searchHistory', {search: search, limit: settings.searchlimit});
-      return true;
-    case 'file':
-      Marks.parseFileCommand(search);
-      return true;
-    case 'source':
-      Marks.parseFileCommand(search);
-      return true;
-    case 'bookmarks':
-      self.completions = {};
-      if (search[0] === '/') {
-        return Marks.matchPath(search);
-      }
-      Marks.match(search, function(response) {
-        self.completions.bookmarks = response;
-        self.updateCompletions();
-      });
-      return true;
+        self.historyMode = true;
+        PORT('searchHistory', { search: search, limit: settings.searchlimit });
+        return true;
+      case 'file':
+        Marks.parseFileCommand(search);
+        return true;
+      case 'source':
+        Marks.parseFileCommand(search);
+        return true;
+      case 'bookmarks':
+        self.completions = {};
+        if (search[0] === '/') {
+          return Marks.matchPath(search);
+        }
+        Marks.match(search, function(response) {
+          self.completions.bookmarks = response;
+          self.updateCompletions();
+        });
+        return true;
     }
     return false;
   };
-
 })();
 
 Command.complete = function(value) {
   Search.index = null;
   this.typed = this.input.value;
   var originalValue = value; // prevent expandCompletion from
-                             // limiting command completions
+  // limiting command completions
   value = this.expandCompletion(value).replace(/(^[^\s&$!*?=|]+)[&$!*?=|]*/, '$1');
   if (~value.indexOf(' ') && this.callCompletionFunction(value) === true) {
     return;
@@ -490,7 +504,6 @@ Command.complete = function(value) {
 };
 
 Command.execute = function(value, repeats) {
-
   if (value.indexOf('@%') !== -1) {
     RUNTIME('getRootUrl', function(url) {
       Command.execute(value.split('@%').join(url), repeats);
@@ -533,20 +546,38 @@ Command.execute = function(value, repeats) {
     isLink: false,
     pinned: false,
     tabbed: false,
-    incognito: false,
+    incognito: false
   };
   (value.match(/^[^\s&$!*=?|]*([&$!*=?|]+)/) || [])
     .concat(value.match(/[&$!*=?|]*$/) || [])
-    .join('').split('')
+    .join('')
+    .split('')
     .forEach(function(e) {
       switch (e) {
-      case '&': tab.active    = false; break;
-      case '$': tab.newWindow = true;  break;
-      case '!': tab.tabbed    = true;  break;
-      case '*': tab.pinned    = true;  break;
-      case '?': tab.isLink    = true;  tab.isURL = false; break;
-      case '=': tab.isLink    = false; tab.isURL = true;  break;
-      case '|': tab.incognito = true;  tab.newWindow = true; break;
+        case '&':
+          tab.active = false;
+          break;
+        case '$':
+          tab.newWindow = true;
+          break;
+        case '!':
+          tab.tabbed = true;
+          break;
+        case '*':
+          tab.pinned = true;
+          break;
+        case '?':
+          tab.isLink = true;
+          tab.isURL = false;
+          break;
+        case '=':
+          tab.isLink = false;
+          tab.isURL = true;
+          break;
+        case '|':
+          tab.incognito = true;
+          tab.newWindow = true;
+          break;
       }
     });
   value = value.replace(/^([^\s&$*!=?|]*)[&$*!=?|]*\s/, '$1 ');
@@ -559,77 +590,77 @@ Command.execute = function(value, repeats) {
   this.history.index = {};
 
   switch (value) {
-  case 'nohlsearch':
-    Find.clear();
-    HUD.hide();
-    return;
-  case 'duplicate':
-    RUNTIME('duplicateTab', {repeats: repeats});
-    return;
-  case 'settings':
-    tab.tabbed = true;
-    RUNTIME('openLink', {
-      tab: tab,
-      url: chrome.extension.getURL('/pages/options.html'),
-      repeats: repeats
-    });
-    return;
-  case 'changelog':
-    tab.tabbed = true;
-    RUNTIME('openLink', {
-      tab: tab,
-      url: chrome.extension.getURL('/pages/changelog.html'),
-      repeats: repeats
-    });
-    return;
-  case 'help':
-    tab.tabbed = true;
-    RUNTIME('openLink', {
-      tab: tab,
-      url: chrome.extension.getURL('/pages/mappings.html')
-    });
-    return;
-  case 'stop':
-    window.stop();
-    return;
-  case 'stopall':
-    RUNTIME('cancelAllWebRequests');
-    return;
-  case 'viewsource':
-    PORT('viewSource', {tab: tab});
-    return;
-  case 'pintab':
-    RUNTIME('pinTab', {pinned: true});
-    break;
-  case 'unpintab':
-    RUNTIME('pinTab', {pinned: false});
-    break;
-  case 'togglepin':
-    RUNTIME('pinTab');
-    return;
-  case 'undo':
-    RUNTIME('openLast');
-    return;
-  case 'tabnext':
-  case 'tabn':
-    RUNTIME('nextTab');
-    return;
-  case 'tabprevious':
-  case 'tabp':
-  case 'tabN':
-    RUNTIME('previousTab');
-    return;
-  case 'tabprevious':
-    return;
-  case 'q':
-  case 'quit':
-  case 'exit':
-    RUNTIME('closeTab', {repeats: repeats});
-    return;
-  case 'qa':
-  case 'qall':
-    RUNTIME('closeWindow');
-    return;
+    case 'nohlsearch':
+      Find.clear();
+      HUD.hide();
+      return;
+    case 'duplicate':
+      RUNTIME('duplicateTab', { repeats: repeats });
+      return;
+    case 'settings':
+      tab.tabbed = true;
+      RUNTIME('openLink', {
+        tab: tab,
+        url: chrome.extension.getURL('/pages/options.html'),
+        repeats: repeats
+      });
+      return;
+    case 'changelog':
+      tab.tabbed = true;
+      RUNTIME('openLink', {
+        tab: tab,
+        url: chrome.extension.getURL('/pages/changelog.html'),
+        repeats: repeats
+      });
+      return;
+    case 'help':
+      tab.tabbed = true;
+      RUNTIME('openLink', {
+        tab: tab,
+        url: chrome.extension.getURL('/pages/mappings.html')
+      });
+      return;
+    case 'stop':
+      window.stop();
+      return;
+    case 'stopall':
+      RUNTIME('cancelAllWebRequests');
+      return;
+    case 'viewsource':
+      PORT('viewSource', { tab: tab });
+      return;
+    case 'pintab':
+      RUNTIME('pinTab', { pinned: true });
+      break;
+    case 'unpintab':
+      RUNTIME('pinTab', { pinned: false });
+      break;
+    case 'togglepin':
+      RUNTIME('pinTab');
+      return;
+    case 'undo':
+      RUNTIME('openLast');
+      return;
+    case 'tabnext':
+    case 'tabn':
+      RUNTIME('nextTab');
+      return;
+    case 'tabprevious':
+    case 'tabp':
+    case 'tabN':
+      RUNTIME('previousTab');
+      return;
+    case 'tabprevious':
+      return;
+    case 'q':
+    case 'quit':
+    case 'exit':
+      RUNTIME('closeTab', { repeats: repeats });
+      return;
+    case 'qa':
+    case 'qall':
+      RUNTIME('closeWindow');
+      return;
   }
 
   if (/^chrome +/.test(value)) {
@@ -649,10 +680,12 @@ Command.execute = function(value, repeats) {
       });
       return;
     }
-    if (this.completionResults.length &&
-        !this.completionResults.some(function(e) {
-          return e[2] === value.replace(/^\S+\s*/, '');
-        })) {
+    if (
+      this.completionResults.length &&
+      !this.completionResults.some(function(e) {
+        return e[2] === value.replace(/^\S+\s*/, '');
+      })
+    ) {
       RUNTIME('openLink', {
         tab: tab,
         url: this.completionResults[0][2],
@@ -679,8 +712,7 @@ Command.execute = function(value, repeats) {
 
   if (/^taba(ttach)? +/.test(value) && !/^\S+\s*$/.test(value)) {
     var windowId;
-    if (windowId = this.completionResults[parseInt(
-          value.replace(/^\S+ */, ''), 10)]) {
+    if ((windowId = this.completionResults[parseInt(value.replace(/^\S+ */, ''), 10)])) {
       RUNTIME('moveTab', {
         windowId: windowId[3]
       });
@@ -696,8 +728,7 @@ Command.execute = function(value, repeats) {
   if (/^file +/.test(value)) {
     RUNTIME('openLink', {
       tab: tab,
-      url: 'file://' + value.replace(/\S+ +/, '')
-        .replace(/^~/, settings.homedirectory),
+      url: 'file://' + value.replace(/\S+ +/, '').replace(/^~/, settings.homedirectory),
       noconvert: true
     });
     return;
@@ -742,8 +773,7 @@ Command.execute = function(value, repeats) {
     });
   }
 
-  if (/^(tabnew|tabedit|tabe|to|tabopen|tabhistory)$/
-      .test(value.replace(/ .*/, ''))) {
+  if (/^(tabnew|tabedit|tabe|to|tabopen|tabhistory)$/.test(value.replace(/ .*/, ''))) {
     tab.tabbed = true;
     RUNTIME('openLink', {
       tab: tab,
@@ -765,18 +795,16 @@ Command.execute = function(value, repeats) {
 
   if (/^buffer +/.test(value)) {
     var index = +value.replace(/^\S+\s+/, '') - 1,
-        selectedBuffer;
+      selectedBuffer;
     if (Number.isNaN(index)) {
       selectedBuffer = Command.completionResults[0];
-      if (selectedBuffer === void 0)
-        return;
+      if (selectedBuffer === void 0) return;
     } else {
       selectedBuffer = Command.completionResults.filter(function(e) {
         return e[1].indexOf((index + 1).toString()) === 0;
       })[0];
     }
-    if (selectedBuffer !== void 0)
-      RUNTIME('goToTab', {id: selectedBuffer[3]});
+    if (selectedBuffer !== void 0) RUNTIME('goToTab', { id: selectedBuffer[3] });
     return;
   }
 
@@ -799,7 +827,7 @@ Command.execute = function(value, repeats) {
       sessions.splice(sessions.indexOf(value), 1);
     }
     value.split(' ').forEach(function(v) {
-      RUNTIME('deleteSession', {name: v});
+      RUNTIME('deleteSession', { name: v });
     });
     PORT('getSessionNames');
     return;
@@ -812,8 +840,11 @@ Command.execute = function(value, repeats) {
       return;
     }
     if (/[^a-zA-Z0-9_-]/.test(value)) {
-      Status.setMessage('only alphanumeric characters, dashes, ' +
-                        'and underscores are allowed', 1, 'error');
+      Status.setMessage(
+        'only alphanumeric characters, dashes, ' + 'and underscores are allowed',
+        1,
+        'error'
+      );
       return;
     }
     if (!~sessions.indexOf(value)) {
@@ -831,7 +862,7 @@ Command.execute = function(value, repeats) {
       Status.setMessage('session name required', 1, 'error');
       return;
     }
-    RUNTIME('openSession', {name: value, sameWindow: !tab.active}, function() {
+    RUNTIME('openSession', { name: value, sameWindow: !tab.active }, function() {
       Status.setMessage('session does not exist', 1, 'error');
     });
     return;
@@ -846,8 +877,9 @@ Command.execute = function(value, repeats) {
 
   if (/^set +/.test(value) && value !== 'set') {
     value = value.replace(/^set +/, '').split(/[ =]+/);
-    var isSet, swapVal,
-        isQuery = /\?$/.test(value[0]);
+    var isSet,
+      swapVal,
+      isQuery = /\?$/.test(value[0]);
     value[0] = value[0].replace(/\?$/, '');
     if (!settings.hasOwnProperty(value[0].replace(/^no|!$/g, ''))) {
       Status.setMessage('unknown option: ' + value[0], 1, 'error');
@@ -859,8 +891,8 @@ Command.execute = function(value, repeats) {
       return;
     }
 
-    isSet    = !/^no/.test(value[0]);
-    swapVal  = tab.tabbed;
+    isSet = !/^no/.test(value[0]);
+    swapVal = tab.tabbed;
     value[0] = value[0].replace(/^no|\?$/g, '');
 
     if (value.length === 1 && Boolean(settings[value]) === settings[value]) {
@@ -872,7 +904,7 @@ Command.execute = function(value, repeats) {
       } else {
         settings[value[0]] = isSet;
       }
-      RUNTIME('syncSettings', {settings: settings});
+      RUNTIME('syncSettings', { settings: settings });
     }
     return;
   }
@@ -895,9 +927,8 @@ Command.execute = function(value, repeats) {
   }
 
   if (/^script +/.test(value)) {
-    RUNTIME('runScript', {code: value.slice(7)});
+    RUNTIME('runScript', { code: value.slice(7) });
   }
-
 };
 
 Command.show = function(search, value, complete) {
@@ -940,30 +971,30 @@ Command.show = function(search, value, complete) {
     Status.hide();
   }
   this.bar.style.display = 'inline-block';
-  setTimeout(function() {
-    this.input.focus();
-    if (complete !== null) {
-      this.complete(value);
-    }
+  setTimeout(
+    function() {
+      this.input.focus();
+      if (complete !== null) {
+        this.complete(value);
+      }
 
-    // UPDATE: seems to work without patch now (Chromium 44.0.2403.130)
-    // Temp fix for Chromium issue in #97
-    if (this.commandBarFocused()) {
-      document.activeElement.select();
+      // UPDATE: seems to work without patch now (Chromium 44.0.2403.130)
+      // Temp fix for Chromium issue in #97
+      if (this.commandBarFocused()) {
+        document.activeElement.select();
 
-      // TODO: figure out why a842dd6 and fix for #527 are necessary
-      // document.getSelection().collapseToEnd();
-      document.getSelection().modify('move', 'right', 'lineboundary');
-
-    }
-    // End temp fix
-
-  }.bind(this), 0);
+        // TODO: figure out why a842dd6 and fix for #527 are necessary
+        // document.getSelection().collapseToEnd();
+        document.getSelection().modify('move', 'right', 'lineboundary');
+      }
+      // End temp fix
+    }.bind(this),
+    0
+  );
 };
 
 Command.hide = function(callback) {
-  if (window.isCommandFrame && this.input)
-    this.input.blur();
+  if (window.isCommandFrame && this.input) this.input.blur();
   commandMode = false;
   this.historyMode = false;
   this.active = false;
@@ -972,16 +1003,11 @@ Command.hide = function(callback) {
   this.typed = '';
   this.dataElements = [];
   this.hideData();
-  if (this.bar)
-    this.bar.style.display = 'none';
-  if (this.input)
-    this.input.value = '';
-  if (this.data)
-    this.data.style.display = 'none';
-  if (callback)
-    callback();
-  if (window.isCommandFrame)
-    PORT('hideCommandFrame');
+  if (this.bar) this.bar.style.display = 'none';
+  if (this.input) this.input.value = '';
+  if (this.data) this.data.style.display = 'none';
+  if (callback) callback();
+  if (window.isCommandFrame) PORT('hideCommandFrame');
 };
 
 Command.insertCSS = function() {
@@ -990,11 +1016,10 @@ Command.insertCSS = function() {
     return;
   }
   if (settings.linkanimations) {
-    css += '.cVim-link-hint { transition: opacity 0.2s ease-out, ' +
-           'background 0.2s ease-out; }';
+    css += '.cVim-link-hint { transition: opacity 0.2s ease-out, ' + 'background 0.2s ease-out; }';
   }
 
-  RUNTIME('injectCSS', {css: css, runAt: 'document_start'});
+  RUNTIME('injectCSS', { css: css, runAt: 'document_start' });
 
   var head = document.getElementsByTagName('head');
   if (head.length) {
@@ -1062,8 +1087,7 @@ Command.preventAutoFocus = function() {
   var reset;
   if (KeyboardEvent.prototype.hasOwnProperty('key')) {
     reset = function(key) {
-      if (['Control', 'Alt', 'Meta', 'Shift'].indexOf(key) !== -1)
-        return;
+      if (['Control', 'Alt', 'Meta', 'Shift'].indexOf(key) !== -1) return;
       manualFocus = true;
       KeyHandler.listener.removeListener('keydown', reset);
       window.removeEventListener('mousedown', reset, true);
@@ -1072,8 +1096,7 @@ Command.preventAutoFocus = function() {
     window.addEventListener('mousedown', reset, true);
   } else {
     reset = function(event) {
-      if (!event.isTrusted)
-        return true;
+      if (!event.isTrusted) return true;
       manualFocus = true;
       window.removeEventListener('keypress', reset, true);
       window.removeEventListener('mousedown', reset, true);
@@ -1083,14 +1106,11 @@ Command.preventAutoFocus = function() {
   }
 
   var preventFocus = function() {
-    if (manualFocus)
-      return;
+    if (manualFocus) return;
     var textElements = document.querySelectorAll('input,textarea,*[contenteditable]');
     for (var i = 0; i < textElements.length; i++) {
-      if (manualFocus)
-        break;
-      if (document.activeElement === textElements[i])
-        textElements[i].blur();
+      if (manualFocus) break;
+      if (document.activeElement === textElements[i]) textElements[i].blur();
     }
     addTextListeners(textElements);
   };
@@ -1103,16 +1123,18 @@ Command.onDOMLoadAll = function() {
   this.insertCSS();
   this.onBottom = settings.barposition === 'bottom';
   if (this.data !== void 0) {
-    this.data.style[(!this.onBottom) ? 'bottom' : 'top'] = '';
-    this.data.style[(this.onBottom) ? 'bottom' : 'top'] = '20px';
+    this.data.style[!this.onBottom ? 'bottom' : 'top'] = '';
+    this.data.style[this.onBottom ? 'bottom' : 'top'] = '20px';
   }
-  if (!settings.autofocus)
-    this.preventAutoFocus();
-  httpRequest({
-    url: chrome.runtime.getURL('content_scripts/main.css')
-  }, function(data) {
-    this.mainCSS = data;
-  }.bind(this));
+  if (!settings.autofocus) this.preventAutoFocus();
+  httpRequest(
+    {
+      url: chrome.runtime.getURL('content_scripts/main.css')
+    },
+    function(data) {
+      this.mainCSS = data;
+    }.bind(this)
+  );
   this.setup();
   this.domElementsLoaded = true;
   this.callOnCvimLoad();
@@ -1127,17 +1149,22 @@ Command.updateSettings = function(config) {
     });
   }
   this.customCommands = config.COMMANDS || {};
-  Object.keys(this.customCommands).forEach(function(name) {
-    this.descriptions.push([name, ':' + this.customCommands[name]]);
-  }.bind(this));
+  Object.keys(this.customCommands).forEach(
+    function(name) {
+      this.descriptions.push([name, ':' + this.customCommands[name]]);
+    }.bind(this)
+  );
   if (config.searchengines && config.searchengines.constructor === Object) {
     for (key in config.searchengines) {
       var engine = config.searchengines[key];
       if (typeof engine === 'string') {
         Complete.addEngine(key, engine);
-      } else if (Array.isArray(engine) && engine.length === 2 &&
-                 typeof engine[0] === 'string' &&
-                 typeof engine[1] === 'string') {
+      } else if (
+        Array.isArray(engine) &&
+        engine.length === 2 &&
+        typeof engine[0] === 'string' &&
+        typeof engine[1] === 'string'
+      ) {
         Complete.addEngine(key, {
           baseUrl: engine[0],
           requestUrl: engine[1]
@@ -1168,7 +1195,6 @@ Command.updateSettings = function(config) {
   }
 };
 
-
 Command.addSettingBlock = function(config) {
   for (var key in config) {
     if (key === 'MAPPINGS') {
@@ -1181,7 +1207,6 @@ Command.addSettingBlock = function(config) {
     }
   }
 };
-
 
 Command.init = function(enabled) {
   Mappings.defaults = Object.clone(Mappings.defaultsClone);
@@ -1245,19 +1270,25 @@ Command.destroy = function() {
     for (var i = 0; i < arguments.length; i++) {
       var elem = arguments[i];
       if (!elem) continue;
-      if (typeof elem.remove === 'function')
-        elem.remove();
+      if (typeof elem.remove === 'function') elem.remove();
     }
   };
-  removeElements(this.input, this.modeIdentifier, this.data, this.bar,
-                 this.statusBar, this.frame, this.css);
+  removeElements(
+    this.input,
+    this.modeIdentifier,
+    this.data,
+    this.bar,
+    this.statusBar,
+    this.frame,
+    this.css
+  );
 };
 
 Command.configureSettings = function(_settings) {
   settings = _settings;
   this.onSettingsLoad();
   DOM.onTitleChange(function(text) {
-    if (!Session.ignoreTitleUpdate && settings.showtabindices) {
+    if (!Session.ignoreTitleUpdate && settings.showtabindices && Session.tabIndex) {
       if (text.indexOf(Session.tabIndex + ' ') !== 0) {
         document.title = Session.tabIndex + ' ' + document.title;
       }
@@ -1267,7 +1298,7 @@ Command.configureSettings = function(_settings) {
   this.initialLoadStarted = true;
   var checkBlacklist = function() {
     var blacklists = settings.blacklists,
-        blacklist;
+      blacklist;
     Command.blacklisted = false;
     var isBlacklisted = false;
     for (var i = 0, l = blacklists.length; i < l; i++) {

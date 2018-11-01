@@ -1,26 +1,24 @@
 var Hints = {};
 
 Hints.tryGooglePattern = function(forward) {
-  if (location.hostname.indexOf('www.google.'))
-    return false;
+  if (location.hostname.indexOf('www.google.')) return false;
   var target = document.getElementById(forward ? 'pnnext' : 'pnprev');
-  if (target)
-    target.click();
+  if (target) target.click();
   return !!target;
 };
 
 Hints.matchPatternFilters = {
   '*://*.ebay.com/*': {
-    'next': 'td a.next',
-    'prev': 'td a.prev'
+    next: 'td a.next',
+    prev: 'td a.prev'
   },
   '*://mail.google.com/*': {
-    'next': 'div[role="button"][data-tooltip="Older"]:not([aria-disabled="true"])',
-    'prev': 'div[role="button"][data-tooltip="Newer"]:not([aria-disabled="true"])'
+    next: 'div[role="button"][data-tooltip="Older"]:not([aria-disabled="true"])',
+    prev: 'div[role="button"][data-tooltip="Newer"]:not([aria-disabled="true"])'
   },
   '*://*.reddit.com/*': {
-    'next': 'a[rel$="next"]',
-    'prev': 'a[rel$="prev"]'
+    next: 'a[rel$="next"]',
+    prev: 'a[rel$="prev"]'
   }
 };
 
@@ -29,28 +27,27 @@ Hints.matchPatterns = function(pattern) {
   var applicableFilters = Object.keys(this.matchPatternFilters)
     .filter(function(key) {
       return matchLocation(document.URL, key);
-    }).map(function(key) {
+    })
+    .map(function(key) {
       return Hints.matchPatternFilters[key][direction];
     });
   applicableFilters = Utils.compressArray(applicableFilters);
 
   var link = null;
   for (var i = 0; i < applicableFilters.length; i++) {
-    link = findFirstOf(document.querySelectorAll(applicableFilters[i]),
-        function(e) {
-          return DOM.isVisible(e);
-        });
-    if (link !== null)
-      break;
+    link = findFirstOf(document.querySelectorAll(applicableFilters[i]), function(e) {
+      return DOM.isVisible(e);
+    });
+    if (link !== null) break;
   }
   if (link === null) {
-    if (this.tryGooglePattern(pattern === settings.nextmatchpattern))
-      return;
-    if (typeof pattern === 'string')
-      pattern = new RegExp('^' + pattern + '$', 'i');
+    if (this.tryGooglePattern(pattern === settings.nextmatchpattern)) return;
+    if (typeof pattern === 'string') pattern = new RegExp('^' + pattern + '$', 'i');
     link = findFirstOf(getLinkableElements(), function(e) {
-      return e.textContent.trim() &&
-        (pattern.test(e.textContent) || pattern.test(e.getAttribute('value')));
+      return (
+        e.textContent.trim() &&
+        (pattern.test(e.textContent) || pattern.test(e.getAttribute('value')))
+      );
     });
   }
   if (link) {
@@ -61,11 +58,11 @@ Hints.matchPatterns = function(pattern) {
 
 Hints.hideHints = function(reset, multi, useKeyDelay) {
   if (reset && document.getElementById('cVim-link-container') !== null) {
-    document.getElementById('cVim-link-container')
+    document
+      .getElementById('cVim-link-container')
       .parentNode.removeChild(document.getElementById('cVim-link-container'));
   } else if (document.getElementById('cVim-link-container') !== null) {
-    if (!multi)
-      HUD.hide();
+    if (!multi) HUD.hide();
     if (settings.linkanimations) {
       Hints.shadowDOM.addEventListener('transitionend', function() {
         var m = document.getElementById('cVim-link-container');
@@ -75,7 +72,8 @@ Hints.hideHints = function(reset, multi, useKeyDelay) {
       });
       Hints.shadowDOM.host.style.opacity = '0';
     } else {
-      document.getElementById('cVim-link-container')
+      document
+        .getElementById('cVim-link-container')
         .parentNode.removeChild(document.getElementById('cVim-link-container'));
     }
   }
@@ -86,8 +84,7 @@ Hints.hideHints = function(reset, multi, useKeyDelay) {
   this.linkArr = [];
   this.linkHints = [];
   this.permutations = [];
-  if (useKeyDelay && !this.active &&
-      settings.numerichints && settings.typelinkhints) {
+  if (useKeyDelay && !this.active && settings.numerichints && settings.typelinkhints) {
     Hints.keyDelay = true;
     window.setTimeout(function() {
       Hints.keyDelay = false;
@@ -103,13 +100,11 @@ Hints.changeFocus = function() {
 
 Hints.removeContainer = function() {
   var hintContainer = document.getElementById('cVim-link-container');
-  if (hintContainer !== null)
-    hintContainer.parentNode.removeChild(hintContainer);
+  if (hintContainer !== null) hintContainer.parentNode.removeChild(hintContainer);
 };
 
 Hints.dispatchAction = function(link, shift) {
-  if (!link)
-    return false;
+  if (!link) return false;
   var node = link.localName;
   this.lastClicked = link;
 
@@ -122,112 +117,120 @@ Hints.dispatchAction = function(link, shift) {
 
   if (shift || KeyHandler.shiftKey) {
     switch (this.type) {
-    case void 0:
-      this.type = 'tabbed';
-      break;
+      case void 0:
+        this.type = 'tabbed';
+        break;
     }
   }
 
   switch (this.type) {
-  case 'yank':
-  case 'multiyank':
-    var text = link.href || link.value || link.getAttribute('placeholder');
-    if (text) {
-      Clipboard.copy(text, this.multi);
-      Status.setMessage(text, 2);
-    }
-    break;
-  case 'fullimage':
-    RUNTIME('openLinkTab', {active: false, url: link.src, noconvert: true});
-    break;
-  case 'image':
-  case 'multiimage':
-    var url = 'https://www.google.com/searchbyimage?image_url=' + link.src;
-    if (url) {
-      RUNTIME('openLinkTab', {active: false, url: url, noconvert: true});
-    }
-    break;
-  case 'hover':
-    if (Hints.lastHover) {
-      DOM.mouseEvent('unhover', Hints.lastHover);
-      if (Hints.lastHover === link) {
-        Hints.lastHover = null;
+    case 'yank':
+    case 'multiyank':
+      var text = link.href || link.value || link.getAttribute('placeholder');
+      if (text) {
+        Clipboard.copy(text, this.multi);
+        Status.setMessage(text, 2);
+      }
+      break;
+    case 'fullimage':
+      RUNTIME('openLinkTab', { active: false, url: link.src, noconvert: true });
+      break;
+    case 'image':
+    case 'multiimage':
+      var url = 'https://www.google.com/searchbyimage?image_url=' + link.src;
+      if (url) {
+        RUNTIME('openLinkTab', { active: false, url: url, noconvert: true });
+      }
+      break;
+    case 'hover':
+      if (Hints.lastHover) {
+        DOM.mouseEvent('unhover', Hints.lastHover);
+        if (Hints.lastHover === link) {
+          Hints.lastHover = null;
+          break;
+        }
+      }
+      DOM.mouseEvent('hover', link);
+      Hints.lastHover = link;
+      break;
+    case 'edit':
+      Mappings.insertFunctions.__setElement__(link);
+      var __ = window._;
+      var mid = __.uniqueId('mouseless');
+      $(element).addClass(mid);
+      link.focus();
+      PORT('editWithVim', {
+        text: link.value || link.textContent,
+        elementId: mid
+      });
+      break;
+    case 'unhover':
+      DOM.mouseEvent('unhover', link);
+      break;
+    case 'window':
+      RUNTIME('openLinkWindow', {
+        focused: true,
+        url: link.href,
+        noconvert: true
+      });
+      break;
+    case 'script':
+      eval(settings.FUNCTIONS[this.scriptFunction])(link);
+      break;
+    default:
+      if (
+        node === 'textarea' ||
+        (node === 'input' && /^(text|password|email|search)$/i.test(link.type)) ||
+        link.hasAttribute('contenteditable')
+      ) {
+        setTimeout(
+          function() {
+            link.focus();
+            if (link.hasAttribute('readonly')) {
+              link.select();
+            }
+          }.bind(this),
+          0
+        );
         break;
       }
-    }
-    DOM.mouseEvent('hover', link);
-    Hints.lastHover = link;
-    break;
-  case 'edit':
-    Mappings.insertFunctions.__setElement__(link);
-    var __ = window._
-    var mid = __.uniqueId('mouseless')
-    $(element).addClass(mid)
-    link.focus();
-    PORT('editWithVim', {
-      text: link.value || link.textContent,
-      elementId: mid
-    });
-    break;
-  case 'unhover':
-    DOM.mouseEvent('unhover', link);
-    break;
-  case 'window':
-    RUNTIME('openLinkWindow', {
-      focused: true,
-      url: link.href,
-      noconvert: true
-    });
-    break;
-  case 'script':
-    eval(settings.FUNCTIONS[this.scriptFunction])(link);
-    break;
-  default:
-    if (node === 'textarea' || (node === 'input' &&
-          /^(text|password|email|search)$/i.test(link.type)) ||
-        link.hasAttribute('contenteditable')) {
-      setTimeout(function() {
+      if (node === 'select') {
         link.focus();
-        if (link.hasAttribute('readonly')) {
-          link.select();
-        }
-      }.bind(this), 0);
-      break;
-    }
-    if (node === 'select') {
-      link.focus();
-      break;
-    }
-    if (node === 'input' ||
-        /^(checkbox|menu)$/.test(link.getAttribute('role'))) {
-      link.focus()
-      window.setTimeout(function() { DOM.mouseEvent('click', link); }, 0);
-      break;
-    }
-    if ((/tabbed/.test(this.type) || this.type === 'multi') && link.href) {
-      RUNTIME('openLinkTab', {
-        active: this.type === 'tabbedActive',
-        url: link.href, noconvert: true
-      });
-    } else {
-      if (link.hasAttribute('tabindex'))
-        link.focus();
-      DOM.mouseEvent('hover', link);
-      if (link.hasAttribute('href')) {
-        link.click();
-      } else {
-        DOM.mouseEvent('click', link);
+        break;
       }
-    }
-    break;
+      if (node === 'input' || /^(checkbox|menu)$/.test(link.getAttribute('role'))) {
+        link.focus();
+        window.setTimeout(function() {
+          DOM.mouseEvent('click', link);
+        }, 0);
+        break;
+      }
+      if ((/tabbed/.test(this.type) || this.type === 'multi') && link.href) {
+        RUNTIME('openLinkTab', {
+          active: this.type === 'tabbedActive',
+          url: link.href,
+          noconvert: true
+        });
+      } else {
+        if (link.hasAttribute('tabindex')) link.focus();
+        DOM.mouseEvent('hover', link);
+        if (link.hasAttribute('href')) {
+          link.click();
+        } else {
+          DOM.mouseEvent('click', link);
+        }
+      }
+      break;
   }
 
   if (this.multi) {
     this.removeContainer();
-    window.setTimeout(function() {
-      if (!DOM.isEditable(document.activeElement))
-        this.create(this.type, true);
-    }.bind(this), 0);
+    window.setTimeout(
+      function() {
+        if (!DOM.isEditable(document.activeElement)) this.create(this.type, true);
+      }.bind(this),
+      0
+    );
   } else {
     this.hideHints(false, false, true);
   }
@@ -244,10 +247,10 @@ Hints.showLinkInfo = function(hint) {
 
 Hints.handleHintFeedback = function() {
   var linksFound = 0,
-      index,
-      link,
-      i,
-      span;
+    index,
+    link,
+    i,
+    span;
   if (!settings.numerichints) {
     for (i = 0; i < this.permutations.length; i++) {
       link = this.linkArr[i][0];
@@ -281,11 +284,10 @@ Hints.handleHintFeedback = function() {
     if (containsNumber) {
       stringNum = this.currentString.match(/[0-9]+$/)[0];
     }
-    if ((!string) || (!settings.typelinkhints && /\D/.test(string.slice(-1)))) {
+    if (!string || (!settings.typelinkhints && /\D/.test(string.slice(-1)))) {
       return this.hideHints(false);
     }
     for (i = 0, l = this.linkArr.length; i < l; ++i) {
-
       link = this.linkArr[i][0];
 
       if (link.style.opacity === '0') {
@@ -296,7 +298,10 @@ Hints.handleHintFeedback = function() {
       if (settings.typelinkhints) {
         if (containsNumber && link.textContent.indexOf(stringNum) === 0) {
           validMatch = true;
-        } else if (!containsNumber && this.linkArr[i][2].toLowerCase().indexOf(string.replace(/.*\d/g, '')) !== -1) {
+        } else if (
+          !containsNumber &&
+          this.linkArr[i][2].toLowerCase().indexOf(string.replace(/.*\d/g, '')) !== -1
+        ) {
           validMatch = true;
         }
       } else if (link.textContent.indexOf(string) === 0) {
@@ -312,7 +317,8 @@ Hints.handleHintFeedback = function() {
           var c = 0;
           for (var j = 0; j < this.linkArr.length; ++j) {
             if (this.linkArr[j][0].style.opacity !== '0') {
-              this.linkArr[j][0].textContent = (c + 1).toString() + (this.linkArr[j][3] ? ': ' + this.linkArr[j][3] : '');
+              this.linkArr[j][0].textContent =
+                (c + 1).toString() + (this.linkArr[j][3] ? ': ' + this.linkArr[j][3] : '');
               c++;
             }
           }
@@ -360,22 +366,19 @@ Hints.handleHintFeedback = function() {
       this.hideHints(false);
     }
   }
-
 };
-
 
 Hints.handleHint = function(key) {
   key = key.replace('<Space>', ' ');
   switch (key) {
-  case '/':
-    return document.getElementById('cVim-link-container').style.opacity = '0';
-  case '<Tab>':
-    Hints.shouldShowLinkInfo = !Hints.shouldShowLinkInfo;
-    return;
+    case '/':
+      return (document.getElementById('cVim-link-container').style.opacity = '0');
+    case '<Tab>':
+      Hints.shouldShowLinkInfo = !Hints.shouldShowLinkInfo;
+      return;
   }
   if (settings.numerichints && key === '<Enter>') {
-    return this.numericMatch ?
-      this.dispatchAction(this.numericMatch) : this.hideHints(false);
+    return this.numericMatch ? this.dispatchAction(this.numericMatch) : this.hideHints(false);
   }
   if (settings.numerichints || ~settings.hintcharacters.split('').indexOf(key.toLowerCase())) {
     this.currentString += key.toLowerCase();
@@ -420,13 +423,8 @@ Hints.evaluateLink = function(item) {
 
 Hints.siteFilters = {
   '*://*.reddit.com/*': {
-    reject: [
-      'a:not([href])',
-      '*[onclick^=click_thing]',
-    ],
-    accept: [
-      '.grippy'
-    ],
+    reject: ['a:not([href])', '*[onclick^=click_thing]'],
+    accept: ['.grippy']
   },
   '*://*.google.*/*': {
     reject: [
@@ -439,45 +437,34 @@ Hints.siteFilters = {
       'div[id=hdtbMenus]',
       'div[aria-label="Account Information"]',
       'img[jsaction^="load:"]'
-    ],
+    ]
   },
   '*://github.com/*': {
-    reject: [
-      '.select-menu-modal-holder.js-menu-content'
-    ],
-    accept: [
-      '.js-menu-close',
-    ],
+    reject: ['.select-menu-modal-holder.js-menu-content'],
+    accept: ['.js-menu-close']
   },
   '*://twitter.com/*': {
-    accept: [
-      '.new-tweets-bar.js-new-tweets-bar'
-    ],
+    accept: ['.new-tweets-bar.js-new-tweets-bar']
   },
   '*://imgur.com/*': {
-    accept: [
-      '.thumb-title',
-      '.carousel-button'
-    ],
-  },
+    accept: ['.thumb-title', '.carousel-button']
+  }
 };
 
 Hints.createHintFilter = function(url) {
   var siteFilters = Hints.siteFilters;
-  if(settings.FUNCTIONS['siteFilters'])
-  {
+  if (settings.FUNCTIONS['siteFilters']) {
     // Note(hbt) optimize by caching -- same as this.siteFilters
-    var filters = eval(settings.FUNCTIONS['siteFilters'])()
+    var filters = eval(settings.FUNCTIONS['siteFilters'])();
     siteFilters = filters;
   }
-  
+
   var rejectList = [],
-      acceptList = [];
+    acceptList = [];
   Object.getOwnPropertyNames(siteFilters).forEach(function(e) {
-    if (!matchLocation(url, e))
-      return;
+    if (!matchLocation(url, e)) return;
     var reject = siteFilters[e].reject || [],
-        accept = siteFilters[e].accept || [];
+      accept = siteFilters[e].accept || [];
     accept.forEach(function(selector) {
       var items = [].slice.call(document.querySelectorAll(selector));
       acceptList = acceptList.concat(items);
@@ -493,7 +480,7 @@ Hints.createHintFilter = function(url) {
     },
     shouldReject: function(node) {
       return rejectList.indexOf(node) !== -1;
-    },
+    }
   };
 };
 
@@ -503,63 +490,59 @@ Hints.LINK_TYPE = 4;
 Hints.INPUT_LINK = 8;
 
 Hints.getLinkType = function(node) {
-  if (node.nodeType !== Node.ELEMENT_NODE)
-    return Hints.NON_LINK_TYPE;
+  if (node.nodeType !== Node.ELEMENT_NODE) return Hints.NON_LINK_TYPE;
 
-  if (node.getAttribute('aria-hidden') === 'true')
-    return Hints.NON_LINK_TYPE;
+  if (node.getAttribute('aria-hidden') === 'true') return Hints.NON_LINK_TYPE;
 
   var name = node.localName.toLowerCase();
 
   if (Hints.type) {
     if (Hints.type.indexOf('yank') !== -1) {
-      if (name === 'a')
-        return Hints.LINK_TYPE;
-      if (name === 'textarea' || name === 'input')
-        return Hints.LINK_TYPE | Hints.INPUT_LINK;
+      if (name === 'a') return Hints.LINK_TYPE;
+      if (name === 'textarea' || name === 'input') return Hints.LINK_TYPE | Hints.INPUT_LINK;
       return Hints.NON_LINK_TYPE;
     } else if (Hints.type.indexOf('image') !== -1) {
-      if (name === 'img')
-        return Hints.LINK_TYPE;
+      if (name === 'img') return Hints.LINK_TYPE;
       return Hints.NON_LINK_TYPE;
     } else if (Hints.type === 'edit') {
-      if (DOM.isEditable(node))
-        return Hints.LINK_TYPE | Hints.INPUT_LINK;
+      if (DOM.isEditable(node)) return Hints.LINK_TYPE | Hints.INPUT_LINK;
       return Hints.NON_LINK_TYPE;
     }
   }
 
   switch (name) {
-  case 'a':
-  case 'button':
-  case 'area':
-    return Hints.LINK_TYPE;
-  case 'select':
-  case 'textarea':
-  case 'input':
-    return Hints.LINK_TYPE | Hints.INPUT_LINK;
+    case 'a':
+    case 'button':
+    case 'area':
+      return Hints.LINK_TYPE;
+    case 'select':
+    case 'textarea':
+    case 'input':
+      return Hints.LINK_TYPE | Hints.INPUT_LINK;
   }
 
   switch (true) {
-  case node.hasAttribute('contenteditable'):
-    return Hints.LINK_TYPE | Hints.INPUT_LINK;
-  case node.hasAttribute('tabindex'):
-  case node.hasAttribute('onclick'):
-    return Hints.LINK_TYPE;
-  case node.hasAttribute('aria-haspopup'):
-  case node.hasAttribute('data-cmd'):
-  case node.hasAttribute('jsaction'):
-  case node.hasAttribute('data-ga-click'):
-  case node.hasAttribute('aria-selected'):
-    return Hints.WEAK_LINK_TYPE;
+    case node.hasAttribute('contenteditable'):
+      return Hints.LINK_TYPE | Hints.INPUT_LINK;
+    case node.hasAttribute('tabindex'):
+    case node.hasAttribute('onclick'):
+      return Hints.LINK_TYPE;
+    case node.hasAttribute('aria-haspopup'):
+    case node.hasAttribute('data-cmd'):
+    case node.hasAttribute('jsaction'):
+    case node.hasAttribute('data-ga-click'):
+    case node.hasAttribute('aria-selected'):
+      return Hints.WEAK_LINK_TYPE;
   }
 
   var role = node.getAttribute('role');
   if (role) {
-    if (role === 'button' ||
-        role === 'option' ||
-        role === 'checkbox' ||
-        role.indexOf('menuitem') !== -1) {
+    if (
+      role === 'button' ||
+      role === 'option' ||
+      role === 'checkbox' ||
+      role.indexOf('menuitem') !== -1
+    ) {
       return Hints.LINK_TYPE;
     }
   }
@@ -578,17 +561,15 @@ Hints.isClickable = function(info) {
     [rect.right - 1, rect.top + 1],
     [rect.left + 1, rect.bottom - 1],
     [rect.right - 1, rect.bottom - 1],
-    [(rect.right - rect.left) / 2, (rect.top - rect.bottom) / 2],
+    [(rect.right - rect.left) / 2, (rect.top - rect.bottom) / 2]
   ];
   for (var i = 0; i < locs.length; i++) {
-    var x = locs[i][0], y = locs[i][1];
+    var x = locs[i][0],
+      y = locs[i][1];
     var elem = document.elementFromPoint(x, y);
-    if (!elem)
-      continue;
-    if (elem === info.node || info.node.contains(elem))
-      return true;
-    if (!DOM.isVisible(elem))
-      return true;
+    if (!elem) continue;
+    if (elem === info.node || info.node.contains(elem)) return true;
+    if (!DOM.isVisible(elem)) return true;
   }
   return false;
 };
@@ -596,17 +577,15 @@ Hints.isClickable = function(info) {
 Hints.getLinkInfo = Utils.cacheFunction(function(node) {
   var info = {
     node: node,
-    linkType: Hints.LINK_TYPE,
+    linkType: Hints.LINK_TYPE
   };
 
   if (!Hints.hintFilter.shouldAccept(node)) {
-    if (Hints.hintFilter.shouldReject(node))
-      return null;
+    if (Hints.hintFilter.shouldReject(node)) return null;
     info.linkType = Hints.getLinkType(node);
   }
 
-  if (info.linkType === Hints.NON_LINK_TYPE)
-    return null;
+  if (info.linkType === Hints.NON_LINK_TYPE) return null;
 
   if (node.localName.toLowerCase() === 'area') {
     info.rect = DOM.getVisibleBoundingAreaRect(node);
@@ -614,8 +593,7 @@ Hints.getLinkInfo = Utils.cacheFunction(function(node) {
     info.rect = DOM.getVisibleBoundingRect(node);
   }
 
-  if (!info.rect)
-    return null;
+  if (!info.rect) return null;
 
   // TODO
   // if (!Hints.isClickable(info))
@@ -629,19 +607,21 @@ Hints.getLinks = function() {
   Hints.hintFilter = Hints.createHintFilter(document.URL);
   var links = mapDOM(document.body, this.getLinkInfo);
   if (settings.sortlinkhints) {
-    links = links.map(function(item) {
-      var rect = item.rect;
-      return [item, Math.sqrt(rect.top * rect.top + rect.left * rect.left)];
-    }).sort(function(a, b) {
-      return a[1] - b[1];
-    }).map(function(e) {
-      return e[0];
-    });
+    links = links
+      .map(function(item) {
+        var rect = item.rect;
+        return [item, Math.sqrt(rect.top * rect.top + rect.left * rect.left)];
+      })
+      .sort(function(a, b) {
+        return a[1] - b[1];
+      })
+      .map(function(e) {
+        return e[0];
+      });
   }
 
   links = links.filter(function(info, index) {
-    if ((info.linkType & Hints.WEAK_LINK_TYPE) === 0)
-      return true;
+    if ((info.linkType & Hints.WEAK_LINK_TYPE) === 0) return true;
     for (var i = index + 1; i < links.length; i++) {
       var depth = 0;
       var node = links[i].node;
@@ -649,10 +629,8 @@ Hints.getLinks = function() {
         depth++;
         node = node.parentNode;
       }
-      if (depth > 3)
-        continue;
-      if (info.node.contains(links[i].node))
-        return false;
+      if (depth > 3) continue;
+      if (info.node.contains(links[i].node)) return false;
     }
     return true;
   });
@@ -677,13 +655,12 @@ Hints.genHintsOld = function(M) {
 
   var b = Math.ceil(Math.log(M) / Math.log(base));
   var cutoff = Math.pow(base, b) - M;
-  var codes0 = [], codes1 = [];
+  var codes0 = [],
+    codes1 = [];
 
-  for (var i = 0, l = ~~(cutoff / (base - 1)); i < l; i++)
-    codes0.push(codeWord(i, b - 1));
+  for (var i = 0, l = ~~(cutoff / (base - 1)); i < l; i++) codes0.push(codeWord(i, b - 1));
   codes0.sort();
-  for (; i < M; i++)
-    codes1.push(codeWord(i + cutoff, b));
+  for (; i < M; i++) codes1.push(codeWord(i + cutoff, b));
   codes1.sort();
   return codes0.concat(codes1);
 };
@@ -691,30 +668,29 @@ Hints.genHintsOld = function(M) {
 Hints.genHints = function(M) {
   //Hints.genHintsOld = function(M) {
   var linkCount = M;
-  var hintKeys = settings.mouselesshintcharacters
-  var linkHintCharacters = hintKeys
-
+  var hintKeys = settings.mouselesshintcharacters;
+  var linkHintCharacters = hintKeys;
 
   // provided two sets of hint keys e.g dsafrewq,tgcx  We try to use the first for combinations as much as possible
   // second set is for keys that are too far away but necessary to avoid 3 letters combinations
   if (hintKeys.indexOf(',') != -1) {
     var arrhintKeys = hintKeys.split(',');
     if (linkCount <= arrhintKeys[0].length) {
-      linkHintCharacters = arrhintKeys[0]
+      linkHintCharacters = arrhintKeys[0];
     } else {
-      linkHintCharacters = arrhintKeys[1] + arrhintKeys[0]
+      linkHintCharacters = arrhintKeys[1] + arrhintKeys[0];
     }
   }
 
-  var logXOfBase = function (x, base) {
+  var logXOfBase = function(x, base) {
     return Math.log(x) / Math.log(base);
-  }
+  };
 
   /*
    * Converts a number like "8" into a hint string like "JK". This is used to sequentially generate all of
    * the hint text. The hint string will be "padded with zeroes" to ensure its length is equal to numHintDigits.
    */
-  var numberToHintString = function (number, numHintDigits, characterSet) {
+  var numberToHintString = function(number, numHintDigits, characterSet) {
     var base = characterSet.length;
     var hintString = [];
     var remainder = 0;
@@ -728,11 +704,10 @@ Hints.genHints = function(M) {
     // Pad the hint string we're returning so that it matches numHintDigits.
     // Note: the loop body changes hintString.length, so the original length must be cached!
     var hintStringLength = hintString.length;
-    for (var i = 0; i < numHintDigits - hintStringLength; i++)
-      hintString.unshift(characterSet[0]);
+    for (var i = 0; i < numHintDigits - hintStringLength; i++) hintString.unshift(characterSet[0]);
 
-    return hintString.join("");
-  }
+    return hintString.join('');
+  };
 
   // Determine how many digits the link hints will require in the worst case. Usually we do not need
   // all of these digits for every link single hint, so we can show shorter hints for a few of the links.
@@ -740,20 +715,22 @@ Hints.genHints = function(M) {
 
   // Short hints are the number of hints we can possibly show which are (digitsNeeded - 1) digits in length.
   var shortHintCount = Math.floor(
-    (Math.pow(linkHintCharacters.length, digitsNeeded) - linkCount) / linkHintCharacters.length);
+    (Math.pow(linkHintCharacters.length, digitsNeeded) - linkCount) / linkHintCharacters.length
+  );
   var longHintCount = linkCount - shortHintCount;
 
   var hintStrings = [];
 
-  if (digitsNeeded > 1) for (var i = 0; i < shortHintCount; i++)
-    hintStrings.push(numberToHintString(i, digitsNeeded - 1, linkHintCharacters));
+  if (digitsNeeded > 1)
+    for (var i = 0; i < shortHintCount; i++)
+      hintStrings.push(numberToHintString(i, digitsNeeded - 1, linkHintCharacters));
 
   var start = shortHintCount * linkHintCharacters.length;
   for (i = start; i < start + longHintCount; i++)
     hintStrings.push(numberToHintString(i, digitsNeeded, linkHintCharacters));
 
-  return hintStrings
-}
+  return hintStrings;
+};
 
 Hints.create = function(type, multi) {
   var self = this;
@@ -805,7 +782,7 @@ Hints.create = function(type, multi) {
     main.id = 'cVim-link-container';
     main.top = document.scrollingElement.scrollTop + 'px';
     main.left = document.scrollingElement.scrollLeft + 'px';
-    Hints.shadowDOM = main.createShadowRoot();
+    Hints.shadowDOM = main.attachShadow({ mode: 'open' });
 
     try {
       document.lastChild.appendChild(main);
@@ -814,22 +791,27 @@ Hints.create = function(type, multi) {
     }
 
     if (!multi && settings && settings.hud) {
-      HUD.display('Follow link ' + (function() {
-        return ({
-          yank:          '(yank)',
-          multiyank:     '(multi-yank)',
-          image:         '(reverse-image)',
-          fullimage:     '(full image)',
-          tabbed:        '(tabbed)',
-          tabbedActive:  '(tabbed)',
-          window:        '(window)',
-          edit:          '(edit)',
-          hover:         '(hover)',
-          unhover:       '(unhover)',
-          multi:         '(multi)',
-          script:        '(script: "' + self.scriptFunction + '")'
-        })[type] || '';
-      })());
+      HUD.display(
+        'Follow link ' +
+          (function() {
+            return (
+              {
+                yank: '(yank)',
+                multiyank: '(multi-yank)',
+                image: '(reverse-image)',
+                fullimage: '(full image)',
+                tabbed: '(tabbed)',
+                tabbedActive: '(tabbed)',
+                window: '(window)',
+                edit: '(edit)',
+                hover: '(hover)',
+                unhover: '(unhover)',
+                multi: '(multi)',
+                script: '(script: "' + self.scriptFunction + '")'
+              }[type] || ''
+            );
+          })()
+      );
     }
 
     if (!settings.numerichints) {
@@ -840,7 +822,8 @@ Hints.create = function(type, multi) {
       }
     } else {
       for (i = 0, l = self.linkArr.length; i < l; ++i) {
-        self.linkArr[i][0].textContent = (i + 1).toString() + (self.linkArr[i][3] ? ': ' + self.linkArr[i][3] : '');
+        self.linkArr[i][0].textContent =
+          (i + 1).toString() + (self.linkArr[i][3] ? ': ' + self.linkArr[i][3] : '');
         frag.appendChild(self.linkArr[i][0]);
       }
     }
@@ -860,15 +843,17 @@ Hints.create = function(type, multi) {
     };
 
     if (Command.mainCSS === undefined) {
-      httpRequest({
-        url: chrome.runtime.getURL('content_scripts/main.css')
-      }, function(data) {
-        Command.mainCSS = data;
-        create();
-      });
+      httpRequest(
+        {
+          url: chrome.runtime.getURL('content_scripts/main.css')
+        },
+        function(data) {
+          Command.mainCSS = data;
+          create();
+        }
+      );
     } else {
       create();
     }
-
   }, 0);
 };

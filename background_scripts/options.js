@@ -1,6 +1,6 @@
 var storageMethod = 'local',
-    settings = {},
-    Options = {};
+  settings = {},
+  Options = {};
 
 var defaultSettings = {
   experimental: false,
@@ -36,13 +36,13 @@ var defaultSettings = {
   smoothscroll: false,
   autoupdategist: false,
   nativelinkorder: false,
-  showtabindices: false,
+  showtabindices: true,
   changelog: true,
   localconfig: false,
   completeonopen: false,
   debugcss: false, // Always use default COMMANDBARCSS
   scrollduration: 500,
-  zoomfactor: 0.10,
+  zoomfactor: 0.1,
   configpath: '',
   locale: '',
   mapleader: '\\',
@@ -64,7 +64,8 @@ var defaultSettings = {
   GISTURL: '',
   FUNCTIONS: {},
   domainStylesheets: {},
-  COMMANDBARCSS: '#cVim-command-bar, #cVim-command-bar-mode, #cVim-command-bar-input, #cVim-command-bar-search-results,\n.cVim-completion-item, .cVim-completion-item .cVim-full, .cVim-completion-item .cVim-left,\n.cVim-completion-item .cVim-right {\n  font-family: Helvetica, Helvetica Neue, Neue, sans-serif, monospace, Arial;\n  font-size: 10pt !important;\n  -webkit-font-smoothing: antialiased !important;\n}\n\n#cVim-command-bar {\n  position: fixed;\n  z-index: 2147483646;\n  background-color: #1b1d1e;\n  color: #bbb;\n  display: none;\n  box-sizing: content-box;\n  box-shadow: 0 3px 3px rgba(0,0,0,0.4);\n  left: 0;\n  width: 100%;\n  height: 20px;\n}\n\n#cVim-command-bar-mode {\n  display: inline-block;\n  vertical-align: middle;\n  box-sizing: border-box;\n  padding-left: 2px;\n  height: 100%;\n  width: 10px;\n  padding-top: 2px;\n  color: #888;\n}\n\n#cVim-command-bar-input {\n  background-color: #1b1d1e;\n  color: #bbb;\n  height: 100%;\n  right: 0;\n  top: 0;\n  width: calc(100% - 10px);\n  position: absolute;\n}\n\n#cVim-command-bar-search-results {\n  position: fixed;\n  width: 100%;\n  overflow: hidden;\n  z-index: 2147483647;\n  left: 0;\n  box-shadow: 0 3px 3px rgba(0,0,0,0.4);\n  background-color: #1c1c1c;\n}\n\n.cVim-completion-item, .cVim-completion-item .cVim-full, .cVim-completion-item .cVim-left, .cVim-completion-item .cVim-right {\n  text-overflow: ellipsis;\n  padding: 1px;\n  display: inline-block;\n  box-sizing: border-box;\n  vertical-align: middle;\n  overflow: hidden;\n  white-space: nowrap;\n}\n\n.cVim-completion-item:nth-child(even) {\n  background-color: #1f1f1f;\n}\n\n.cVim-completion-item {\n  width: 100%; left: 0;\n  color: #bcbcbc;\n}\n\n.cVim-completion-item[active] {\n  width: 100%; left: 0;\n  color: #1b1d1e;\n  background-color: #f1f1f1;\n}\n\n.cVim-completion-item[active] span {\n  color: #1b1d1e;\n}\n\n.cVim-completion-item .cVim-left {\n  color: #fff;\n  width: 37%;\n}\n\n.cVim-completion-item .cVim-right {\n  font-style: italic;\n  color: #888;\n  width: 57%;\n}\n\n\n#cVim-link-container, .cVim-link-hint,\n#cVim-hud, #cVim-status-bar {\n  font-family: Helvetica, Helvetica Neue, Neue, sans-serif, monospace, Arial;\n  font-size: 10pt !important;\n  -webkit-font-smoothing: antialiased !important;\n}\n\n#cVim-link-container {\n  position: absolute;\n  pointer-events: none;\n  width: 100%; left: 0;\n  height: 100%; top: 0;\n  z-index: 2147483647;\n}\n\n.cVim-link-hint {\n  position: absolute;\n  color: #302505 !important;\n  background-color: #ffd76e !important;\n  border-radius: 2px !important;\n  padding: 2px !important;\n  font-size: 8pt !important;\n  font-weight: 500 !important;\n  text-transform: uppercase !important;\n  border: 1px solid #ad810c;\n  display: inline-block !important;\n  vertical-align: middle !important;\n  text-align: center !important;\n  box-shadow: 2px 2px 1px rgba(0,0,0,0.25) !important;\n}\n\n.cVim-link-hint_match {\n  color: #777;\n  text-transform: uppercase !important;\n}\n\n\n#cVim-hud {\n  background-color: rgba(28,28,28,0.9);\n  position: fixed !important;\n  transition: right 0.2s ease-out;\n  z-index: 24724289;\n}\n\n#cVim-hud span {\n  padding: 2px;\n  padding-left: 4px;\n  padding-right: 4px;\n  color: #8f8f8f;\n  font-size: 10pt;\n}\n\n#cVim-frames-outline {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0;\n  top: 0;\n  right: 0;\n  z-index: 9999999999;\n  box-sizing: border-box;\n  border: 3px solid yellow;\n}\n'
+  COMMANDBARCSS:
+    '#cVim-command-bar, #cVim-command-bar-mode, #cVim-command-bar-input, #cVim-command-bar-search-results,\n.cVim-completion-item, .cVim-completion-item .cVim-full, .cVim-completion-item .cVim-left,\n.cVim-completion-item .cVim-right {\n  font-family: Helvetica, Helvetica Neue, Neue, sans-serif, monospace, Arial;\n  font-size: 10pt !important;\n  -webkit-font-smoothing: antialiased !important;\n}\n\n#cVim-command-bar {\n  position: fixed;\n  z-index: 2147483646;\n  background-color: #1b1d1e;\n  color: #bbb;\n  display: none;\n  box-sizing: content-box;\n  box-shadow: 0 3px 3px rgba(0,0,0,0.4);\n  left: 0;\n  width: 100%;\n  height: 20px;\n}\n\n#cVim-command-bar-mode {\n  display: inline-block;\n  vertical-align: middle;\n  box-sizing: border-box;\n  padding-left: 2px;\n  height: 100%;\n  width: 10px;\n  padding-top: 2px;\n  color: #888;\n}\n\n#cVim-command-bar-input {\n  background-color: #1b1d1e;\n  color: #bbb;\n  height: 100%;\n  right: 0;\n  top: 0;\n  width: calc(100% - 10px);\n  position: absolute;\n}\n\n#cVim-command-bar-search-results {\n  position: fixed;\n  width: 100%;\n  overflow: hidden;\n  z-index: 2147483647;\n  left: 0;\n  box-shadow: 0 3px 3px rgba(0,0,0,0.4);\n  background-color: #1c1c1c;\n}\n\n.cVim-completion-item, .cVim-completion-item .cVim-full, .cVim-completion-item .cVim-left, .cVim-completion-item .cVim-right {\n  text-overflow: ellipsis;\n  padding: 1px;\n  display: inline-block;\n  box-sizing: border-box;\n  vertical-align: middle;\n  overflow: hidden;\n  white-space: nowrap;\n}\n\n.cVim-completion-item:nth-child(even) {\n  background-color: #1f1f1f;\n}\n\n.cVim-completion-item {\n  width: 100%; left: 0;\n  color: #bcbcbc;\n}\n\n.cVim-completion-item[active] {\n  width: 100%; left: 0;\n  color: #1b1d1e;\n  background-color: #f1f1f1;\n}\n\n.cVim-completion-item[active] span {\n  color: #1b1d1e;\n}\n\n.cVim-completion-item .cVim-left {\n  color: #fff;\n  width: 37%;\n}\n\n.cVim-completion-item .cVim-right {\n  font-style: italic;\n  color: #888;\n  width: 57%;\n}\n\n\n#cVim-link-container, .cVim-link-hint,\n#cVim-hud, #cVim-status-bar {\n  font-family: Helvetica, Helvetica Neue, Neue, sans-serif, monospace, Arial;\n  font-size: 10pt !important;\n  -webkit-font-smoothing: antialiased !important;\n}\n\n#cVim-link-container {\n  position: absolute;\n  pointer-events: none;\n  width: 100%; left: 0;\n  height: 100%; top: 0;\n  z-index: 2147483647;\n}\n\n.cVim-link-hint {\n  position: absolute;\n  color: #302505 !important;\n  background-color: #ffd76e !important;\n  border-radius: 2px !important;\n  padding: 2px !important;\n  font-size: 8pt !important;\n  font-weight: 500 !important;\n  text-transform: uppercase !important;\n  border: 1px solid #ad810c;\n  display: inline-block !important;\n  vertical-align: middle !important;\n  text-align: center !important;\n  box-shadow: 2px 2px 1px rgba(0,0,0,0.25) !important;\n}\n\n.cVim-link-hint_match {\n  color: #777;\n  text-transform: uppercase !important;\n}\n\n\n#cVim-hud {\n  background-color: rgba(28,28,28,0.9);\n  position: fixed !important;\n  transition: right 0.2s ease-out;\n  z-index: 24724289;\n}\n\n#cVim-hud span {\n  padding: 2px;\n  padding-left: 4px;\n  padding-right: 4px;\n  color: #8f8f8f;\n  font-size: 10pt;\n}\n\n#cVim-frames-outline {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0;\n  top: 0;\n  right: 0;\n  z-index: 9999999999;\n  box-sizing: border-box;\n  border: 3px solid yellow;\n}\n'
 };
 
 chrome.storage.onChanged.addListener(function(changes) {
@@ -90,7 +91,7 @@ Options.saveSettings = function(request) {
     Quickmarks[key] = settings.qmarks[key];
   }
   this.refreshSettings(function() {
-    chrome.storage[storageMethod].set({settings: settings});
+    chrome.storage[storageMethod].set({ settings: settings });
     if (request.sendSettings) {
       Options.sendSettings();
     }
@@ -134,7 +135,9 @@ Options.getAllSettings = function(request, sender, callback) {
 
 Options.updateBlacklistsMappings = function() {
   var rc = Utils.compressArray(settings.RC.split(/\n+/)),
-      i, index, line;
+    i,
+    index,
+    line;
   if (settings.BLACKLISTS) {
     settings.blacklists = settings.BLACKLISTS.split(/\n+/);
     delete settings.BLACKLISTS;
@@ -149,19 +152,25 @@ Options.updateBlacklistsMappings = function() {
   if (settings.blacklists.length) {
     line = 'let blacklists = ' + JSON.stringify(settings.blacklists);
     if (index) {
-      rc = rc.slice(0, index).concat(line).concat(rc.slice(index));
+      rc = rc
+        .slice(0, index)
+        .concat(line)
+        .concat(rc.slice(index));
     } else {
       rc.push(line);
     }
   }
   settings.RC = rc.join('\n');
-  Options.saveSettings({settings: settings});
+  Options.saveSettings({ settings: settings });
 };
 
 Options.fetchGist = function() {
   httpRequest({
-    url: settings.GISTURL + (settings.GISTURL.indexOf('raw') === -1 &&
-             settings.GISTURL.indexOf('github') !== -1 ? '/raw' : '')
+    url:
+      settings.GISTURL +
+      (settings.GISTURL.indexOf('raw') === -1 && settings.GISTURL.indexOf('github') !== -1
+        ? '/raw'
+        : '')
   }).then(function(res) {
     var updated;
     try {
@@ -181,19 +190,21 @@ Options.fetchGist = function() {
   });
 };
 
-chrome.storage[storageMethod].get('settings', function(data) {
-  if (data.settings) {
-    settings = data.settings;
-    Quickmarks = settings.qmarks;
-  }
-  if (settings.debugcss)
-    settings.COMMANDBARCSS = defaultSettings.COMMANDBARCSS;
-  this.refreshSettings();
-  this.updateBlacklistsMappings();
-  if (settings.autoupdategist && settings.GISTURL) {
-    this.fetchGist();
-  }
-}.bind(Options));
+chrome.storage[storageMethod].get(
+  'settings',
+  function(data) {
+    if (data.settings) {
+      settings = data.settings;
+      Quickmarks = settings.qmarks;
+    }
+    if (settings.debugcss) settings.COMMANDBARCSS = defaultSettings.COMMANDBARCSS;
+    this.refreshSettings();
+    this.updateBlacklistsMappings();
+    if (settings.autoupdategist && settings.GISTURL) {
+      this.fetchGist();
+    }
+  }.bind(Options)
+);
 
 chrome.runtime.onMessage.addListener(function(request, sender, callback) {
   if (Options.hasOwnProperty(request.action)) {

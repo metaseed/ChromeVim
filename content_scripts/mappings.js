@@ -14,27 +14,70 @@ var Mappings = {
 };
 
 Mappings.defaults = [
-  ['j', 'scrollDown'],
-  ['gg', 'scrollToTop'],
-  ['a', ':tabnew google '],
+  ['b', ':bookmarks '],
+  ['B', ':buffer '],
+  ['I', ':history '],
+
+  ['v', 'toggleVisualMode'],
+  ['V', 'toggleVisualLineMode'],
+  ['n', 'nextSearchResult'],
+  ['N', 'previousSearchResult'],
+  ['/', 'openSearchBar'],
+  ['?', 'openSearchBarReverse'],
+  [':', 'openCommandBar'],
+  ['.', 'repeatCommand'],
+  ['%', 'percentScroll'],
+
+  /*
+  ** past
+  */
+  ['p', 'openPaste'],
+  ['P', 'openPasteTab'],
+
+  /*
+  ** yank
+  */
+  ['yy', 'yankDocumentUrl'],
+  ['yw', 'yankWindowUrls'],
+  ['yf', 'yankFrameUrl'],
+  ['yh', 'yankHighlight'],
+  ['ym', 'multiYankUrl'],
+
+  /*
+  ** close
+  */
+  ['x', 'closeTab'],
+  ['X', 'lastClosedTab'],
+  ['xl', 'closeTabLeft'],
+  ['xr', 'closeTabRight'],
+  ['x0', 'closeTabsToLeft'],
+  ['x$', 'closeTabsToRight'],
+  /*
+  ** open in current tab
+  */
   ['o', ':open '],
   ['O', ':open @%'],
-  ['b', ':bookmarks '],
-  ['t', ':tabnew '],
-  ['I', ':history '],
-  ['T', ':tabnew @%'],
-  ['B', ':buffer '],
-  ['gd', ':chrome downloads!<cr>'],
-  ['ge', ':chrome extensions!<cr>'],
-  ['x', 'closeTab'],
-  ['gxT', 'closeTabLeft'],
-  ['gxt', 'closeTabRight'],
-  ['gx0', 'closeTabsToLeft'],
-  ['gx$', 'closeTabsToRight'],
+
+  ['cb', 'createBookmark'], // C-d
+  ['ct', ':tabnew '], // C-n
+  ['cT', ':tabnew @%'],
+
+  /*
+  ** detach
+  */
+  ['dd', ':tabdetach<cr>'],
+  ['dc', 'tabDetachWithChildren'],
+
+  /*
+  ** attach
+  */
+  ['aa', 'tabattach'],
+
+  /*
+  ** scroll
+  */
   ['s', 'scrollDown'],
   ['j', 'scrollDown'],
-  ['wd', ':tabdetach<cr>'],
-  ['wD', 'tabDetachWithChildren'],
   ['k', 'scrollUp'],
   ['e', 'scrollPageUp'],
   ['u', 'scrollPageUp'],
@@ -45,29 +88,68 @@ Mappings.defaults = [
   ['l', 'scrollRight'],
   ['0', 'scrollToLeft'],
   ['$', 'scrollToRight'],
+  ["''", 'lastScrollPosition'],
+  ['<C-o>', 'previousScrollPosition'],
+  ['<C-i>', 'nextScrollPosition'],
+
   ['i', 'insertMode'],
+
   ['r', 'reloadTab'],
-  ['cr', 'reloadAllButCurrent'],
-  ['gR', 'reloadTabUncached'],
+  ['R', 'reloadTabUncached'],
+  ['gr', 'reloadAllButCurrent'],
+  /*
+  ** hint
+  */
   ['f', 'createHint'],
-  ['mf', 'createMultiHint'],
+  ['ss', 'createHint'],
+  ['st', 'createTabbedHint'], // new unactive tab
+  ['smt', 'createMultiHint'],
+  ['sr', 'openLastHint'],
+  ['sw', 'createHintWindow'],
+  ['sh', 'createHoverHint'],
+  ['sH', 'createUnhoverHint'],
+  ['si', 'reverseImage'],
+  ['smi', 'multiReverseImage'],
+  ['sy', 'yankUrl'],
+
+  /*
+  ** iteration in collection or tree
+  ** {: fist or root
+  ** }: last or last leaf
+  ** ]: next
+  ** [: previous
+  */
   [']]', 'nextMatchPattern'],
   ['[[', 'previousMatchPattern'],
-  ['W', 'createHintWindow'],
-  ['gp', 'pinTab'],
-  ['>', 'moveTabRight'],
-  ['<', 'moveTabLeft'],
-  ['H', 'goBack'],
-  ['S', 'goBack'],
-  ['gr', 'reverseImage'],
-  ['mr', 'multiReverseImage'],
-  ['L', 'goForward'],
-  ['D', 'goForward'],
+  [']t', 'nextTab'],
+  ['[t', 'previousTab'],
+  ["g'", 'lastActiveTab'],
   ['[d', 'previousDomain'],
   [']d', 'nextDomain'],
-  ['g0', 'firstTab'],
+  ['{t', 'firstTab'],
+  ['}t', 'lastTab'],
+  [']f', 'nextFrame'],
+  ['{f', 'rootFrame'],
+  ['{u', 'goToRootUrl'],
+  ['[u', 'goUpUrl'],
+  [']i', 'goToInput'],
+  ['}i', 'goToLastInput'],
+  ['{s', 'resetScrollFocus'],
+  ['[h', 'goBack'],
+  ['H', 'goBack'],
+  ['L', 'goForward'],
+  [']h', 'goForward'],
+  ['K', 'lastUsedTab'], // by time
+  ['|', 'goToTab'], // in chrome <C-number>
+
+  /*
+  ** to
+  */
+  ['tg', ':tabnew google '],
+
+  ['>', 'moveTabRight'],
+  ['<', 'moveTabLeft'],
   ['M*', 'addQuickMark'],
-  ['A', 'openLastHint'],
   ['go*', 'openQuickMark'],
   ['gn*', 'openQuickMarkTabbed'],
   ['gw*', 'openQuickMarkWindowed'],
@@ -77,61 +159,37 @@ Mappings.defaults = [
   ['<C-S-l>', 'openNextLinkInTab'],
   ['gl', 'openNextLinkInTab'],
   ['gQ', 'cancelAllWebRequests'],
-  ['q', 'createHoverHint'],
-  ['Q', 'createUnhoverHint'],
-  ['g$', 'lastTab'],
-  ['X', 'lastClosedTab'],
   ['gj', 'hideDownloadsShelf'],
-  ['F', 'createTabbedHint'],
-  ['gi', 'goToInput'],
-  ['gI', 'goToLastInput'],
-  ['K', 'nextTab'],
-  ['R', 'nextTab'],
-  ['gt', 'nextTab'],
-  ['gf', 'nextFrame'],
-  ['gF', 'rootFrame'],
-  ["g'", 'lastActiveTab'],
-  ['g%', 'percentScroll'],
-  ['%', 'goToTab'],
+
+  /*
+  ** browser views
+  */
+  ['<C-S-d>', ':chrome downloads!<cr>'],
+  ['<C-S-x>', ':chrome extensions!<cr>'],
+  ['<C-S-s>', ':viewsource!<CR>'],
+  // C-S-i: chrome inspect
+  // C-S-b: toggle bookmarks bar
+  // C-S-o: show bookmark manager
+  // C-S-n: new incognito window
+
+  ['gp', 'pinTab'],
+  ['gP', 'unpinTabs'],
+
+  ['g+', 'incrementURLPath'],
+  ['g-', 'decrementURLPath'],
+
   ['z<Enter>', 'toggleImageZoom'],
   ['zi', 'zoomPageIn'],
   ['zo', 'zoomPageOut'],
   ['z0', 'zoomOrig'],
-  ["''", 'lastScrollPosition'],
-  ['<C-o>', 'previousScrollPosition'],
-  ['<C-i>', 'nextScrollPosition'],
+
   ["'*", 'goToMark'],
   [';*', 'setMark'],
+
   ['zt', 'centerMatchT'],
   ['zb', 'centerMatchB'],
   ['zz', 'centerMatchH'],
-  ['gs', ':viewsource!<CR>'],
-  ['gU', 'goToRootUrl'],
-  ['gu', 'goUpUrl'],
-  ['gy', 'yankUrl'],
-  ['my', 'multiYankUrl'],
-  ['yy', 'yankDocumentUrl'],
-  ['yY', 'yankFrameUrl'],
-  ['ya', 'yankWindowUrls'],
-  ['yh', 'yankHighlight'],
-  ['p', 'openPaste'],
-  ['v', 'toggleVisualMode'],
-  ['V', 'toggleVisualLineMode'],
-  ['P', 'openPasteTab'],
-  ['J', 'previousTab'],
-  ['E', 'previousTab'],
-  ['gT', 'previousTab'],
-  ['n', 'nextSearchResult'],
-  ['N', 'previousSearchResult'],
-  ['/', 'openSearchBar'],
-  ['?', 'openSearchBarReverse'],
-  [':', 'openCommandBar'],
-  ['<C-6>', 'lastUsedTab'],
-  ['.', 'repeatCommand'],
-  ['<C-b>', 'createBookmark'],
-  ['g+', 'incrementURLPath'],
-  ['g-', 'decrementURLPath'],
-  ['#', 'resetScrollFocus'],
+
   ['cm', 'muteTab']
 ];
 
