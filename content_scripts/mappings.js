@@ -119,8 +119,8 @@ Mappings.defaults = [
   ** ]: next
   ** [: previous
   */
-  [']]', 'nextMatchPattern'],
-  ['[[', 'previousMatchPattern'],
+  [']]', 'nextMatchPattern'], // next page
+  ['[[', 'previousMatchPattern'], // previous page
   [']t', 'nextTab'],
   ['[t', 'previousTab'],
   ["g'", 'lastActiveTab'],
@@ -146,6 +146,7 @@ Mappings.defaults = [
   ** to
   */
   ['tg', ':tabnew google '],
+  ['tp', 'togglePin'],
 
   ['>', 'moveTabRight'],
   ['<', 'moveTabLeft'],
@@ -171,9 +172,6 @@ Mappings.defaults = [
   // C-S-b: toggle bookmarks bar
   // C-S-o: show bookmark manager
   // C-S-n: new incognito window
-
-  ['gp', 'pinTab'],
-  ['gP', 'unpinTabs'],
 
   ['g+', 'incrementURLPath'],
   ['g-', 'decrementURLPath'],
@@ -432,7 +430,13 @@ Mappings.actions = {
     RUNTIME('closeTabsToRight');
   },
   pinTab: function() {
+    RUNTIME('pinTab', { pinned: true });
+  },
+  togglePin: function() {
     RUNTIME('pinTab');
+  },
+  unpinTabs: function() {
+    RUNTIME('pinTab', { pinned: false });
   },
   firstTab: function() {
     RUNTIME('firstTab');

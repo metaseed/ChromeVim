@@ -31,7 +31,7 @@ VIM_COMMAND = 'gvim -f'
 
 
 def edit_file(content, line, column):
-    
+
     fd, fn = mkstemp(suffix='.txt', prefix='cvim-', text=True)
     os.write(fd, content.encode('utf8'))
     os.close(fd)
@@ -42,7 +42,7 @@ def edit_file(content, line, column):
         text = f.read()
     #os.unlink(fn)
     return text
-    
+
 class ThreadingServer(ThreadingMixIn, HTTPServer):
     pass
 

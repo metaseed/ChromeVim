@@ -53,7 +53,7 @@ var defaultSettings = {
   mouselesshintcharacters: 'dsafrewq,tgcx',
   homedirectory: '',
   langmap: '',
-  completionengines: ['google', 'duckduckgo', 'wikipedia', 'amazon'],
+  completionengines: ['google', 'duckduckgo', 'wikipedia', 'amazon', 'baidu'],
   nextmatchpattern: '((?!first)(next|older|more|>|›|»|forward| )+)',
   previousmatchpattern: '((?!last)(prev(ious)?|newer|back|«|less|<|‹| )+)',
   barposition: 'top',

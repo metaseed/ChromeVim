@@ -324,24 +324,22 @@ chrome.extension.onMessage.addListener(function(request, sender, callback) {
     case 'displayTabIndices':
       if (Session.isRootFrame) {
         Command.onSettingsLoad(function() {
-          let title;
+          Session.tabIndex = request.index;
           if (settings.showtabindices) {
             Session.ignoreTitleUpdate = true;
             if (document.title === '' + request.index) {
               if (location.hostname + location.pathname === 'www.google.com/_/chrome/newtab') {
-                title = Session.tabIndex + ' New Tab';
+                document.title = Session.tabIndex + ' New Tab';
               } else {
-                title = Session.tabIndex + ' ' + location.href.replace(/.*\//, '');
+                document.title = Session.tabIndex + ' ' + location.href.replace(/.*\//, '');
               }
             } else {
-              title = document.title.replace(
-                new RegExp('^(' + Session.tabIndex + ' )?'),
+              document.title = document.title.replace(
+                /^(\d )?/,
                 request.index ? request.index + ' ' : ''
               );
             }
           }
-          Session.tabIndex = request.index;
-          title && (document.title = title);
         });
       }
       break;
