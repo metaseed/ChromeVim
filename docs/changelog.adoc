@@ -10,6 +10,9 @@ link:index.html[Home]
 . support CVIM in mapping.html, options page and new-tab(blank.html) page.
 . add defaut key map to pop up(detach) tab into new window; <kdb>wd</kbd> map to :tabdetach<cr>
 . add defaut key map to pop up(detachWithChildren) tab into new window; <kdb>wD</kbd> map to tabDetachWithChildren
+. fix problem of showTabIndex = true.
+. fix next frame not working problem.
+. adjust defaut key mapping.
 . todo: add feature to save and read config in gist.
 
 == Mouseless Changelog

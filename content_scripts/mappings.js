@@ -14,6 +14,8 @@ var Mappings = {
 };
 
 Mappings.defaults = [
+  ['i', 'insertMode'],
+
   ['b', ':bookmarks '],
   ['B', ':buffer '],
   ['I', ':history '],
@@ -27,6 +29,29 @@ Mappings.defaults = [
   [':', 'openCommandBar'],
   ['.', 'repeatCommand'],
   ['%', 'percentScroll'],
+
+  /*
+  ** scroll
+  */
+  ['s', 'scrollDown'],
+  ['j', 'scrollDown'],
+  ['k', 'scrollUp'],
+  ['e', 'scrollPageUp'],
+  ['u', 'scrollPageUp'],
+  ['d', 'scrollPageDown'],
+  ['gg', 'scrollToTop'],
+  ['G', 'scrollToBottom'],
+  ['h', 'scrollLeft'],
+  ['l', 'scrollRight'],
+  ['0', 'scrollToLeft'],
+  ['$', 'scrollToRight'],
+  ["''", 'lastScrollPosition'],
+  ['<C-o>', 'previousScrollPosition'],
+  ['<C-i>', 'nextScrollPosition'],
+
+  ['r', 'reloadTab'],
+  ['R', 'reloadTabUncached'],
+  ['gr', 'reloadAllButCurrent'],
 
   /*
   ** past
@@ -63,46 +88,30 @@ Mappings.defaults = [
   ['cT', ':tabnew @%'],
 
   /*
-  ** detach
+  ** move
   */
-  ['dd', ':tabdetach<cr>'],
-  ['dc', 'tabDetachWithChildren'],
+  ['mo', ':tabdetach<cr>'], // Move Out
+  ['mco', 'tabDetachWithChildren'], // Move with Children Out
+  ['mi', 'tabattach'], // move in
+  ['mr', 'moveTabRight'],
+  ['>', 'moveTabRight'],
+  ['ml', 'moveTabLeft'],
+  ['<', 'moveTabLeft'],
 
   /*
-  ** attach
+  ** quick mark
   */
-  ['aa', 'tabattach'],
+  ['Q*', 'addQuickMark'],
+  ['qo*', 'openQuickMark'],
+  ['qn*', 'openQuickMarkTabbed'],
+  ['qw*', 'openQuickMarkWindowed'],
 
-  /*
-  ** scroll
-  */
-  ['s', 'scrollDown'],
-  ['j', 'scrollDown'],
-  ['k', 'scrollUp'],
-  ['e', 'scrollPageUp'],
-  ['u', 'scrollPageUp'],
-  ['d', 'scrollPageDown'],
-  ['gg', 'scrollToTop'],
-  ['G', 'scrollToBottom'],
-  ['h', 'scrollLeft'],
-  ['l', 'scrollRight'],
-  ['0', 'scrollToLeft'],
-  ['$', 'scrollToRight'],
-  ["''", 'lastScrollPosition'],
-  ['<C-o>', 'previousScrollPosition'],
-  ['<C-i>', 'nextScrollPosition'],
-
-  ['i', 'insertMode'],
-
-  ['r', 'reloadTab'],
-  ['R', 'reloadTabUncached'],
-  ['gr', 'reloadAllButCurrent'],
   /*
   ** hint
   */
-  ['f', 'createHint'],
-  ['ss', 'createHint'],
-  ['st', 'createTabbedHint'], // new unactive tab
+  ['f', 'createHint'], // fast hint
+  ['ss', 'createHint'], // show hint
+  ['st', 'createTabbedHint'], // show hint and to new unactive tab
   ['smt', 'createMultiHint'],
   ['sr', 'openLastHint'],
   ['sw', 'createHintWindow'],
@@ -118,12 +127,16 @@ Mappings.defaults = [
   ** }: last or last leaf
   ** ]: next
   ** [: previous
+  ** |: to
+  ** t: time based last used(active)
+  ** note:
+  ** all command could be prefix with numbers to repeat.
+  ** the prefix number for 'to' command is the object index in collection
   */
   [']]', 'nextMatchPattern'], // next page
   ['[[', 'previousMatchPattern'], // previous page
   [']t', 'nextTab'],
   ['[t', 'previousTab'],
-  ["g'", 'lastActiveTab'],
   ['[d', 'previousDomain'],
   [']d', 'nextDomain'],
   ['{t', 'firstTab'],
@@ -133,27 +146,21 @@ Mappings.defaults = [
   ['{u', 'goToRootUrl'],
   ['[u', 'goUpUrl'],
   [']i', 'goToInput'],
-  ['}i', 'goToLastInput'],
+  ['ti', 'goToLastInput'],
   ['{s', 'resetScrollFocus'],
   ['[h', 'goBack'],
   ['H', 'goBack'],
   ['L', 'goForward'],
   [']h', 'goForward'],
-  ['K', 'lastUsedTab'], // by time
-  ['|', 'goToTab'], // in chrome <C-number>
-
+  ['K', 'lastUsedTab'], // by time across windows
+  ['tt', 'lastActiveTab'], // by time in window
+  ['|t', 'goToTab'], // in chrome <C-number>
   /*
-  ** to
+  ** others that reuse 'to' command
   */
   ['tg', ':tabnew google '],
   ['tp', 'togglePin'],
 
-  ['>', 'moveTabRight'],
-  ['<', 'moveTabLeft'],
-  ['M*', 'addQuickMark'],
-  ['go*', 'openQuickMark'],
-  ['gn*', 'openQuickMarkTabbed'],
-  ['gw*', 'openQuickMarkWindowed'],
   ['gq', 'cancelWebRequest'],
   ['<C-S-h>', 'openLastLinkInTab'],
   ['gh', 'openLastLinkInTab'],
