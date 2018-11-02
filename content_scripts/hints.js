@@ -448,6 +448,9 @@ Hints.siteFilters = {
   },
   '*://imgur.com/*': {
     accept: ['.thumb-title', '.carousel-button']
+  },
+  '*://*/*': {
+    reject: ['.mat-button-wrapper']
   }
 };
 
@@ -769,6 +772,7 @@ Hints.create = function(type, multi) {
       self.multi = false;
     }
     if (self.linkArr.length === 0) {
+      console.warn('not links, try to navigate to a frame.');
       return self.hideHints();
     }
 

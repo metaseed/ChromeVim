@@ -13,6 +13,9 @@ link:index.html[Home]
 . fix problem of showTabIndex = true.
 . fix next frame not working problem.
 . adjust defaut key mapping.
+.
+. todo: add arrow navigation in command panel.
+. todo: add hint to goto scrollable element.
 . todo: add feature to save and read config in gist.
 
 == Mouseless Changelog
