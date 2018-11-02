@@ -8,7 +8,7 @@ var HAS_EVENT_KEY_SUPPORT = KeyboardEvent.prototype.hasOwnProperty('key');
 // versions of Chrome (52+)
 if (HAS_EVENT_KEY_SUPPORT) {
   KeyListener = function(onKeyDown, onKeyUp) {
-    this.eventCallbacks = {keydown: [], keyup: []};
+    this.eventCallbacks = { keydown: [], keyup: [] };
     this.addListener('keydown', onKeyDown);
     this.addListener('keyup', onKeyUp);
     this.isActive = false;
@@ -18,15 +18,13 @@ if (HAS_EVENT_KEY_SUPPORT) {
   };
 
   KeyListener.prototype.addListener = function(type, callback) {
-    if (typeof callback !== 'function' || ['keydown', 'keyup'].indexOf(type) === -1)
-      return;
+    if (typeof callback !== 'function' || ['keydown', 'keyup'].indexOf(type) === -1) return;
     this.eventCallbacks[type] = this.eventCallbacks[type] || [];
     this.eventCallbacks[type].push(callback);
   };
 
   KeyListener.prototype.removeListener = function(type, callback) {
-    if (!this.eventCallbacks.hasOwnProperty(type) || typeof callback !== 'function')
-      return false;
+    if (!this.eventCallbacks.hasOwnProperty(type) || typeof callback !== 'function') return false;
     var listeners = this.eventCallbacks[type];
     var origLen = listeners.length;
     listeners = listeners.filter(function(e) {
@@ -38,18 +36,18 @@ if (HAS_EVENT_KEY_SUPPORT) {
 
   KeyListener.keyEquals = function(a, b) {
     function normalizeKey(key) {
-      if (!/^<.*>$/.test(key))
-        return key;
+      if (!/^<.*>$/.test(key)) return key;
       key = key.slice(1, -1).toLowerCase();
-      var mods = key.split('-').filter(function(e) { return e; }).sort();
+      var mods = key
+        .split('-')
+        .filter(function(e) {
+          return e;
+        })
+        .sort();
       var char;
-      if (key.charAt(key.length - 1) === '-')
-        char = '-';
-      else
-        char = mods.pop();
-      return '<' +
-        mods.sort().join('-') + '-' + char +
-      '>';
+      if (key.charAt(key.length - 1) === '-') char = '-';
+      else char = mods.pop();
+      return '<' + mods.sort().join('-') + '-' + char + '>';
     }
 
     a = normalizeKey(a);
@@ -59,15 +57,15 @@ if (HAS_EVENT_KEY_SUPPORT) {
   };
 
   KeyListener.prototype.keyMap = {
-    'Backspace': 'BS',
-    'Numlock': 'Num',
-    'Escape': 'Esc',
+    Backspace: 'BS',
+    Numlock: 'Num',
+    Escape: 'Esc',
     ' ': 'Space',
-    'ArrowLeft': 'Left',
-    'ArrowRight': 'Right',
-    'ArrowUp': 'Up',
-    'ArrowDown': 'Down',
-    'Print': 'PrintScreen',
+    ArrowLeft: 'Left',
+    ArrowRight: 'Right',
+    ArrowUp: 'Up',
+    ArrowDown: 'Down',
+    Print: 'PrintScreen'
   };
 
   KeyListener.prototype.lowerCaseMap = {
@@ -75,14 +73,14 @@ if (HAS_EVENT_KEY_SUPPORT) {
     '!': '1',
     '@': '2',
     '#': '3',
-    '$': '4',
+    $: '4',
     '%': '5',
     '^': '6',
     '&': '7',
     '*': '8',
     '(': '9',
     ')': '0',
-    '_': '-',
+    _: '-',
     '+': '=',
     '{': '[',
     '}': ']',
@@ -90,7 +88,7 @@ if (HAS_EVENT_KEY_SUPPORT) {
     '>': '.',
     '|': '\\',
     '"': '\\',
-    '?': '/',
+    '?': '/'
   };
 
   KeyListener.prototype.overrides = {
@@ -102,8 +100,7 @@ if (HAS_EVENT_KEY_SUPPORT) {
   };
 
   KeyListener.prototype.convertLang = function(key) {
-    if (this.langMap.hasOwnProperty(key))
-      return this.langMap[key];
+    if (this.langMap.hasOwnProperty(key)) return this.langMap[key];
     return key;
   };
 
@@ -113,13 +110,18 @@ if (HAS_EVENT_KEY_SUPPORT) {
       key = _super.overrides[event.which];
     }
     var isSpecial = event.ctrlKey || event.altKey || event.metaKey;
-    if (['Control', 'Shift', 'Alt', 'Meta'].indexOf(key) !== -1)
-      return key;
+    if (['Control', 'Shift', 'Alt', 'Meta'].indexOf(key) !== -1) return key;
     if (isSpecial) {
-      var code = '<' + ((event.ctrlKey ? 'C' : '') +
-                        (event.shiftKey ? 'S' : '') +
-                        (event.altKey  ? 'A' : '') +
-                        (event.metaKey ? 'M' : '')).split('').join('-');
+      var code =
+        '<' +
+        (
+          (event.ctrlKey ? 'C' : '') +
+          (event.shiftKey ? 'S' : '') +
+          (event.altKey ? 'A' : '') +
+          (event.metaKey ? 'M' : '')
+        )
+          .split('')
+          .join('-');
       code += '-';
       if (event.shiftKey && _super.lowerCaseMap.hasOwnProperty(key)) {
         code += _super.convertLang(_super.lowerCaseMap[key]);
@@ -133,8 +135,7 @@ if (HAS_EVENT_KEY_SUPPORT) {
 
     if (_super.keyMap.hasOwnProperty(key) || key.length > 1) {
       key = _super.convertLang(_super.keyMap[key] || key);
-      if (event.shiftKey)
-        return '<S-' + key + '>';
+      if (event.shiftKey) return '<S-' + key + '>';
       return '<' + key + '>';
     }
 
@@ -144,16 +145,14 @@ if (HAS_EVENT_KEY_SUPPORT) {
   KeyListener.prototype.createListener = function(type) {
     var _super = this;
     return function(event) {
-      if (typeof event.key === 'undefined' || !event.isTrusted)
-        return true;
+      if (typeof event.key === 'undefined' || !event.isTrusted) return true;
       var code = _super.eventToCode.call(this, event, _super);
       if (_super.isActive) {
         var eventCallbacks = _super.eventCallbacks[type];
         var ret = true;
         for (var i = 0; i < eventCallbacks.length; i++) {
           var retConsider = eventCallbacks[i].apply(this, [code, event]);
-          if (retConsider !== undefined && !retConsider)
-            ret = false;
+          if (retConsider !== undefined && !retConsider) ret = false;
         }
         return ret;
       }
@@ -201,15 +200,15 @@ if (HAS_EVENT_KEY_SUPPORT) {
       var i, j;
       if (len % 2 === 0) {
         for (i = 0; i < len - 1; i += 2) {
-          var a = tokens[i], b = tokens[i + 1];
+          var a = tokens[i],
+            b = tokens[i + 1];
           if (a.length !== 1) parseError('unexpected token: ' + a);
           if (b.length !== 1) parseError('unexpected token: ' + b);
           pairs[a] = b;
         }
         return;
       }
-      if (tokens[mid] !== 'SEMI_SEP')
-        parseError('mismatched characters');
+      if (tokens[mid] !== 'SEMI_SEP') parseError('mismatched characters');
       for (i = 0, j = mid + 1; i < mid; i++, j++) {
         if (tokens[i].length !== 1) parseError('unexpected token: ' + tokens[i]);
         if (tokens[j].length !== 1) parseError('unexpected token: ' + tokens[j]);
@@ -228,8 +227,7 @@ if (HAS_EVENT_KEY_SUPPORT) {
           stream.push(tokens[i]);
         }
       }
-      if (stream.length)
-        parseObj(stream, pairs);
+      if (stream.length) parseObj(stream, pairs);
       return pairs;
     }
     var tokens = tokenize(mapStr);
@@ -244,53 +242,50 @@ if (HAS_EVENT_KEY_SUPPORT) {
   };
 
   KeyListener.prototype.setLangMap = function(map) {
-    if (typeof map === 'string')
-      this.langMap = this.parseLangMap(map);
-    else
-      this.langMap = map;
+    if (typeof map === 'string') this.langMap = this.parseLangMap(map);
+    else this.langMap = map;
   };
 } else {
-
   KeyListener = (function() {
     'use strict';
     var isActive = false;
 
     var codeMap = {
-      0:   '\\',
-      8:   'BS',
-      9:   'Tab',
-      12:  'Num',
-      13:  'Enter',
-      19:  'Pause',
-      20:  'Caps',
-      27:  'Esc',
-      32:  'Space',
-      33:  'PageUp',
-      34:  'PageDown',
-      35:  'End',
-      36:  'Home',
-      37:  'Left',
-      38:  'Up',
-      39:  'Right',
-      40:  'Down',
-      42:  'PrintScreen',
-      44:  'PrintScreen',
-      45:  'Insert',
-      46:  'Delete',
-      48:  ['0', ')'],
-      49:  ['1', '!'],
-      50:  ['2', '@'],
-      51:  ['3', '#'],
-      52:  ['4', '$'],
-      53:  ['5', '%'],
-      54:  ['6', '^'],
-      55:  ['7', '&'],
-      56:  ['8', '*'],
-      57:  ['9', '('],
-      96:  '0',
-      97:  '1',
-      98:  '2',
-      99:  '3',
+      0: '\\',
+      8: 'BS',
+      9: 'Tab',
+      12: 'Num',
+      13: 'Enter',
+      19: 'Pause',
+      20: 'Caps',
+      27: 'Esc',
+      32: 'Space',
+      33: 'PageUp',
+      34: 'PageDown',
+      35: 'End',
+      36: 'Home',
+      37: 'Left',
+      38: 'Up',
+      39: 'Right',
+      40: 'Down',
+      42: 'PrintScreen',
+      44: 'PrintScreen',
+      45: 'Insert',
+      46: 'Delete',
+      48: ['0', ')'],
+      49: ['1', '!'],
+      50: ['2', '@'],
+      51: ['3', '#'],
+      52: ['4', '$'],
+      53: ['5', '%'],
+      54: ['6', '^'],
+      55: ['7', '&'],
+      56: ['8', '*'],
+      57: ['9', '('],
+      96: '0',
+      97: '1',
+      98: '2',
+      99: '3',
       100: '4',
       101: '5',
       102: '6',
@@ -312,7 +307,7 @@ if (HAS_EVENT_KEY_SUPPORT) {
       219: ['[', '{'],
       221: [']', '}'],
       220: ['\\', '|'],
-      222: ['\'', '"']
+      222: ["'", '"']
     };
 
     var langMap = {};
@@ -321,14 +316,15 @@ if (HAS_EVENT_KEY_SUPPORT) {
       var key, map;
       var isFKey = false;
       var modifiers = [
-        event.ctrlKey  ? 'C' : '',
-        event.altKey   ? 'A' : '',
-        event.metaKey  ? 'M' : '',
+        event.ctrlKey ? 'C' : '',
+        event.altKey ? 'A' : '',
+        event.metaKey ? 'M' : '',
         event.shiftKey ? 'S' : ''
-      ].join('').split('');
-      var identifier = HAS_EVENT_KEY_SUPPORT ?
-        event.key : event.keyIdentifier; // Prepare for deprecation of KeyboardEvent.prototype.keyIdentifier
-                                         // https://www.chromestatus.com/features/5316065118650368
+      ]
+        .join('')
+        .split('');
+      var identifier = HAS_EVENT_KEY_SUPPORT ? event.key : event.keyIdentifier; // Prepare for deprecation of KeyboardEvent.prototype.keyIdentifier
+      // https://www.chromestatus.com/features/5316065118650368
       if (codeMap.hasOwnProperty(event.which.toString())) {
         map = codeMap[event.which.toString()];
         if (Array.isArray(map)) {
@@ -351,15 +347,19 @@ if (HAS_EVENT_KEY_SUPPORT) {
           }
         }
       }
-      modifiers = modifiers.filter(function(e) { return e; });
+      modifiers = modifiers.filter(function(e) {
+        return e;
+      });
       if (modifiers.length) {
         if (Array.isArray(codeMap[event.which]) && modifiers[0] === 'S') {
           key = codeMap[event.which][1];
         } else {
           key = '<' + modifiers.join('-') + '-' + key + '>';
         }
-      } else if (key.length !== 1 &&
-          (typeof codeMap[event.which.toString()] === 'string' || isFKey)) {
+      } else if (
+        key.length !== 1 &&
+        (typeof codeMap[event.which.toString()] === 'string' || isFKey)
+      ) {
         key = '<' + (event.shiftKey ? 'S-' : '') + key + '>';
       }
       return key;
@@ -379,8 +379,7 @@ if (HAS_EVENT_KEY_SUPPORT) {
         if (type === 'keypress') {
           // ascii representation of keycode
           var key = String.fromCharCode(event.which);
-          if (langMap.hasOwnProperty(key))
-            key = langMap[key];
+          if (langMap.hasOwnProperty(key)) key = langMap[key];
           return key;
         } else {
           // Vim-like representation
@@ -394,8 +393,15 @@ if (HAS_EVENT_KEY_SUPPORT) {
             document.getElementById('cVim-link-container').style.opacity = '1';
           }, 0);
         }
-        if (Object.compare(event, KeyEvents.lastHandledEvent,
-              ['which', 'ctrlKey', 'shiftKey', 'metaKey', 'altKey'])) {
+        if (
+          Object.compare(event, KeyEvents.lastHandledEvent, [
+            'which',
+            'ctrlKey',
+            'shiftKey',
+            'metaKey',
+            'altKey'
+          ])
+        ) {
           KeyEvents.lastHandledEvent = null;
           if (!DOM.isEditable(document.activeElement)) {
             event.stopImmediatePropagation();
@@ -413,16 +419,17 @@ if (HAS_EVENT_KEY_SUPPORT) {
             return;
           }
         }
-        if (Hints.shouldShowLinkInfo &&
-            typeof Hints.acceptLink === 'function' &&
-            (keyString === '<Enter>' || keyString === '<S-Enter>')) {
+        if (
+          Hints.shouldShowLinkInfo &&
+          typeof Hints.acceptLink === 'function' &&
+          (keyString === '<Enter>' || keyString === '<S-Enter>')
+        ) {
           Hints.acceptLink(keyString === '<S-Enter>');
           return;
         }
 
         // Modifier keys C-A-S-M
-        if (~[16, 17, 18, 91, 123].indexOf(event.which))
-          return true;
+        if (~[16, 17, 18, 91, 123].indexOf(event.which)) return true;
 
         if (Mappings.keyPassesLeft) {
           Mappings.keyPassesLeft--;
@@ -430,11 +437,9 @@ if (HAS_EVENT_KEY_SUPPORT) {
         }
 
         // preventDefault before it becomes too late (keys like <Down> and <F1>)
-        if (!insertMode && !commandMode &&
-            !DOM.isTextElement(document.activeElement)) {
+        if (!insertMode && !commandMode && !DOM.isTextElement(document.activeElement)) {
           var guess = KeyEvents.keyhandle(event, 'keydown');
-          if (guess.length > 1 &&
-              Mappings.shouldPrevent(KeyEvents.keyhandle(event, 'keydown'))) {
+          if (guess.length > 1 && Mappings.shouldPrevent(KeyEvents.keyhandle(event, 'keydown'))) {
             // only stop guesses that can't be understood by keypress events
             event.preventDefault();
           }
@@ -444,8 +449,12 @@ if (HAS_EVENT_KEY_SUPPORT) {
         // if it contains a modifier (or key that should be parsed by the
         // parseKeyDown function such as { return (13) <BR> } or
         // { space (32) <Space> }
-        if ([9, 13, 32].indexOf(event.which) !== -1 || event.ctrlKey ||
-            event.metaKey || event.altKey) {
+        if (
+          [9, 13, 32].indexOf(event.which) !== -1 ||
+          event.ctrlKey ||
+          event.metaKey ||
+          event.altKey
+        ) {
           var code = KeyEvents.keyhandle(event, 'keydown');
           for (var key in Mappings.defaults) {
             if (Mappings.defaults[key].indexOf(code) !== -1) {
@@ -454,15 +463,15 @@ if (HAS_EVENT_KEY_SUPPORT) {
             }
           }
           return callback.call(this, code, event);
-        // Ugly, but this NEEDS to be checked before setTimeout is called.
-        // Otherwise, non-cVim keyboard listeners will not be stopped.
-        // "preventDefault" on the other hand, can be.
-        } else if (commandMode ||
-            (!insertMode && mappingTrie.find(
-               Mappings.splitMapping(Mappings.queue + keyString))) ||
-            (keyString[0] >= '0' && keyString[0] <= '9')) {
-          if (Command.commandBarFocused() &&
-              (event.which === 38 || event.which === 40)) {
+          // Ugly, but this NEEDS to be checked before setTimeout is called.
+          // Otherwise, non-cVim keyboard listeners will not be stopped.
+          // "preventDefault" on the other hand, can be.
+        } else if (
+          commandMode ||
+          (!insertMode && mappingTrie.find(Mappings.splitMapping(Mappings.queue + keyString))) ||
+          (keyString[0] >= '0' && keyString[0] <= '9')
+        ) {
+          if (Command.commandBarFocused() && (event.which === 38 || event.which === 40)) {
             event.preventDefault();
           }
           KeyEvents.lastHandledEvent = event;
@@ -478,9 +487,7 @@ if (HAS_EVENT_KEY_SUPPORT) {
           if (!keypressTriggered && event.isTrusted) {
             // found a matching character...
             // use it if the setTimeout function below hasn't already timed out
-            if (Hints.active ||
-                Visual.caretModeActive ||
-                Visual.visualModeActive) {
+            if (Hints.active || Visual.caretModeActive || Visual.visualModeActive) {
               event.preventDefault();
               event.stopImmediatePropagation();
             }
@@ -494,10 +501,9 @@ if (HAS_EVENT_KEY_SUPPORT) {
         // Wait for the keypress listener to find a match
         window.setTimeout(function() {
           window.removeEventListener('keypress', boundMethod, true);
-          if (!keypressTriggered) { // keypress match wasn't found
-            if (Hints.active ||
-                Visual.caretModeActive ||
-                Visual.visualModeActive) {
+          if (!keypressTriggered) {
+            // keypress match wasn't found
+            if (Hints.active || Visual.caretModeActive || Visual.visualModeActive) {
               event.preventDefault();
               event.stopImmediatePropagation();
             }
@@ -507,9 +513,13 @@ if (HAS_EVENT_KEY_SUPPORT) {
       }
     };
     var createEventListener = function(element, type, callback) {
-      element.addEventListener(type, function() {
-        return isActive ? callback.apply(this, arguments) : true;
-      }, true);
+      element.addEventListener(
+        type,
+        function() {
+          return isActive ? callback.apply(this, arguments) : true;
+        },
+        true
+      );
     };
 
     var listenerFn = function(callback) {
@@ -566,15 +576,15 @@ if (HAS_EVENT_KEY_SUPPORT) {
         var i, j;
         if (len % 2 === 0) {
           for (i = 0; i < len - 1; i += 2) {
-            var a = tokens[i], b = tokens[i + 1];
+            var a = tokens[i],
+              b = tokens[i + 1];
             if (a.length !== 1) parseError('unexpected token: ' + a);
             if (b.length !== 1) parseError('unexpected token: ' + b);
             pairs[a] = b;
           }
           return;
         }
-        if (tokens[mid] !== 'SEMI_SEP')
-          parseError('mismatched characters');
+        if (tokens[mid] !== 'SEMI_SEP') parseError('mismatched characters');
         for (i = 0, j = mid + 1; i < mid; i++, j++) {
           if (tokens[i].length !== 1) parseError('unexpected token: ' + tokens[i]);
           if (tokens[j].length !== 1) parseError('unexpected token: ' + tokens[j]);
@@ -593,8 +603,7 @@ if (HAS_EVENT_KEY_SUPPORT) {
             stream.push(tokens[i]);
           }
         }
-        if (stream.length)
-          parseObj(stream, pairs);
+        if (stream.length) parseObj(stream, pairs);
         return pairs;
       }
       return function(mapStr) {
@@ -614,17 +623,15 @@ if (HAS_EVENT_KEY_SUPPORT) {
     };
     return listenerFn;
   })();
-
 }
 
 var KeyHandler = {
   down: function(key, event) {
-
-    var commandName = currentTrieNode.getKey(key) && currentTrieNode.getKey(key).value
-    if(passMode && commandName !== "exitPassMode") {
+    var commandName = currentTrieNode.getKey(key) && currentTrieNode.getKey(key).value;
+    if (passMode && commandName !== 'exitPassMode') {
       return;
     }
-    
+
     if (HAS_EVENT_KEY_SUPPORT) {
       if (Hints.active) {
         event.preventDefault();
@@ -634,8 +641,7 @@ var KeyHandler = {
         }
       }
 
-      if (Visual.visualModeActive || Visual.caretModeActive)
-        event.preventDefault();
+      if (Visual.visualModeActive || Visual.caretModeActive) event.preventDefault();
 
       if (Mappings.keyPassesLeft) {
         Mappings.keyPassesLeft--;
@@ -643,13 +649,11 @@ var KeyHandler = {
       }
     }
 
-
-    if($.isNumeric(key) && !settings.ignorenumerickeys) {
-      event.stopImmediatePropagation()
+    if ($.isNumeric(key) && !settings.ignorenumerickeys) {
+      event.stopImmediatePropagation();
     }
 
-    if (['Control', 'Alt', 'Meta', 'Shift'].indexOf(key) !== -1)
-      return false;
+    if (['Control', 'Alt', 'Meta', 'Shift'].indexOf(key) !== -1) return false;
 
     KeyHandler.shiftKey = event.shiftKey;
 
@@ -659,13 +663,13 @@ var KeyHandler = {
     if (Hints.active) {
       event.stopImmediatePropagation();
       switch (event.which) {
-      case 18:   // Alt
-        Hints.changeFocus();
-        return;
-      case 191: // Slash
-        event.preventDefault();
-        document.getElementById('cVim-link-container').style.opacity = '0';
-        return;
+        case 18: // Alt
+          Hints.changeFocus();
+          return;
+        case 191: // Slash
+          event.preventDefault();
+          document.getElementById('cVim-link-container').style.opacity = '0';
+          return;
       }
     }
 
@@ -680,16 +684,14 @@ var KeyHandler = {
       Cursor.wiggleWindow();
     }
 
-    if (Command.commandBarFocused())
-      event.stopImmediatePropagation();
+    if (Command.commandBarFocused()) event.stopImmediatePropagation();
 
     var escapeKey = key === '<Esc>' || key === '<C-[>';
 
     if (Visual.caretModeActive || Visual.visualModeActive) {
       event.stopImmediatePropagation();
       Visual.selection = document.getSelection();
-      if (event.which === 8)
-        event.preventDefault();
+      if (event.which === 8) event.preventDefault();
       if (escapeKey) {
         Visual.lineMode = false;
         if (Visual.visualModeActive === false) {
@@ -704,20 +706,19 @@ var KeyHandler = {
       Visual.action(key.replace(/^<BS>$/, 'h').replace(/^<Space>$/, 'l'));
       return;
     }
-    
-    if($.isNumeric(key) && settings.ignorenumerickeys) {
-      return
+
+    if ($.isNumeric(key) && settings.ignorenumerickeys) {
+      return;
     }
 
     if (escapeKey) {
       Mappings.handleEscapeKey();
-      event.preventDefault()
-      event.stopImmediatePropagation()
+      event.preventDefault();
+      event.stopImmediatePropagation();
       return;
     }
 
-    if (insertMode)
-      return;
+    if (insertMode) return;
 
     var isInput = DOM.isEditable(document.activeElement);
 
@@ -757,108 +758,122 @@ var KeyHandler = {
     if (Command.commandBarFocused()) {
       // If key event ocurred in IME and the key is not regular one,
       // set key vaule empty to avoid action.
-      if (event.isComposing && /^<.*>$/.test(key))
-        key = '';
+      if (event.isComposing && /^<.*>$/.test(key)) key = '';
       window.setTimeout(function() {
         Command.lastInputValue = Command.input.value;
       }, 0);
       switch (key) {
-      case '<Tab>': // Tab navigation/completion
-      case '<S-Tab>':
-        if (Command.type === 'action') {
-          event.preventDefault();
-          Mappings.actions[ (key === '<Tab>' ? 'next' : 'previous') +
-                            'CompletionResult' ]();
-        }
-        break;
-      case '<C-p>':
-        if (Command.type === 'action' && settings.cncpcompletion) {
-          event.preventDefault();
-          Mappings.actions.previousCompletionResult();
-        }
-        return;
-      case '<Up>': // Command history navigation/search
-      case '<Down>':
-        event.preventDefault();
-        Command.history.cycle(Command.type, (key === '<Up>'));
-        break;
-      case '<Enter>':
-      case '<C-Enter>':
-        event.preventDefault();
-        document.activeElement.blur();
-        if (!(Command.history[Command.type].length > 0 &&
-              Command.history[Command.type].slice(-1)[0] ===
-              Command.input.value)) {
-          Command.history[Command.type].push(Command.input.value);
-          RUNTIME('appendHistory', {
-            value: Command.input.value,
-            type: Command.type
-          });
-        }
-        if (Command.type === 'action') {
-          var inputValue = Command.input.value + (event.ctrlKey ? '&!' : '');
-          Command.hide(function() {
-            // prevent tab from switching back after
-            // the iframe hides if the command triggers a tab change
-            setTimeout(function() {
-              Command.execute(inputValue, 1);
-            }, 10);
-          });
-          break;
-        }
-        if (Command.input.value) {
-          PORT('callFind', {
-            command: 'clear',
-            params: []
-          });
-          PORT('callFind', {
-            command: 'highlight',
-            params: [{
-              base: null,
-              mode: Command.modeIdentifier.textContent,
-              search: Command.input.value,
-              setIndex: true,
-              executeSearch: false,
-              saveSearch: true
-            }]
-          });
-          PORT('callFind', {
-            command: 'setIndex',
-            params: []
-          });
-          PORT('callFind', {
-            command: 'search',
-            params: [Command.modeIdentifier.textContent, +(Command.modeIdentifier.textContent === '?'), false]
-          });
-          PORT('updateLastSearch', {value: Command.input.value});
-        }
-        Command.hide();
-        break;
-      default:
-        if (key === '<BS>' && Command.lastInputValue.length === 0 &&
-            Command.input.value.length === 0) {
-          event.preventDefault();
-          setTimeout(function() {
-            Command.hide();
-          }, 10);
-          break;
-        }
-        setTimeout(function() {
-          Command.history.reset = true;
+        case '<Tab>': // Tab navigation/completion
+        case '<S-Tab>':
+        case '<C-Up>':
+        case '<C-Down>':
           if (Command.type === 'action') {
-            Command.complete(Command.input.value);
-            return;
+            event.preventDefault();
+            var action = key === '<Tab>' || key === '<C-Down>' ? 'next' : 'previous';
+
+            Mappings.actions[action + 'CompletionResult']();
           }
-          if (Command.input.value.length > 2) {
-            if (settings.incsearch) {
-              PORT('doIncSearch', {
-                search: Command.input.value,
-                mode: Command.modeIdentifier.textContent,
-              });
+          break;
+        case '<C-p>':
+          if (Command.type === 'action' && settings.cncpcompletion) {
+            event.preventDefault();
+            Mappings.actions.previousCompletionResult();
+          }
+          return;
+        case '<Up>': // Command history navigation/search
+        case '<Down>':
+          event.preventDefault();
+          Command.history.cycle(Command.type, key === '<Up>');
+          break;
+        case '<Enter>':
+        case '<C-Enter>':
+          event.preventDefault();
+          document.activeElement.blur();
+          if (
+            !(
+              Command.history[Command.type].length > 0 &&
+              Command.history[Command.type].slice(-1)[0] === Command.input.value
+            )
+          ) {
+            Command.history[Command.type].push(Command.input.value);
+            RUNTIME('appendHistory', {
+              value: Command.input.value,
+              type: Command.type
+            });
+          }
+          if (Command.type === 'action') {
+            var inputValue = Command.input.value + (event.ctrlKey ? '&!' : '');
+            Command.hide(function() {
+              // prevent tab from switching back after
+              // the iframe hides if the command triggers a tab change
+              setTimeout(function() {
+                Command.execute(inputValue, 1);
+              }, 10);
+            });
+            break;
+          }
+          if (Command.input.value) {
+            PORT('callFind', {
+              command: 'clear',
+              params: []
+            });
+            PORT('callFind', {
+              command: 'highlight',
+              params: [
+                {
+                  base: null,
+                  mode: Command.modeIdentifier.textContent,
+                  search: Command.input.value,
+                  setIndex: true,
+                  executeSearch: false,
+                  saveSearch: true
+                }
+              ]
+            });
+            PORT('callFind', {
+              command: 'setIndex',
+              params: []
+            });
+            PORT('callFind', {
+              command: 'search',
+              params: [
+                Command.modeIdentifier.textContent,
+                +(Command.modeIdentifier.textContent === '?'),
+                false
+              ]
+            });
+            PORT('updateLastSearch', { value: Command.input.value });
+          }
+          Command.hide();
+          break;
+        default:
+          if (
+            key === '<BS>' &&
+            Command.lastInputValue.length === 0 &&
+            Command.input.value.length === 0
+          ) {
+            event.preventDefault();
+            setTimeout(function() {
+              Command.hide();
+            }, 10);
+            break;
+          }
+          setTimeout(function() {
+            Command.history.reset = true;
+            if (Command.type === 'action') {
+              Command.complete(Command.input.value);
+              return;
             }
-          }
-        }, 0);
-        break;
+            if (Command.input.value.length > 2) {
+              if (settings.incsearch) {
+                PORT('doIncSearch', {
+                  search: Command.input.value,
+                  mode: Command.modeIdentifier.textContent
+                });
+              }
+            }
+          }, 0);
+          break;
       }
     }
     if (settings && settings.insertmappings && isInput) {
@@ -874,8 +889,10 @@ var KeyHandler = {
     }
   },
   up: function(key, event) {
-    if (Command.commandBarFocused() ||
-        (!insertMode && Mappings.queue.length && Mappings.validMatch)) {
+    if (
+      Command.commandBarFocused() ||
+      (!insertMode && Mappings.queue.length && Mappings.validMatch)
+    ) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
@@ -890,8 +907,7 @@ if (!HAS_EVENT_KEY_SUPPORT) {
   (function() {
     var oldKeyUpHandler = KeyHandler.up;
     KeyHandler.up = function(event) {
-      if (!event.isTrusted)
-        return true;
+      if (!event.isTrusted) return true;
       return oldKeyUpHandler.call(this, null, event);
     };
   })();
@@ -903,8 +919,7 @@ if (!HAS_EVENT_KEY_SUPPORT) {
   };
 
   window.addListeners = function() {
-    if (KeyHandler.listenersActive)
-      removeListeners();
+    if (KeyHandler.listenersActive) removeListeners();
     KeyHandler.listenersActive = true;
     window.addEventListener('keyup', KeyHandler.up, true);
     KeyHandler.listener.activate();
@@ -935,15 +950,14 @@ window.addEventListener('DOMContentLoaded', function() {
 
     var i = window.setInterval(() => {
       if (settings) {
-        window.clearInterval(i)
+        window.clearInterval(i);
         if (settings.automakelinks) {
-          linkifyElement(document.body)
+          linkifyElement(document.body);
         }
       }
-    }, 0)
-    
+    }, 0);
+
     //Mappings.actions.loadBookmarksFolder(1, 'functionshub')
     //Mappings.actions.dumpBookmarksFolder(1, 'functionshub')
-    
   }
 });
