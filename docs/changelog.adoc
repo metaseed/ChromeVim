@@ -13,8 +13,8 @@ link:index.html[Home]
 . fix problem of showTabIndex = true.
 . fix next frame not working problem.
 . adjust defaut key mapping.
+. add <C-Up> <C-Down> to command panel to navigate in completion items.(<Tab><S-Tab> is keeped; up, down are used to command history).
 .
-. todo: add arrow navigation in command panel.
 . todo: add hint to goto scrollable element.
 . todo: add feature to save and read config in gist.
 

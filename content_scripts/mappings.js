@@ -20,6 +20,9 @@ Mappings.defaults = [
   ['B', ':buffer '],
   ['I', ':history '],
 
+  ['<Esc>', 'cancelWebRequest'],
+  ['<BS>', 'cancelAllWebRequests'],
+
   ['v', 'toggleVisualMode'],
   ['V', 'toggleVisualLineMode'],
   ['n', 'nextSearchResult'],
@@ -161,12 +164,10 @@ Mappings.defaults = [
   ['tg', ':tabnew google '],
   ['tp', 'togglePin'],
 
-  ['gq', 'cancelWebRequest'],
   ['<C-S-h>', 'openLastLinkInTab'],
   ['gh', 'openLastLinkInTab'],
   ['<C-S-l>', 'openNextLinkInTab'],
   ['gl', 'openNextLinkInTab'],
-  ['gQ', 'cancelAllWebRequests'],
   ['gj', 'hideDownloadsShelf'],
 
   /*
