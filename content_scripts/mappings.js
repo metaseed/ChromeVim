@@ -18,7 +18,7 @@ Mappings.defaults = [
 
   ['b', ':bookmarks '],
   ['B', ':buffer '],
-  ['I', ':history '],
+  ['I', ':history '], // C-h: history
 
   ['<Esc>', 'cancelWebRequest'],
   ['<BS>', 'cancelAllWebRequests'],
@@ -28,6 +28,10 @@ Mappings.defaults = [
   ['n', 'nextSearchResult'],
   ['N', 'previousSearchResult'],
   ['/', 'openSearchBar'],
+  // addressBar:
+  // search engine name then tab: search with the engine
+  // C-Enter: www. .com
+  // A-Enter: search in new tab with default engine
   ['?', 'openSearchBarReverse'],
   [':', 'openCommandBar'],
   ['.', 'repeatCommand'],
@@ -41,9 +45,11 @@ Mappings.defaults = [
   ['k', 'scrollUp'],
   ['e', 'scrollPageUp'],
   ['u', 'scrollPageUp'],
+  // space or PgDn: scroll down a screen
   ['d', 'scrollPageDown'],
-  ['gg', 'scrollToTop'],
-  ['G', 'scrollToBottom'],
+  // S-space or PgUp: scroll up a screen
+  ['gg', 'scrollToTop'], // Home
+  ['G', 'scrollToBottom'], // End
   ['h', 'scrollLeft'],
   ['l', 'scrollRight'],
   ['0', 'scrollToLeft'],
@@ -74,8 +80,9 @@ Mappings.defaults = [
   /*
   ** close
   */
-  ['x', 'closeTab'],
-  ['X', 'lastClosedTab'],
+  ['xt', 'closeTab'], // C-w
+  // close window  C-S-w
+  // quit chrome C-S-q
   ['xl', 'closeTabLeft'],
   ['xr', 'closeTabRight'],
   ['x0', 'closeTabsToLeft'],
@@ -84,11 +91,21 @@ Mappings.defaults = [
   ** open in current tab
   */
   ['o', ':open '],
-  ['O', ':open @%'],
+  ['O', ':open @%'], // same as refresh
+  // homepage A-Home
+  ['oq*', 'openQuickMark'],
+  ['otq*', 'openQuickMarkTabbed'],
+  ['owq*', 'openQuickMarkWindowed'],
 
-  ['cb', 'createBookmark'], // C-d
-  ['ct', ':tabnew '], // C-n
-  ['cT', ':tabnew @%'],
+  // C-S-d: bookmark window tabs
+  ['ab', 'createBookmark'], // C-d
+  // newWindow C-n
+  // newWindowIncognito C-S-n
+  ['at', ':tabnew '], // C-t
+  ['aT', ':tabnew @%'],
+  ['ax', 'lastClosedTab'], // C-S-t
+  // quickmark is an array of web links
+  ['aq*', 'addQuickMark'],
 
   /*
   ** move
@@ -100,14 +117,6 @@ Mappings.defaults = [
   ['>', 'moveTabRight'],
   ['ml', 'moveTabLeft'],
   ['<', 'moveTabLeft'],
-
-  /*
-  ** quick mark
-  */
-  ['Q*', 'addQuickMark'],
-  ['qo*', 'openQuickMark'],
-  ['qn*', 'openQuickMarkTabbed'],
-  ['qw*', 'openQuickMarkWindowed'],
 
   /*
   ** hint
@@ -130,34 +139,37 @@ Mappings.defaults = [
   ** }: last or last leaf
   ** ]: next
   ** [: previous
-  ** |: to
-  ** t: time based last used(active)
+  ** t: to
+  ** |: time based last used(active)
   ** note:
   ** all command could be prefix with numbers to repeat.
   ** the prefix number for 'to' command is the object index in collection
   */
   [']]', 'nextMatchPattern'], // next page
   ['[[', 'previousMatchPattern'], // previous page
-  [']t', 'nextTab'],
-  ['[t', 'previousTab'],
+  [']t', 'nextTab'], // C-Tab
+  ['[t', 'previousTab'], // C-S-Tab
   ['[d', 'previousDomain'],
   [']d', 'nextDomain'],
   ['{t', 'firstTab'],
-  ['}t', 'lastTab'],
+  ['}t', 'lastTab'], // C-9
   [']f', 'nextFrame'],
   ['{f', 'rootFrame'],
   ['{u', 'goToRootUrl'],
   ['[u', 'goUpUrl'],
   [']i', 'goToInput'],
-  ['ti', 'goToLastInput'],
+  ['|i', 'goToLastInput'],
   ['{s', 'resetScrollFocus'],
-  ['[h', 'goBack'],
+  ['[h', 'goBack'], // A-left
+  // todo: add function like right click on back and forward toobar button.
+  // [H: to show back histories
+  // ]H: to show forward histories
   ['H', 'goBack'],
-  ['L', 'goForward'],
+  ['L', 'goForward'], // A-right
   [']h', 'goForward'],
   ['K', 'lastUsedTab'], // by time across windows
-  ['tt', 'lastActiveTab'], // by time in window
-  ['|t', 'goToTab'], // in chrome <C-number>
+  ['|t', 'lastActiveTab'], // by time in window
+  ['tt', 'goToTab'], // C-number
   /*
   ** others that reuse 'to' command
   */
@@ -173,21 +185,34 @@ Mappings.defaults = [
   /*
   ** browser views
   */
-  ['<C-S-d>', ':chrome downloads!<cr>'],
   ['<C-S-x>', ':chrome extensions!<cr>'],
-  ['<C-S-s>', ':viewsource!<CR>'],
+  ['<C-S-s>', ':viewsource!<CR>'], // C-u
+  // C-o: open file
   // C-S-i: chrome inspect
+  // C-S-j: chrome console
+  // C-S-m: guest browser
+  // C-S-Del: clear browser
   // C-S-b: toggle bookmarks bar
   // C-S-o: show bookmark manager
   // C-S-n: new incognito window
+  // A-f: chrome menu
+  // C-j: download page
+  // S-Esc: task manager
+  // S-A-t: first item in toolbar
+  // F6: focus to unfocused dialog
+  // C-f: find bar
+  // C-p: print
+  // C-s: save
+  // C-r or F5: refresh (with Shift to ignor cache)
+  // Esc: stop loading
 
   ['g+', 'incrementURLPath'],
   ['g-', 'decrementURLPath'],
 
   ['z<Enter>', 'toggleImageZoom'],
-  ['zi', 'zoomPageIn'],
-  ['zo', 'zoomPageOut'],
-  ['z0', 'zoomOrig'],
+  ['zi', 'zoomPageIn'], // C-=
+  ['zo', 'zoomPageOut'], // C--
+  ['z0', 'zoomOrig'], // C-0
 
   ["'*", 'goToMark'],
   [';*', 'setMark'],
