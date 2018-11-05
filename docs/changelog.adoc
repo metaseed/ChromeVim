@@ -17,6 +17,7 @@ link:index.html[Home]
 .
 . todo: add hint to goto scrollable element.
 . todo: add feature to save and read config in gist.
+. todo: modify help page to contains other help info: shortcuts of chrome...
 
 == Mouseless Changelog
 

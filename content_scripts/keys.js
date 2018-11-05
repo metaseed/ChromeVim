@@ -765,11 +765,11 @@ var KeyHandler = {
       switch (key) {
         case '<Tab>': // Tab navigation/completion
         case '<S-Tab>':
-        case '<C-Up>':
-        case '<C-Down>':
+        case '<Up>':
+        case '<Down>':
           if (Command.type === 'action') {
             event.preventDefault();
-            var action = key === '<Tab>' || key === '<C-Down>' ? 'next' : 'previous';
+            var action = key === '<Tab>' || key === '<Down>' ? 'next' : 'previous';
 
             Mappings.actions[action + 'CompletionResult']();
           }
@@ -780,10 +780,10 @@ var KeyHandler = {
             Mappings.actions.previousCompletionResult();
           }
           return;
-        case '<Up>': // Command history navigation/search
-        case '<Down>':
+        case '<C-Up>': // Command history navigation/search
+        case '<C-Down>':
           event.preventDefault();
-          Command.history.cycle(Command.type, key === '<Up>');
+          Command.history.cycle(Command.type, key === '<C-Up>');
           break;
         case '<Enter>':
         case '<C-Enter>':

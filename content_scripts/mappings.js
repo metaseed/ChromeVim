@@ -14,7 +14,8 @@ var Mappings = {
 };
 
 Mappings.defaults = [
-  ['i', 'insertMode'],
+  // ['F1', ':help<CR>'], not work
+  [('i', 'insertMode')],
 
   ['b', ':bookmarks '],
   ['B', ':buffer '],
