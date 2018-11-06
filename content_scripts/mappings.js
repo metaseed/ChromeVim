@@ -14,37 +14,28 @@ var Mappings = {
 };
 
 Mappings.defaults = [
-  // ['F1', ':help<CR>'], not work
-  [('i', 'insertMode')],
+  ['<F1>', ':help<CR>'],
 
-  ['b', ':bookmarks '],
-  ['B', ':buffer '],
-  ['I', ':history '], // C-h: history
-
-  ['<Esc>', 'cancelWebRequest'],
-  ['<BS>', 'cancelAllWebRequests'],
-
+  /*
+  ** vim
+  */
+  ['i', 'insertMode'],
   ['v', 'toggleVisualMode'],
   ['V', 'toggleVisualLineMode'],
   ['n', 'nextSearchResult'],
   ['N', 'previousSearchResult'],
   ['/', 'openSearchBar'],
-  // addressBar:
-  // search engine name then tab: search with the engine
-  // C-Enter: www. .com
-  // A-Enter: search in new tab with default engine
   ['?', 'openSearchBarReverse'],
   [':', 'openCommandBar'],
   ['.', 'repeatCommand'],
   ['%', 'percentScroll'],
-
-  /*
-  ** scroll
-  */
-  ['s', 'scrollDown'],
+  ["'*", 'goToMark'],
+  [';*', 'setMark'],
+  //
+  // scroll
+  //
   ['j', 'scrollDown'],
   ['k', 'scrollUp'],
-  ['e', 'scrollPageUp'],
   ['u', 'scrollPageUp'],
   // space or PgDn: scroll down a screen
   ['d', 'scrollPageDown'],
@@ -55,57 +46,80 @@ Mappings.defaults = [
   ['l', 'scrollRight'],
   ['0', 'scrollToLeft'],
   ['$', 'scrollToRight'],
-  ["''", 'lastScrollPosition'],
-  ['<C-o>', 'previousScrollPosition'],
-  ['<C-i>', 'nextScrollPosition'],
 
-  ['r', 'reloadTab'],
-  ['R', 'reloadTabUncached'],
-  ['gr', 'reloadAllButCurrent'],
-
-  /*
-  ** past
-  */
+  //
+  // paste
+  //
   ['p', 'openPaste'],
   ['P', 'openPasteTab'],
 
-  /*
-  ** yank
-  */
+  //
+  // yank
+  //
   ['yy', 'yankDocumentUrl'],
   ['yw', 'yankWindowUrls'],
   ['yf', 'yankFrameUrl'],
   ['yh', 'yankHighlight'],
-  ['ym', 'multiYankUrl'],
+
+  ['zt', 'centerMatchT'],
+  ['zb', 'centerMatchB'],
+  ['zz', 'centerMatchH'],
+
+  /*
+  ** search
+  */
+  ['b', ':bookmarks '],
+  ['B', ':buffer '],
+  // C-h: show history page
+  ['I', ':history '], // search in history
+
+  // Esc: stop loading(chrome default)
+  // ['<Esc>', 'cancelWebRequest'],
+  ['<BS>', 'cancelAllWebRequests'],
+  // addressBar:
+  // search engine name then tab: search with the engine
+  // C-Enter: www. .com
+  // A-Enter: search in new tab with default engine
 
   /*
   ** close
   */
-  ['xt', 'closeTab'], // C-w
+  ['ct', 'closeTab'], // C-w
   // close window  C-S-w
   // quit chrome C-S-q
-  ['xl', 'closeTabLeft'],
-  ['xr', 'closeTabRight'],
-  ['x0', 'closeTabsToLeft'],
-  ['x$', 'closeTabsToRight'],
+  ['c[', 'closeTabLeft'],
+  ['c]', 'closeTabRight'],
+  ['c{', 'closeTabsToLeft'],
+  ['c}', 'closeTabsToRight'],
+
   /*
-  ** open in current tab
+  ** remove?
   */
-  ['o', ':open '],
-  ['O', ':open @%'], // same as refresh
+  ['r', 'reloadTab'], // C-r or F5: refresh
+  ['R', 'reloadTabUncached'], // C-S-r refresh and ignore cache
+  ['gr', 'reloadAllButCurrent'],
+
+  /*
+  ** open
+  */
   // homepage A-Home
+  ['oo', ':open '],
+  ['ott', ':tabnew '],
   ['oq*', 'openQuickMark'],
   ['otq*', 'openQuickMarkTabbed'],
   ['owq*', 'openQuickMarkWindowed'],
-
-  // C-S-d: bookmark window tabs
-  ['ab', 'createBookmark'], // C-d
+  ['o[h', 'openLastLinkInTab'],
+  ['o]h', 'openNextLinkInTab'],
   // newWindow C-n
   // newWindowIncognito C-S-n
-  ['at', ':tabnew '], // C-t
-  ['aT', ':tabnew @%'],
-  ['ax', 'lastClosedTab'], // C-S-t
+  ['o|', ':tabnew @%<CR>'], // @% is current tab address
+  ['ox', 'lastClosedTab'], // C-S-t
+
+  // C-S-d: bookmark window tabs
+  ['at', ':tabnew <CR>'], // C-t
+  ['ab', 'createBookmark'], // C-d
   // quickmark is an array of web links
+  // we could config defuat quickmark in settings
   ['aq*', 'addQuickMark'],
 
   /*
@@ -113,7 +127,7 @@ Mappings.defaults = [
   */
   ['mo', ':tabdetach<cr>'], // Move Out
   ['mco', 'tabDetachWithChildren'], // Move with Children Out
-  ['mi', 'tabattach'], // move in
+  ['mi', ':tabattach '], // move in
   ['mr', 'moveTabRight'],
   ['>', 'moveTabRight'],
   ['ml', 'moveTabLeft'],
@@ -133,6 +147,7 @@ Mappings.defaults = [
   ['si', 'reverseImage'],
   ['smi', 'multiReverseImage'],
   ['sy', 'yankUrl'],
+  ['smy', 'multiYankUrl'],
 
   /*
   ** iteration in collection or tree
@@ -146,7 +161,9 @@ Mappings.defaults = [
   ** all command could be prefix with numbers to repeat.
   ** the prefix number for 'to' command is the object index in collection
   */
+  // click the "next" link on the page (see nextmatchpattern)
   [']]', 'nextMatchPattern'], // next page
+  // click the "back" link on the page (see previousmatchpattern)
   ['[[', 'previousMatchPattern'], // previous page
   [']t', 'nextTab'], // C-Tab
   ['[t', 'previousTab'], // C-S-Tab
@@ -161,26 +178,34 @@ Mappings.defaults = [
   [']i', 'goToInput'],
   ['|i', 'goToLastInput'],
   ['{s', 'resetScrollFocus'],
-  ['[h', 'goBack'], // A-left
+  ['|s', 'lastScrollPosition'],
+  ['[s', 'previousScrollPosition'],
+  [']s', 'nextScrollPosition'],
+
   // todo: add function like right click on back and forward toobar button.
-  // [H: to show back histories
+  // S-A-t: first item in toolbar
+  // F10: last item in toolbar
+  // [H: to show back histories; workaround: S-A-t right click;
   // ]H: to show forward histories
-  ['H', 'goBack'],
+  ['H', 'goBack'], // A-Left is better if input box has focus.
+  ['[h', 'goBack'], // A-left
   ['L', 'goForward'], // A-right
-  [']h', 'goForward'],
-  ['K', 'lastUsedTab'], // by time across windows
-  ['|t', 'lastActiveTab'], // by time in window
+  [']h', 'goForward'], // A-right
+
+  ['|T', 'lastUsedTab'], // by time across windows
+  ['|t', 'lastActiveTab'], // last active tab in window
   ['tt', 'goToTab'], // C-number
+  ['tm', 'muteTab'], // Toggle Mute
+
   /*
   ** others that reuse 'to' command
   */
   ['tg', ':tabnew google '],
   ['tp', 'togglePin'],
 
-  ['<C-S-h>', 'openLastLinkInTab'],
-  ['gh', 'openLastLinkInTab'],
-  ['<C-S-l>', 'openNextLinkInTab'],
-  ['gl', 'openNextLinkInTab'],
+  /*
+  ** others
+  */
   ['gj', 'hideDownloadsShelf'],
 
   /*
@@ -204,8 +229,6 @@ Mappings.defaults = [
   // C-f: find bar
   // C-p: print
   // C-s: save
-  // C-r or F5: refresh (with Shift to ignor cache)
-  // Esc: stop loading
 
   ['g+', 'incrementURLPath'],
   ['g-', 'decrementURLPath'],
@@ -213,16 +236,7 @@ Mappings.defaults = [
   ['z<Enter>', 'toggleImageZoom'],
   ['zi', 'zoomPageIn'], // C-=
   ['zo', 'zoomPageOut'], // C--
-  ['z0', 'zoomOrig'], // C-0
-
-  ["'*", 'goToMark'],
-  [';*', 'setMark'],
-
-  ['zt', 'centerMatchT'],
-  ['zb', 'centerMatchB'],
-  ['zz', 'centerMatchH'],
-
-  ['cm', 'muteTab']
+  ['z0', 'zoomOrig'] // C-0
 ];
 
 Mappings.defaultsClone = Object.clone(Mappings.defaults);
