@@ -207,10 +207,11 @@ Mappings.defaults = [
   ['|T', 'lastUsedTab'], // by time across windows
   ['|t', 'lastActiveTab'], // last active tab in window
   ['tt', 'goToTab'], // <C-number> number+tt: goto tab number
-  ['tb', 'createBookmark'],
+  ['tb', 'toggleBookmark'],
   //* C-d: add bookmark and show add-bookmark dialog
-  //* C-S-d: bookmark window tabs
-
+  //* C-S-d: bookmark window tabs and show bookmark-all-tabs dialog
+  ['tlb', 'toggleBookmarkInFolder'], // note: the default folder name is 'later'
+  ['twlb', 'toggleBookmarksInFolder'], // note: all bookmarks in window
   //
   // others that reuse 'to' command
   //
@@ -378,25 +379,25 @@ Mappings.actions = {
       }
     });
   },
-  createBookmark: function() {
-    PORT('createBookmark', {
+  toggleBookmark: function() {
+    PORT('toggleBookmark', {
       url: document.URL,
       title: document.title.replace(/^(\d{1,2})? /, '')
     });
   },
 
-  toggleBookmark: function(repeats, folderName) {
-    PORT('toggleBookmark', {
+  toggleBookmarkInFolder: function(repeats, folderName) {
+    PORT('toggleBookmarkInFolder', {
       msg: {
-        folder: folderName
+        folder: folderName || 'later'
       }
     });
   },
 
-  toggleWindowBookmarks: function(repeats, folderName) {
-    PORT('toggleWindowBookmarks', {
+  toggleBookmarksInFolder: function(repeats, folderName) {
+    PORT('toggleBookmarksInFolder', {
       msg: {
-        folder: folderName
+        folder: folderName || 'later'
       }
     });
   },

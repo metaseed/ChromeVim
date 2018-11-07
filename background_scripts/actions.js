@@ -1515,7 +1515,7 @@ Actions = (function() {
     }
   };
 
-  _.createBookmark = function(o) {
+  _.toggleBookmark = function(o) {
     var url = o.request.url,
       title = o.request.title;
     chrome.bookmarks.search({ url: url }, function(results) {
@@ -1527,7 +1527,7 @@ Actions = (function() {
     });
   };
 
-  _.toggleWindowBookmarks = function(o) {
+  _.toggleBookmarksInFolder = function(o) {
     var __ = window._;
     chrome.tabs.get(o.sender.tab.id, function(tab) {
       chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
@@ -1536,13 +1536,13 @@ Actions = (function() {
           o2.request = o.request;
           o2.sender = { tab: tab };
           o2.callback = o.callback;
-          _.toggleBookmark(o2);
+          _.toggleBookmarkInFolder(o2);
         });
       });
     });
   };
 
-  _.toggleBookmark = function(o) {
+  _.toggleBookmarkInFolder = function(o) {
     // TODO(hbt) ENHANCE refactor to remove vrome msg object
     var _ = window._;
     var msg = o.request.msg;
@@ -1553,61 +1553,66 @@ Actions = (function() {
         title: msg.folder
       },
       function(collection) {
-        var folder = collection[0];
-        chrome.bookmarks.getChildren(folder.id, children => {
-          // fix inconsistent trailing slash in urls
-          var tabUrl = tab.url;
-          tabUrl = removeTrailingSlash(tabUrl);
+        var _folder = collection[0];
+        if (!_folder)
+          chrome.bookmarks.create({ title: msg.folder }, folder => toggleInFolder(folder));
+        else toggleInFolder(_folder);
+        function toggleInFolder(folder) {
+          chrome.bookmarks.getChildren(folder.id, children => {
+            // fix inconsistent trailing slash in urls
+            var tabUrl = tab.url;
+            tabUrl = removeTrailingSlash(tabUrl);
 
-          function removeTrailingSlash(url) {
-            if (url && url.endsWith('/')) {
-              url = url.substring(0, url.length - 1);
-            }
-            return url;
-          }
-
-          children = _.map(children, child => {
-            child.url = removeTrailingSlash(child.url);
-            return child;
-          });
-
-          // toggle
-          var children = _.indexBy(children, 'url');
-
-          if (_.keys(children).includes(tabUrl)) {
-            var b = children[tabUrl];
-            chrome.bookmarks.remove(b.id, function() {
-              o.callback({
-                type: 'Status.setMessage',
-                text: 'removed bookmark from ' + msg.folder
-              });
-            });
-          } else {
-            // Note(hbt) for some reason tab information is missing title -- displays url instead
-            chrome.tabs.get(tab.id, function(tab2) {
-              var title = tab2.title;
-              title = title.trim();
-              if (settings.showtabindices) {
-                // remove first word
-                title = title.substr(title.indexOf(' ') + 1);
+            function removeTrailingSlash(url) {
+              if (url && url.endsWith('/')) {
+                url = url.substring(0, url.length - 1);
               }
+              return url;
+            }
 
-              chrome.bookmarks.create(
-                {
-                  parentId: folder.id,
-                  url: tabUrl,
-                  title: title
-                },
-                function() {
-                  o.callback({
-                    type: 'Status.setMessage',
-                    text: 'added bookmark to ' + msg.folder
-                  });
-                }
-              );
+            children = _.map(children, child => {
+              child.url = removeTrailingSlash(child.url);
+              return child;
             });
-          }
-        });
+
+            // toggle
+            var children = _.indexBy(children, 'url');
+
+            if (_.keys(children).includes(tabUrl)) {
+              var b = children[tabUrl];
+              chrome.bookmarks.remove(b.id, function() {
+                o.callback({
+                  type: 'Status.setMessage',
+                  text: 'removed bookmark from ' + msg.folder
+                });
+              });
+            } else {
+              // Note(hbt) for some reason tab information is missing title -- displays url instead
+              chrome.tabs.get(tab.id, function(tab2) {
+                var title = tab2.title;
+                title = title.trim();
+                if (settings.showtabindices) {
+                  // remove first word
+                  title = title.substr(title.indexOf(' ') + 1);
+                }
+
+                chrome.bookmarks.create(
+                  {
+                    parentId: folder.id,
+                    url: tabUrl,
+                    title: title
+                  },
+                  function() {
+                    o.callback({
+                      type: 'Status.setMessage',
+                      text: 'added bookmark to ' + msg.folder
+                    });
+                  }
+                );
+              });
+            }
+          });
+        }
       }
     );
   };
