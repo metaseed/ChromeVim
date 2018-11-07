@@ -1289,7 +1289,7 @@ Command.configureSettings = function(_settings) {
   this.onSettingsLoad();
   DOM.onTitleChange(function(text) {
     if (!Session.ignoreTitleUpdate && settings.showtabindices && Session.tabIndex) {
-      if (!/^\d+ /.test(text)) {
+      if (!/^\d{1,2} /.test(text)) {
         document.title = Session.tabIndex + ' ' + text;
         Session.ignoreTitleUpdate = true;
         return;

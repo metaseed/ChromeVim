@@ -335,7 +335,7 @@ chrome.extension.onMessage.addListener(function(request, sender, callback) {
               }
             } else {
               document.title = document.title.replace(
-                /^(\d+ )?/,
+                /^(\d{1,2} )?/,
                 request.index ? request.index + ' ' : ''
               );
             }

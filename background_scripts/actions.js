@@ -1116,18 +1116,6 @@ Actions = (function() {
     });
   };
 
-  _.createBookmark = function(o) {
-    var url = o.request.url,
-      title = o.request.title;
-    chrome.bookmarks.search({ url: url }, function(results) {
-      if (!results.length) {
-        chrome.bookmarks.create({ url: url, title: title });
-      } else if (results[0].parentId === '2') {
-        chrome.bookmarks.remove(results[0].id);
-      }
-    });
-  };
-
   _.quitChrome = function() {
     chrome.windows.getAll({ populate: false }, function(windowList) {
       windowList.forEach(function(e) {
@@ -1375,21 +1363,6 @@ Actions = (function() {
     chrome.tabs.reload(tab.id);
   };
 
-  _.toggleWindowBookmarks = function(o) {
-    var __ = window._;
-    chrome.tabs.get(o.sender.tab.id, function(tab) {
-      chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-        __.each(tabs, function(tab) {
-          var o2 = {};
-          o2.request = o.request;
-          o2.sender = { tab: tab };
-          o2.callback = o.callback;
-          _.toggleBookmark(o2);
-        });
-      });
-    });
-  };
-
   _.dumpBookmarksFolder = function(o) {
     // TODO(hbt) NEXT abstract url in settings and flag as experimental -- 2 locations
     let url =
@@ -1540,6 +1513,33 @@ Actions = (function() {
         loadEditedBookmarks(o.request.msg.folder);
       });
     }
+  };
+
+  _.createBookmark = function(o) {
+    var url = o.request.url,
+      title = o.request.title;
+    chrome.bookmarks.search({ url: url }, function(results) {
+      if (!results.length) {
+        chrome.bookmarks.create({ url: url, title: title });
+      } else if (results[0].parentId === '2') {
+        chrome.bookmarks.remove(results[0].id);
+      }
+    });
+  };
+
+  _.toggleWindowBookmarks = function(o) {
+    var __ = window._;
+    chrome.tabs.get(o.sender.tab.id, function(tab) {
+      chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
+        __.each(tabs, function(tab) {
+          var o2 = {};
+          o2.request = o.request;
+          o2.sender = { tab: tab };
+          o2.callback = o.callback;
+          _.toggleBookmark(o2);
+        });
+      });
+    });
   };
 
   _.toggleBookmark = function(o) {

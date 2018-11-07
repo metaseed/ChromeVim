@@ -378,6 +378,12 @@ Mappings.actions = {
       }
     });
   },
+  createBookmark: function() {
+    PORT('createBookmark', {
+      url: document.URL,
+      title: document.title.replace(/^(\d{1,2})? /, '')
+    });
+  },
 
   toggleBookmark: function(repeats, folderName) {
     PORT('toggleBookmark', {
@@ -1012,12 +1018,6 @@ Mappings.actions = {
         Mappings.lastCommand.params
       );
     }
-  },
-  createBookmark: function() {
-    PORT('createBookmark', {
-      url: document.URL,
-      title: document.title
-    });
   },
   quitChrome: function() {
     PORT('quitChrome');
