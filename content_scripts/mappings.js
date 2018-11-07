@@ -14,6 +14,9 @@ var Mappings = {
 };
 
 Mappings.defaults = [
+  /*
+  ** help
+  */
   ['<F1>', ':help<CR>'],
 
   /*
@@ -36,12 +39,12 @@ Mappings.defaults = [
   //
   ['j', 'scrollDown'],
   ['k', 'scrollUp'],
-  ['u', 'scrollPageUp'],
-  // space or PgDn: scroll down a screen
-  ['d', 'scrollPageDown'],
-  // S-space or PgUp: scroll up a screen
-  ['gg', 'scrollToTop'], // Home
-  ['G', 'scrollToBottom'], // End
+  ['u', 'scrollUpHalfScreen'],
+  //* space or PgDn: scroll down full screen
+  ['d', 'scrollDownHalfScreen'],
+  //* S-space or PgUp: scroll up full screen
+  ['gg', 'scrollToTop'], // <Home>
+  ['G', 'scrollToBottom'], // <End>
   ['h', 'scrollLeft'],
   ['l', 'scrollRight'],
   ['0', 'scrollToLeft'],
@@ -56,71 +59,77 @@ Mappings.defaults = [
   //
   // yank
   //
-  ['yy', 'yankDocumentUrl'],
+  ['yy', 'yankTabUrl'],
+  ['yt', 'yankTabUrl'],
   ['yw', 'yankWindowUrls'],
   ['yf', 'yankFrameUrl'],
   ['yh', 'yankHighlight'],
 
-  ['zt', 'centerMatchT'],
-  ['zb', 'centerMatchB'],
-  ['zz', 'centerMatchH'],
+  ['zt', 'scrollMatchTop'],
+  ['zb', 'scrollMatchBottom'],
+  ['zz', 'scrollMatchCenter'],
 
   /*
   ** search
   */
-  ['b', ':bookmarks '],
-  ['B', ':buffer '],
-  // C-h: show history page
+  ['b', ':bookmarks '], // search in bookmarks
+  ['B', ':buffer '], // search in all tabs across windows
+  //* C-h: show chrome history page
   ['I', ':history '], // search in history
 
-  // Esc: stop loading(chrome default)
   // ['<Esc>', 'cancelWebRequest'],
+  //* Esc: stop loading(chrome default)
   ['<BS>', 'cancelAllWebRequests'],
-  // addressBar:
-  // search engine name then tab: search with the engine
-  // C-Enter: www. .com
-  // A-Enter: search in new tab with default engine
+
+  /*
+  ** addressBar
+  */
+  //* Search term + Enter: Search with default search engine
+  //* Search engine name then Tab: Search using a different search engine
+  //* Site name then C-Enter: Add www. and .com to a site name, and open it in the current tab
+  //* Search term + A-Enter: Open a new tab and perform a Google search
+  //* Address + A-Enter: Open address in a new tab
+  //* C-l or A-d or F6: Jump to the address bar
+  //* C-k or C-e: Trigger search from anywhere on the page with default engine
+  //* Down arrow to highlight + S-Delete: Remove predictions from your address bar
 
   /*
   ** close
   */
-  ['ct', 'closeTab'], // C-w
-  // close window  C-S-w
-  // quit chrome C-S-q
-  ['c[', 'closeTabLeft'],
-  ['c]', 'closeTabRight'],
-  ['c{', 'closeTabsToLeft'],
-  ['c}', 'closeTabsToRight'],
+  ['ct', 'closeTab'], // <C-w>
+  //* C-S-w: close window
+  //* C-S-q: Quit chrome
+  ['c[', 'closeLeftTab'],
+  ['c]', 'closeRightTab'],
+  ['c{', 'closeLeftTabs'],
+  ['c}', 'closeRightTabs'],
 
   /*
   ** remove?
   */
-  ['r', 'reloadTab'], // C-r or F5: refresh
-  ['R', 'reloadTabUncached'], // C-S-r refresh and ignore cache
+  ['r', 'reloadTab'], // <C-r or F5>
+  ['R', 'reloadTabIgnoreCache'], // <C-S-r>
   ['gr', 'reloadAllButCurrent'],
 
   /*
   ** open
   */
-  // homepage A-Home
-  ['oo', ':open '],
-  ['ott', ':tabnew '],
+  //* A-Home: homepage
+  ['oo', ':tabnew @%<CR>'], // Open again. Note: @% is current tab address
+  ['O', ':open '],
+  ['T', ':tabnew '],
+  ['oc', 'lastClosedTab'], // <C-S-t>
+  //* C-n: newWindow
+  //* C-S-n: newWindowIncognito
   ['oq*', 'openQuickMark'],
   ['otq*', 'openQuickMarkTabbed'],
   ['owq*', 'openQuickMarkWindowed'],
-  ['o[h', 'openLastLinkInTab'],
-  ['o]h', 'openNextLinkInTab'],
-  // newWindow C-n
-  // newWindowIncognito C-S-n
-  ['o|', ':tabnew @%<CR>'], // @% is current tab address
-  ['ox', 'lastClosedTab'], // C-S-t
 
-  // C-S-d: bookmark window tabs
-  ['at', ':tabnew <CR>'], // C-t
-  ['ab', 'createBookmark'], // C-d
-  // quickmark is an array of web links
-  // we could config defuat quickmark in settings
-  ['aq*', 'addQuickMark'],
+  /*
+  ** add
+  */
+  ['at', ':tabnew <CR>'], // <C-t>
+  ['aq*', 'addQuickMark'], // Quickmark is an array of web links; We could config defuat quickmark in settings
 
   /*
   ** move
@@ -128,10 +137,10 @@ Mappings.defaults = [
   ['mo', ':tabdetach<cr>'], // Move Out
   ['mco', 'tabDetachWithChildren'], // Move with Children Out
   ['mi', ':tabattach '], // move in
-  ['mr', 'moveTabRight'],
-  ['>', 'moveTabRight'],
-  ['ml', 'moveTabLeft'],
-  ['<', 'moveTabLeft'],
+  ['mr', 'moveTabRight'], // move right
+  ['>', 'moveTabRight'], // move right
+  ['ml', 'moveTabLeft'], // move left
+  ['<', 'moveTabLeft'], // move left
 
   /*
   ** hint
@@ -151,26 +160,26 @@ Mappings.defaults = [
 
   /*
   ** iteration in collection or tree
+  **
   ** {: fist or root
   ** }: last or last leaf
   ** ]: next
   ** [: previous
   ** t: to
   ** |: time based last used(active)
+  **
   ** note:
   ** all command could be prefix with numbers to repeat.
   ** the prefix number for 'to' command is the object index in collection
   */
-  // click the "next" link on the page (see nextmatchpattern)
-  [']]', 'nextMatchPattern'], // next page
-  // click the "back" link on the page (see previousmatchpattern)
-  ['[[', 'previousMatchPattern'], // previous page
-  [']t', 'nextTab'], // C-Tab
-  ['[t', 'previousTab'], // C-S-Tab
+  [']]', 'nextMatchPattern'], // next page, click the "next" link on the page (see nextmatchpattern)
+  ['[[', 'previousMatchPattern'], // previous page, click the "back" link on the page (see previousmatchpattern)
+  [']t', 'nextTab'], // <C-Tab>
+  ['[t', 'previousTab'], // <C-S-Tab>
   ['[d', 'previousDomain'],
   [']d', 'nextDomain'],
   ['{t', 'firstTab'],
-  ['}t', 'lastTab'], // C-9
+  ['}t', 'lastTab'], // <C-9>
   [']f', 'nextFrame'],
   ['{f', 'rootFrame'],
   ['{u', 'goToRootUrl'],
@@ -181,62 +190,67 @@ Mappings.defaults = [
   ['|s', 'lastScrollPosition'],
   ['[s', 'previousScrollPosition'],
   [']s', 'nextScrollPosition'],
+  ['[h', 'openLastLinkInTab'],
+  [']h', 'openNextLinkInTab'],
 
   // todo: add function like right click on back and forward toobar button.
-  // S-A-t: first item in toolbar
-  // F10: last item in toolbar
-  // [H: to show back histories; workaround: S-A-t right click;
-  // ]H: to show forward histories
-  ['H', 'goBack'], // A-Left is better if input box has focus.
-  ['[h', 'goBack'], // A-left
-  ['L', 'goForward'], // A-right
-  [']h', 'goForward'], // A-right
+  //* [H: to show back histories; workaround: S-A-t right click;
+  //* ]H: to show forward histories
+
+  //* S-A-t: first item in toolbar. note: if focus on history button, right click to show a link list
+  //* F10: last item in toolbar
+  ['H', 'goBack'], // <A-Left> note: defaut chrome shortcut is better if input box has focus.
+  ['[h', 'goBack'], // <A-left>
+  ['L', 'goForward'], // <A-right>
+  [']h', 'goForward'], // <A-right>
 
   ['|T', 'lastUsedTab'], // by time across windows
   ['|t', 'lastActiveTab'], // last active tab in window
-  ['tt', 'goToTab'], // C-number
-  ['tm', 'muteTab'], // Toggle Mute
+  ['tt', 'goToTab'], // <C-number> number+tt: goto tab number
+  ['tb', 'createBookmark'],
+  //* C-d: add bookmark and show add-bookmark dialog
+  //* C-S-d: bookmark window tabs
 
-  /*
-  ** others that reuse 'to' command
-  */
+  //
+  // others that reuse 'to' command
+  //
   ['tg', ':tabnew google '],
+  ['tm', 'toggleMute'],
   ['tp', 'togglePin'],
-
-  /*
-  ** others
-  */
-  ['gj', 'hideDownloadsShelf'],
 
   /*
   ** browser views
   */
   ['<C-S-x>', ':chrome extensions!<cr>'],
-  ['<C-S-s>', ':viewsource!<CR>'], // C-u
-  // C-o: open file
-  // C-S-i: chrome inspect
-  // C-S-j: chrome console
-  // C-S-m: guest browser
-  // C-S-Del: clear browser
-  // C-S-b: toggle bookmarks bar
-  // C-S-o: show bookmark manager
-  // C-S-n: new incognito window
-  // A-f: chrome menu
-  // C-j: download page
-  // S-Esc: task manager
-  // S-A-t: first item in toolbar
-  // F6: focus to unfocused dialog
-  // C-f: find bar
-  // C-p: print
-  // C-s: save
+  ['<C-S-s>', ':viewsource!<CR>'], // <C-u>
+  //* C-o: open file
+  //* C-S-i: chrome inspect
+  //* C-S-j: chrome console
+  //* C-S-m: Browse Chrome as a guest
+  //* C-S-Del: clear browser
+  //* C-S-b: toggle bookmarks bar
+  //* C-S-o: show bookmark manager
+  //* C-S-n: new incognito window
+  //* A-f: chrome menu
+  //* C-j: download page
+  //* S-Esc: task manager
+  //* S-A-t: first item in toolbar
+  //* F6: focus to unfocused dialog
+  //* C-f: find bar
+  //* C-p: print
+  //* C-s: save
 
+  /*
+  ** miscellaneous
+  */
+  ['gj', 'hideDownloadsShelf'],
   ['g+', 'incrementURLPath'],
   ['g-', 'decrementURLPath'],
 
   ['z<Enter>', 'toggleImageZoom'],
-  ['zi', 'zoomPageIn'], // C-=
-  ['zo', 'zoomPageOut'], // C--
-  ['z0', 'zoomOrig'] // C-0
+  ['zi', 'zoomPageIn'], // <C-=>
+  ['zo', 'zoomPageOut'], // <C-->
+  ['z0', 'zoomOrig'] // <C-0>
 ];
 
 Mappings.defaultsClone = Object.clone(Mappings.defaults);
@@ -465,17 +479,17 @@ Mappings.actions = {
   closeTab: function(repeats) {
     RUNTIME('closeTab', { repeats: repeats });
   },
-  closeTabLeft: function(repeats) {
-    RUNTIME('closeTabLeft', { repeats: repeats });
+  closeLeftTab: function(repeats) {
+    RUNTIME('closeLeftTab', { repeats: repeats });
   },
-  closeTabRight: function(repeats) {
-    RUNTIME('closeTabRight', { repeats: repeats });
+  closeRightTab: function(repeats) {
+    RUNTIME('closeRightTab', { repeats: repeats });
   },
-  closeTabsToLeft: function() {
-    RUNTIME('closeTabsToLeft');
+  closeLeftTabs: function() {
+    RUNTIME('closeLeftTabs');
   },
-  closeTabsToRight: function() {
-    RUNTIME('closeTabsToRight');
+  closeRightTabs: function() {
+    RUNTIME('closeRightTabs');
   },
   pinTab: function() {
     RUNTIME('pinTab', { pinned: true });
@@ -555,13 +569,13 @@ Mappings.actions = {
       document.body.style.zoom = '1';
     });
   },
-  centerMatchT: function() {
+  scrollMatchTop: function() {
     var documentZoom = parseFloat(document.body.style.zoom) || 1;
     if (Find.matches.length && Find.matches[Find.index]) {
       window.scrollBy(0, Find.matches[Find.index].getBoundingClientRect().top * documentZoom);
     }
   },
-  centerMatchH: function() {
+  scrollMatchCenter: function() {
     var documentZoom = parseFloat(document.body.style.zoom) || 1;
     if (Find.matches.length && Find.matches[Find.index]) {
       var scrollOffset = function() {
@@ -574,7 +588,7 @@ Mappings.actions = {
       window.scrollBy(0, scrollOffset);
     }
   },
-  centerMatchB: function() {
+  scrollMatchBottom: function() {
     var documentZoom = parseFloat(document.body.style.zoom) || 1;
     if (Find.matches.length && Find.matches[Find.index]) {
       var scrollOffset = function() {
@@ -599,13 +613,13 @@ Mappings.actions = {
   scrollUp: function(repeats) {
     Scroll.scroll('up', repeats);
   },
-  scrollPageDown: function(repeats) {
+  scrollDownHalfScreen: function(repeats) {
     Scroll.scroll('pageDown', repeats);
   },
   scrollFullPageDown: function(repeats) {
     Scroll.scroll('fullPageDown', repeats);
   },
-  scrollPageUp: function(repeats) {
+  scrollUpHalfScreen: function(repeats) {
     Scroll.scroll('pageUp', repeats);
   },
   scrollFullPageUp: function(repeats) {
@@ -726,7 +740,7 @@ Mappings.actions = {
   fullImageHint: function() {
     Hints.create('fullimage');
   },
-  yankDocumentUrl: function() {
+  yankTabUrl: function() {
     RUNTIME('getRootUrl', function(url) {
       Clipboard.copy(url);
       Status.setMessage(url, 2);
@@ -803,7 +817,7 @@ Mappings.actions = {
   reloadTab: function() {
     RUNTIME('reloadTab', { nocache: false });
   },
-  reloadTabUncached: function() {
+  reloadTabIgnoreCache: function() {
     RUNTIME('reloadTab', { nocache: true });
   },
   reloadAllButCurrent: function() {
@@ -1026,8 +1040,8 @@ Mappings.actions = {
     Find.clear();
     HUD.hide();
   },
-  muteTab: function() {
-    RUNTIME('muteTab');
+  toggleMute: function() {
+    RUNTIME('toggleMute');
   },
   exportSettings: function() {
     var content = JSON.stringify(settings);
