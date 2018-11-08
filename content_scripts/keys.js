@@ -411,7 +411,7 @@ if (HAS_EVENT_KEY_SUPPORT) {
       keydown: function(callback, event) {
         var keyString = KeyEvents.keyhandle(event, 'keydown');
 
-        // Alt key hint focus toggle
+        // Alt key hint focus toggle: z-index change
         if (Hints.active) {
           event.preventDefault();
           if (event.which === 18) {

@@ -143,13 +143,14 @@ Mappings.defaults = [
   ['<', 'moveTabLeft'], // move left
 
   /*
-  ** hint
+  ** hint. note: if hint is hidden by another, press Alt to switch it to top.
   */
   ['f', 'createHint'], // fast hint
-  ['ss', 'createHint'], // show hint
+  ['S', 'openHintInTab'], // i.e.: want to directly open a link in same tab when in google search results
+  ['ss', 'openLastHint'], // |s is used by last-scroll-position command.
   ['st', 'createTabbedHint'], // show hint and to new unactive tab
+  ['sT', 'createActiveTabbedHint'], // show hint and to new active tab
   ['smt', 'createMultiHint'],
-  ['sr', 'openLastHint'],
   ['sw', 'createHintWindow'],
   ['sh', 'createHoverHint'],
   ['sH', 'createUnhoverHint'],
@@ -210,7 +211,7 @@ Mappings.defaults = [
   ['tb', 'toggleBookmark'],
   //* C-d: add bookmark and show add-bookmark dialog
   //* C-S-d: bookmark window tabs and show bookmark-all-tabs dialog
-  ['tlb', 'toggleBookmarkInFolder'], // note: the default folder name is 'later'
+  ['tlb', 'toggleBookmarkInFolder'], //toggle later bookmark. note: the default folder name is 'later'
   ['twlb', 'toggleBookmarksInFolder'], // note: all bookmarks in window
   //
   // others that reuse 'to' command
@@ -704,6 +705,9 @@ Mappings.actions = {
   },
   createHint: function() {
     Hints.create();
+  },
+  openHintInTab: function() {
+    Hints.create('inTab');
   },
   createTabbedHint: function() {
     Hints.create('tabbed');

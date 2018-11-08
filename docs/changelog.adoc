@@ -14,10 +14,11 @@ link:index.html[Home]
 . fix next frame not working problem.
 . adjust defaut key mapping.
 . add <C-Up> <C-Down> to command panel to navigate in completion items.(<Tab><S-Tab> is keeped; up, down are used to command history).
+. modify help page to contains other help info: shortcuts of chrome...
+. add command 'openHintInTab' which is useful in google search.
 .
 . todo: add hint to goto scrollable element.
 . todo: add feature to save and read config in gist.
-. todo: modify help page to contains other help info: shortcuts of chrome...
 
 == Mouseless Changelog
 

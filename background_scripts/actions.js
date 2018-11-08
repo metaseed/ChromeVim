@@ -55,6 +55,10 @@ Actions = (function() {
 
   _.openLink = function(o) {
     var i;
+    if (!o.request.tab) {
+      console.log('request.tab is undefined in openLink command');
+      return;
+    }
     if (o.request.tab.newWindow) {
       for (i = 0; i < o.request.repeats; ++i) {
         chrome.windows.create({
@@ -75,8 +79,10 @@ Actions = (function() {
         o.request.repeats
       );
     } else {
+      let url = o.url;
+      if (o.request.tab.inTab) url = o.request.tab.url;
       chrome.tabs.update({
-        url: o.url,
+        url,
         pinned: o.request.tab.pinned || o.sender.tab.pinned
       });
     }

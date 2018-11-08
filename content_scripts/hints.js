@@ -205,7 +205,14 @@ Hints.dispatchAction = function(link, shift) {
         }, 0);
         break;
       }
-      if ((/tabbed/.test(this.type) || this.type === 'multi') && link.href) {
+      if (this.type === 'inTab' && link.href) {
+        RUNTIME('openLink', {
+          tab: {
+            url: link.href,
+            inTab: true
+          }
+        });
+      } else if ((/tabbed/.test(this.type) || this.type === 'multi') && link.href) {
         RUNTIME('openLinkTab', {
           active: this.type === 'tabbedActive',
           url: link.href,
@@ -805,7 +812,8 @@ Hints.create = function(type, multi) {
                 image: '(reverse-image)',
                 fullimage: '(full image)',
                 tabbed: '(tabbed)',
-                tabbedActive: '(tabbed)',
+                inTab: '(in tab)',
+                tabbedActive: '(tabbed active)',
                 window: '(window)',
                 edit: '(edit)',
                 hover: '(hover)',
