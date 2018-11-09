@@ -1,4 +1,4 @@
-:uri-asciidoctor: http://asciidoctor.org
+:Plugin 'Yggdroot/indentLine'uri-asciidoctor: http://asciidoctor.org
 :icons: font
 :source-highlighter: pygments
 :nofooter:
@@ -17,7 +17,12 @@ link:index.html[Home]
 . modify help page to contains other help info: shortcuts of chrome...
 . add command 'openHintInTab' which is useful in google search.
 .
-. todo: add hint to goto scrollable element.
+. todo: make all operations defined in mappings.js displayed in command mode.
+. todo: adjust default insert command according to vim
+. todo: inject mappings part doc from code of mapping.js.
+. todo: adjust code structure and using es6 module.
+. todo: add hint command to show all elements as a backup strategy for f command.(map to F)
+. todo: add hint to goto scrollable element (clientHeight vs ..).
 . todo: add feature to save and read config in gist.
 
 == Mouseless Changelog

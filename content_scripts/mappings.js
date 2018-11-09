@@ -15,13 +15,13 @@ var Mappings = {
 
 Mappings.defaults = [
   /*
-  ** help
-  */
+   ** help
+   */
   ['<F1>', ':help<CR>'],
 
   /*
-  ** vim
-  */
+   ** vim
+   */
   ['i', 'insertMode'],
   ['v', 'toggleVisualMode'],
   ['V', 'toggleVisualLineMode'],
@@ -70,8 +70,8 @@ Mappings.defaults = [
   ['zz', 'scrollMatchCenter'],
 
   /*
-  ** search
-  */
+   ** search
+   */
   ['b', ':bookmarks '], // search in bookmarks
   ['B', ':buffer '], // search in all tabs across windows
   //* C-h: show chrome history page
@@ -82,8 +82,8 @@ Mappings.defaults = [
   ['<BS>', 'cancelAllWebRequests'],
 
   /*
-  ** addressBar
-  */
+   ** addressBar
+   */
   //* Search term + Enter: Search with default search engine
   //* Search engine name then Tab: Search using a different search engine
   //* Site name then C-Enter: Add www. and .com to a site name, and open it in the current tab
@@ -94,8 +94,8 @@ Mappings.defaults = [
   //* Down arrow to highlight + S-Delete: Remove predictions from your address bar
 
   /*
-  ** close
-  */
+   ** close
+   */
   ['ct', 'closeTab'], // <C-w>
   //* C-S-w: close window
   //* C-S-q: Quit chrome
@@ -105,15 +105,15 @@ Mappings.defaults = [
   ['c}', 'closeRightTabs'],
 
   /*
-  ** remove?
-  */
+   ** remove?
+   */
   ['r', 'reloadTab'], // <C-r or F5>
   ['R', 'reloadTabIgnoreCache'], // <C-S-r>
   ['gr', 'reloadAllButCurrent'],
 
   /*
-  ** open
-  */
+   ** open
+   */
   //* A-Home: homepage
   ['oo', ':tabnew @%<CR>'], // Open again. Note: @% is current tab address
   ['O', ':open '],
@@ -126,14 +126,14 @@ Mappings.defaults = [
   ['owq*', 'openQuickMarkWindowed'],
 
   /*
-  ** add
-  */
+   ** add
+   */
   ['at', ':tabnew <CR>'], // <C-t>
   ['aq*', 'addQuickMark'], // Quickmark is an array of web links; We could config defuat quickmark in settings
 
   /*
-  ** move
-  */
+   ** move
+   */
   ['mo', ':tabdetach<cr>'], // Move Out
   ['mco', 'tabDetachWithChildren'], // Move with Children Out
   ['mi', ':tabattach '], // move in
@@ -143,8 +143,8 @@ Mappings.defaults = [
   ['<', 'moveTabLeft'], // move left
 
   /*
-  ** hint. note: if hint is hidden by another, press Alt to switch it to top.
-  */
+   ** hint. note: if hint is hidden by another, press Alt to switch it to top.
+   */
   ['f', 'createHint'], // fast hint
   ['S', 'openHintInTab'], // i.e.: want to directly open a link in same tab when in google search results
   ['ss', 'openLastHint'], // |s is used by last-scroll-position command.
@@ -160,19 +160,19 @@ Mappings.defaults = [
   ['smy', 'multiYankUrl'],
 
   /*
-  ** iteration in collection or tree
-  **
-  ** {: fist or root
-  ** }: last or last leaf
-  ** ]: next
-  ** [: previous
-  ** t: to
-  ** |: time based last used(active)
-  **
-  ** note:
-  ** all command could be prefix with numbers to repeat.
-  ** the prefix number for 'to' command is the object index in collection
-  */
+   ** iteration in collection or tree
+   **
+   ** {: fist or root
+   ** }: last or last leaf
+   ** ]: next
+   ** [: previous
+   ** t: to
+   ** |: time based last used(active)
+   **
+   ** note:
+   ** all command could be prefix with numbers to repeat.
+   ** the prefix number for 'to' command is the object index in collection
+   */
   [']]', 'nextMatchPattern'], // next page, click the "next" link on the page (see nextmatchpattern)
   ['[[', 'previousMatchPattern'], // previous page, click the "back" link on the page (see previousmatchpattern)
   [']t', 'nextTab'], // <C-Tab>
@@ -221,8 +221,8 @@ Mappings.defaults = [
   ['tp', 'togglePin'],
 
   /*
-  ** browser views
-  */
+   ** browser views
+   */
   ['<C-S-x>', ':chrome extensions!<cr>'],
   ['<C-S-s>', ':viewsource!<CR>'], // <C-u>
   //* C-o: open file
@@ -243,8 +243,8 @@ Mappings.defaults = [
   //* C-s: save
 
   /*
-  ** miscellaneous
-  */
+   ** miscellaneous
+   */
   ['gj', 'hideDownloadsShelf'],
   ['g+', 'incrementURLPath'],
   ['g-', 'decrementURLPath'],
