@@ -13,16 +13,12 @@ var md = require('markdown-it')('default', {
   highlight: function(str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
-        return '<pre class="hljs"><code>' +
-          hljs.highlight(lang, str, true).value +
-          '</code></pre>';
+        return '<pre class="hljs"><code>' + hljs.highlight(lang, str, true).value + '</code></pre>';
       } catch (error) {
         console.error(error);
       }
     }
-    return '<pre class="hljs"><code>' +
-      md.utils.escapeHtml(str) +
-      '</code></pre>';
+    return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
   }
 });
 
@@ -45,26 +41,31 @@ var scripts = [
   '../content_scripts/command.js',
   '../content_scripts/scroll.js',
   '../content_scripts/search.js',
-  '../content_scripts/frames.js',
-  '../content_scripts/messenger.js',
+  '../content_scripts/frames.js'
 ];
 
 var makeHTML = function(data) {
-  return '<!DOCTYPE html><html><head>' +
-         '<meta charset="utf-8">' +
-         '<link rel="stylesheet" href="./markdown.css">' +
-         '<link rel="stylesheet" href="./hljs.css">' +
-         '<link rel="stylesheet" href="../content_scripts/main.css">' +
-         scripts.map(function(e) {
-           return '<script src="' + e + '"></script>';
-         }).join('\n') +
-         '</head>' + md.render(data) + '</html>';
+  return (
+    '<!DOCTYPE html><html><head>' +
+    '<meta charset="utf-8">' +
+    '<link rel="stylesheet" href="./markdown.css">' +
+    '<link rel="stylesheet" href="./hljs.css">' +
+    '<link rel="stylesheet" href="../content_scripts/main.css">' +
+    `<script src="../content_scripts/main.mjs" type="module"></script>` +
+    scripts
+      .map(function(e) {
+        return '<script src="' + e + '"></script>';
+      })
+      .join('\n') +
+    '</head>' +
+    md.render(data) +
+    '</html>'
+  );
 };
 
 (function() {
-
   var fileMap = {
-    mappings:  'README.md',
+    mappings: 'README.md',
     changelog: 'CHANGELOG.md'
   };
 
@@ -72,5 +73,4 @@ var makeHTML = function(data) {
     var data = fs.readFileSync('../' + fileMap[key], 'utf8');
     fs.writeFileSync('../pages/' + key + '.html', makeHTML(data));
   }
-
 })();

@@ -1,18 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
-
-
-    <!--<script src="content_scripts/cvimrc_parser.js"></script>-->
-    <!--<script src="content_scripts/utils.js"></script>-->
-    <!--<script src="content_scripts/dom.js"></script>-->
-    <!--<script src="content_scripts/keys.js"></script>-->
-    <!--<script src="content_scripts/mappings.js"></script>-->
-    <!--<script src="content_scripts/command.js"></script>-->
-    <!--<script src="content_scripts/messenger.js"></script>-->
-    <!--<script src="content_scripts/newtab.js"></script>-->
-
-    <!--// Note(hbt) this is copied from cmdline_frame in response to issue 115 - checking if it will produce less errors and how to reproduce them -->
+  <head>
+    <!--
+      // Note(hbt) this is copied from cmdline_frame in response to issue 115 - checking if it will produce less errors and how to reproduce them
+    -->
 
     <script src="vendor/jquery.js"></script>
     <script src="cmdline_frame.js"></script>
@@ -20,6 +11,7 @@
     <script src="content_scripts/session.js"></script>
     <script src="content_scripts/utils.js"></script>
     <script src="content_scripts/dom.js"></script>
+    <script src="content_scripts/main.mjs" type="module"></script>
     <script src="content_scripts/hints.js"></script>
     <script src="content_scripts/bookmarks.js"></script>
     <script src="content_scripts/keys.js"></script>
@@ -35,17 +27,14 @@
     <script src="content_scripts/scroll.js"></script>
     <script src="content_scripts/search.js"></script>
     <script src="content_scripts/frames.js"></script>
-    <script src="content_scripts/messenger.js"></script>
     <script src="content_scripts/newtab.js"></script>
-    <link rel="stylesheet" href="content_scripts/main.css">
+    <link rel="stylesheet" href="content_scripts/main.css" />
     <style>
-        * {
-            background-color: black;
-            color: white;
-        }
+      * {
+        background-color: black;
+        color: white;
+      }
     </style>
-
-</head>
-<body>
-</body>
+  </head>
+  <body></body>
 </html>

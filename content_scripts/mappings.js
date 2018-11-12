@@ -12,7 +12,10 @@ var Mappings = {
     repeats: 1
   }
 };
-
+// window.insertMappings = insertMappings;
+// window.mappingTrie = mappingTrie;
+// window.currentTrieNode = currentTrieNode;
+// window.Mappings = Mappings;
 Mappings.defaults = [
   /*
    ** help

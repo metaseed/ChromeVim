@@ -81,6 +81,7 @@
     {
       "matches": ["<all_urls>"],
       "js": [
+        "content_scripts/index.js",
         "vendor/jquery.js",
         "vendor/underscore-min.js",
         "vendor/linkify.min.js",
@@ -104,8 +105,8 @@
         "content_scripts/visual.js",
         "content_scripts/scroll.js",
         "content_scripts/search.js",
-        "content_scripts/frames.js",
-        "content_scripts/messenger.js"
+        "content_scripts/frames.js"
+        // "content_scripts/messenger.js"
       ],
       "css": ["content_scripts/main.css"],
       "run_at": "document_start",
@@ -113,5 +114,9 @@
     }
   ],
   "options_page": "pages/options.html",
-  "web_accessible_resources": ["cmdline_frame.html"]
+  "web_accessible_resources": [
+    "cmdline_frame.html",
+    "content_scripts/*.js",
+    "content_scripts/*.mjs"
+  ]
 }

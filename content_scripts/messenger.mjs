@@ -1,36 +1,5 @@
-var port = chrome.extension.connect({ name: 'main' });
-port.onDisconnect.addListener(function() {
-  window.portDestroyed = true;
-  chrome.runtime.sendMessage = function() {};
-  chrome.runtime.connect = function() {};
-  Command.hide();
-  removeListeners();
-  Visual.exit();
-  Find.clear();
-  Command.destroy();
-});
-
-(function() {
-  var $ = function(FN, caller) {
-    return function(action, args, callback) {
-      if (typeof args === 'function') {
-        callback = args;
-        args = {};
-      }
-      (args = args || {}).action = action;
-      FN.call(caller, args, typeof callback === 'function' ? callback : void 0);
-    };
-  };
-  RUNTIME = $(chrome.runtime.sendMessage, chrome.runtime);
-  PORT = $(port.postMessage, port);
-  ECHO = function(action, args, callback) {
-    args.action = 'echoRequest';
-    args.call = action;
-    port.postMessage(args, typeof callback === 'function' ? callback : void 0);
-  };
-})();
-
-port.onMessage.addListener(function(response) {
+import { RUNTIME, PORT, port } from './connection.mjs';
+const msg_handler = response => {
   var key;
   switch (response.type) {
     case 'hello':
@@ -169,9 +138,10 @@ port.onMessage.addListener(function(response) {
       Status.setMessage(response.text);
       break;
   }
-});
+};
+port.onMessage.addListener(msg_handler);
 
-chrome.extension.onMessage.addListener(function(request, sender, callback) {
+chrome.runtime.onMessage.addListener(function(request, sender, callback) {
   // Note(hbt) this gets called twice. Since it is included in content_script and cmdline_frame.html
   // Note(hbt) probably a bug but not fixing until it's a problem
   // workaround
