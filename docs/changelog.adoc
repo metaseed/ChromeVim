@@ -20,7 +20,6 @@ link:index.html[Home]
 . todo: make all operations defined in mappings.js displayed in command mode.
 . todo: adjust default insert command according to vim
 . todo: inject mappings part doc from code of mapping.js.
-. todo: adjust code structure and using es6 module.
 . todo: add hint command to show all elements as a backup strategy for f command.(map to F)
 . todo: add hint to goto scrollable element (clientHeight vs ..).
 . todo: add feature to save and read config in gist.

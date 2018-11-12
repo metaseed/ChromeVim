@@ -5,7 +5,7 @@ var storageMethod = 'local',
 var defaultSettings = {
   experimental: false,
   handlebothcwevents: true,
-  searchlimit: 25,
+  searchlimit: 1000,
   scrollstep: 70,
   automakelinks: false,
   fullpagescrollpercent: 0,

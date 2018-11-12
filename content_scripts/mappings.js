@@ -39,16 +39,17 @@ Mappings.defaults = [
   //
   ['j', 'scrollDown'],
   ['k', 'scrollUp'],
-  ['u', 'scrollUpHalfScreen'],
-  //* space or PgDn: scroll down full screen
-  ['d', 'scrollDownHalfScreen'],
-  //* S-space or PgUp: scroll up full screen
   ['gg', 'scrollToTop'], // <Home>
   ['G', 'scrollToBottom'], // <End>
   ['h', 'scrollLeft'],
   ['l', 'scrollRight'],
   ['0', 'scrollToLeft'],
   ['$', 'scrollToRight'],
+
+  ['<A-PageUp>', 'scrollUpHalfScreen'], // note: C-U is mapped to view-source-code of page by default.
+  //* space or PgDn: scroll down full screen
+  ['<A-PageDown>', 'scrollDownHalfScreen'], // note: C-D is mapped to bookmap this page by default.
+  //* S-space or PgUp: scroll up full screen
 
   //
   // paste
