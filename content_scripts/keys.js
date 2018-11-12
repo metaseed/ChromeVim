@@ -940,24 +940,27 @@ if (!HAS_EVENT_KEY_SUPPORT) {
 
 addListeners();
 
-window.addEventListener('DOMContentLoaded', function() {
-  if (self === top) {
-    RUNTIME('isNewInstall', null, function(message) {
-      if (message) {
-        alert(message);
-      }
-    });
-
-    var i = window.setInterval(() => {
-      if (settings) {
-        window.clearInterval(i);
-        if (settings.automakelinks) {
-          linkifyElement(document.body);
+window.addEventListener(
+  'DOMContentLoaded',
+  waitForESMLoad(function() {
+    if (self === top) {
+      RUNTIME('isNewInstall', null, function(message) {
+        if (message) {
+          alert(message);
         }
-      }
-    }, 0);
+      });
 
-    //Mappings.actions.loadBookmarksFolder(1, 'functionshub')
-    //Mappings.actions.dumpBookmarksFolder(1, 'functionshub')
-  }
-});
+      var i = window.setInterval(() => {
+        if (settings) {
+          window.clearInterval(i);
+          if (settings.automakelinks) {
+            linkifyElement(document.body);
+          }
+        }
+      }, 0);
+
+      //Mappings.actions.loadBookmarksFolder(1, 'functionshub')
+      //Mappings.actions.dumpBookmarksFolder(1, 'functionshub')
+    }
+  })
+);

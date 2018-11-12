@@ -104,8 +104,8 @@
         "content_scripts/hud.js",
         "content_scripts/visual.js",
         "content_scripts/scroll.js",
-        "content_scripts/search.js",
-        "content_scripts/frames.js"
+        "content_scripts/search.js"
+        // "content_scripts/frames.js"
         // "content_scripts/messenger.js"
       ],
       "css": ["content_scripts/main.css"],

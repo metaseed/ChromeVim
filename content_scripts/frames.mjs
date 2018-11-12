@@ -1,4 +1,5 @@
-var Frames = {
+import { RUNTIME, PORT } from './connection.mjs';
+export const Frames = {
   frameId: null,
   focus: function(disableAnimation) {
     window.focus();
@@ -12,26 +13,28 @@ var Frames = {
     }
   },
   frameIsVisible: function(e) {
-    if (e.getAttribute('aria-hidden') === 'true' ||
-        e.getAttribute('height') === '0' ||
-        e.getAttribute('width') === '0')
+    if (
+      e.getAttribute('aria-hidden') === 'true' ||
+      e.getAttribute('height') === '0' ||
+      e.getAttribute('width') === '0'
+    )
       return false;
     var style = getComputedStyle(e, null);
-    if (style.display === 'none' ||
-        style.opacity === '0' ||
-        style.width === '0' ||
-        style.height === '0' ||
-        style.visibility === 'hidden')
+    if (
+      style.display === 'none' ||
+      style.opacity === '0' ||
+      style.width === '0' ||
+      style.height === '0' ||
+      style.visibility === 'hidden'
+    )
       return false;
     var rect = e.getBoundingClientRect();
-    if (rect.width <= 1 ||
-        rect.height <= 1)
-      return false;
+    if (rect.width <= 1 || rect.height <= 1) return false;
     return true;
   },
   markAsActive: function() {
     RUNTIME('markActiveFrame', {
-      frameId: this.frameId,
+      frameId: this.frameId
     });
   },
   init: function(frameId) {
@@ -41,6 +44,7 @@ var Frames = {
     });
   }
 };
+window.Frames = Frames;
 
 (function() {
   function focusListener() {
@@ -48,8 +52,7 @@ var Frames = {
       window.removeEventListener('focus', focusListener);
       return;
     }
-    if (!window.isCommandFrame)
-      Frames.markAsActive();
+    if (!window.isCommandFrame) Frames.markAsActive();
   }
   window.addEventListener('focus', focusListener);
 })();

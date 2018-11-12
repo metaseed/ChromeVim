@@ -40,8 +40,8 @@ var scripts = [
   '../content_scripts/visual.js',
   '../content_scripts/command.js',
   '../content_scripts/scroll.js',
-  '../content_scripts/search.js',
-  '../content_scripts/frames.js'
+  '../content_scripts/search.js'
+  // '../content_scripts/frames.js'
 ];
 
 var makeHTML = function(data) {

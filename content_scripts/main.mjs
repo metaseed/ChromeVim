@@ -16,7 +16,7 @@
 // import './visual.js';
 // import './scroll.js';
 // import './search.js';
-// import './frames.js';
+import './frames.mjs';
 import './messenger.mjs';
 
 export function main() {}
