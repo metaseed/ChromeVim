@@ -32,7 +32,7 @@ var scripts = [
   '../content_scripts/keys.js',
   '../content_scripts/clipboard.js',
   '../content_scripts/complete.js',
-  '../content_scripts/mappings.js',
+  // '../content_scripts/mappings.js',
   '../content_scripts/find.js',
   '../content_scripts/cursor.js',
   '../content_scripts/status.js',

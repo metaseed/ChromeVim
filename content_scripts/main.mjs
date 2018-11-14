@@ -8,7 +8,7 @@
 // import './keys.js';
 // import './clipboard.js';
 // import './complete.js';
-// import './mappings.js';
+import './mappings.mjs';
 // import './find.js';
 // import './cursor.js';
 // import './status.js';
