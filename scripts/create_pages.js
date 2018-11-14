@@ -51,7 +51,7 @@ var makeHTML = function(data) {
     '<link rel="stylesheet" href="./markdown.css">' +
     '<link rel="stylesheet" href="./hljs.css">' +
     '<link rel="stylesheet" href="../content_scripts/main.css">' +
-    `<script src="../content_scripts/main.mjs" type="module"></script>` +
+    `<script src="../content_scripts/index.js"></script>` +
     scripts
       .map(function(e) {
         return '<script src="' + e + '"></script>';

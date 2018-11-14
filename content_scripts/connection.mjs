@@ -32,3 +32,4 @@ export const ECHO = function(action, args, callback) {
 window.RUNTIME = RUNTIME;
 window.PORT = PORT;
 window.ECHO = ECHO;
+window.port = port;
