@@ -6,10 +6,13 @@ fs = require('fs');
 function readOptionCSS() {
   var text = fs.readFileSync('../background_scripts/options.js', 'utf8').split('\n');
   for (var i = 0; i < text.length; i++) {
-    if (text[i].replace(/^\s*/, '').indexOf('COMMANDBARCSS: \'') === 0) {
-      return text[i].replace(/^\s*COMMANDBARCSS: '/, '').slice(0, -1)
+    if (text[i].replace(/^\s*/, '').indexOf("COMMANDBARCSS: '") === 0) {
+      return text[i]
+        .replace(/^\s*COMMANDBARCSS: '/, '')
+        .slice(0, -1)
         .replace(/\\n/g, '\n');
     }
+    //todo: add logic here corresponding to --uo option
   }
 }
 
@@ -26,8 +29,11 @@ function userCSSToOptionJS() {
   var css = readUserCSS();
   var outText = fs.readFileSync('../background_scripts/options.js', 'utf8').split('\n');
   for (var i = 0; i < outText.length; i++) {
-    if (outText[i].replace(/^\s*/, '').indexOf('COMMANDBARCSS: \'') === 0) {
-      outText[i] = '  COMMANDBARCSS: \'' + css.replace(/'/g, '\\\'').replace(/\n/g, '\\n') + '\'';
+    if (outText[i].replace(/^\s*/, '').indexOf("COMMANDBARCSS: '") === 0) {
+      outText[i] = "  COMMANDBARCSS: '" + css.replace(/'/g, "\\'").replace(/\n/g, '\\n') + "'";
+      break;
+    } else if (outText[i].replace(/^\s*/, '').indexOf('COMMANDBARCSS:') === 0) {
+      outText[i + 1] = "  '" + css.replace(/'/g, "\\'").replace(/\r\n/g, '\\n') + "'";
       break;
     }
   }
@@ -39,9 +45,9 @@ var args = process.argv.slice(2);
 
 function printHelp(exit) {
   var help =
-'options:\n' +
-'    --uo | --user-to-option  =>  write the user.css file to options.js\n' +
-'    --ou | --option-to-user  =>  write the options.js file to user.css\n';
+    'options:\n' +
+    '    --uo | --user-to-option  =>  write the user.css file to options.js\n' +
+    '    --ou | --option-to-user  =>  write the options.js file to user.css\n';
   LOG(help);
   if (exit) {
     process.exit(0);
@@ -53,7 +59,7 @@ if (args.length !== 1) {
   process.exit(-1);
 }
 
-switch (arg = args[0]) {
+switch ((arg = args[0])) {
   case '--uo':
   case '--user-to-option':
     userCSSToOptionJS();

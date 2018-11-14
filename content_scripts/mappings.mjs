@@ -46,7 +46,7 @@ Mappings.insertFunctions = (function() {
     }
     return false;
   }
-
+  // window.element = null;
   return {
     __setElement__: function(e) {
       element = e;
