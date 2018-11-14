@@ -38,7 +38,7 @@ var scripts = [
   '../content_scripts/status.js',
   '../content_scripts/hud.js',
   '../content_scripts/visual.js',
-  '../content_scripts/command.js',
+  // '../content_scripts/command.js',
   '../content_scripts/scroll.js',
   '../content_scripts/search.js'
   // '../content_scripts/frames.js'

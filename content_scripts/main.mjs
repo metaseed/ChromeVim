@@ -1,10 +1,13 @@
+var settings, sessions;
+window.settings = settings;
+window.sessions = sessions;
 // import './cvimrc_parser.js';
 // import './session.js';
 // import './utils.js';
 // import './dom.js';
 // import './hints.js';
 // import './bookmarks.js';
-// import './command.js';
+import './command.mjs';
 // import './keys.js';
 // import './clipboard.js';
 // import './complete.js';

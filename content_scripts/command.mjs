@@ -1,5 +1,6 @@
-var Command = {};
-var settings, sessions;
+export const Command = {};
+
+window.Command = Command;
 
 Command.descriptions = [
   ['open', 'Open a link in the current tab'],

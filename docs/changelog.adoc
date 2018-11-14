@@ -16,7 +16,9 @@ link:index.html[Home]
 . add <C-Up> <C-Down> to command panel to navigate in completion items.(<Tab><S-Tab> is keeped; up, down are used to command history).
 . modify help page to contains other help info: shortcuts of chrome...
 . add command 'openHintInTab' which is useful in google search.
+. using es module to refactor code, remove large js files(started, ongoing...)
 .
+. todo: delete bookmark in command completion.
 . todo: make all operations defined in mappings.js displayed in command mode.
 . todo: adjust default insert command according to vim
 . todo: inject mappings part doc from code of mapping.js.
