@@ -460,6 +460,18 @@ var KeyHandler = {
           }
           Command.hide();
           break;
+        case '<Delete>': {
+          if (Command.type === 'action' && Command.typed.startsWith('bookmarks ')) {
+            const url = Command.input.value.slice(10);
+            PORT('toggleBookmark', { url }); // delete
+            setTimeout(() => {
+              PORT('getBookmarks');
+              Command.input.value = 'bookmarks ';
+              Command.complete('bookmarks ');
+            }, 0);
+          }
+          break;
+        }
         default:
           if (
             key === '<BS>' &&

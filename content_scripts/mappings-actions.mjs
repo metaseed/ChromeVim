@@ -121,11 +121,13 @@ export const mappingsActions = {
       }
     });
   },
+
   toggleBookmark: function() {
     PORT('toggleBookmark', {
       url: document.URL,
       title: document.title.replace(/^(\d{1,2})? /, '')
     });
+    PORT('getBookmarks');
   },
 
   toggleBookmarkInFolder: function(repeats, folderName) {
