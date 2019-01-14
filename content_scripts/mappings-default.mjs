@@ -149,7 +149,7 @@ export const defaultMappings = [
   ['f', 'createHint'], // fast hint
   ['S', 'openHintInTab'], // i.e.: want to directly open a link in same tab when in google search results
   ['ss', 'openLastHint'], // |s is used by last-scroll-position command.
-  ['st', 'createTabbedHint'], // show hint and to new unactive tab
+  ['st', 'createTabbedHint'], // show hint and to new inactive tab
   ['sT', 'createActiveTabbedHint'], // show hint and to new active tab
   ['smt', 'createMultiHint'],
   ['sw', 'createHintWindow'],

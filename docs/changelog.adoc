@@ -6,6 +6,7 @@ link:index.html[Home]
 
 == ChromeVim changelog
 
+
 ## 2.0.0
 . support CVIM in mapping.html, options page and new-tab(blank.html) page.
 . add defaut key map to pop up(detach) tab into new window; <kdb>wd</kbd> map to :tabdetach<cr>
@@ -14,11 +15,12 @@ link:index.html[Home]
 . fix next frame not working problem.
 . adjust defaut key mapping.
 . add <C-Up> <C-Down> to command panel to navigate in completion items.(<Tab><S-Tab> is keeped; up, down are used to command history).
+. map <F1> to help command.
 . modify help page to contains other help info: shortcuts of chrome...
 . add command 'openHintInTab' which is useful in google search.
 . using es module to refactor code, remove large js files(started, ongoing...)
+. add function: using <Delete> key to delete bookmark in command bar completetion :bookmarks
 .
-. todo: delete bookmark in command completion.
 . todo: make all operations defined in mappings.js displayed in command mode.
 . todo: adjust default insert command according to vim
 . todo: inject mappings part doc from code of mapping.js.

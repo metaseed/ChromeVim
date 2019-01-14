@@ -402,7 +402,7 @@ Hints.evaluateLink = function(item) {
 
   var hint = this.linkElementBase.cloneNode(false);
   var style = hint.style;
-  style.zIndex = this.linkIndex;
+  style.zIndex = 8000 + this.linkIndex;
   style.top = document.scrollingElement.scrollTop + rect.top + 'px';
   style.left = document.scrollingElement.scrollLeft + rect.left + 'px';
 
