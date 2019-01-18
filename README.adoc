@@ -28,7 +28,6 @@ include::docs/commands.adoc[]
 
 include::docs/settings.adoc[]
 
-
 == Contribute
 
 WebKey is always hungry for contributions and seeking improvements.
