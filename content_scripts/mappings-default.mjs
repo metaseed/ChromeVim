@@ -43,8 +43,8 @@ export const defaultMappings = [
   ['G', 'scrollToBottom'], // <End>
   ['h', 'scrollLeft'],
   ['l', 'scrollRight'],
-  ['0', 'scrollToLeft'],
-  ['$', 'scrollToRight'],
+  ['0', 'scrollToLeft'], // to the most left (begin)
+  ['$', 'scrollToRight'], // to the most right (end)
 
   ['<A-PageUp>', 'scrollUpHalfScreen'], // note: C-U is mapped to view-source-code of page by default.
   //* space or PgDn: scroll down full screen
@@ -54,7 +54,7 @@ export const defaultMappings = [
   //
   // paste
   //
-  ['p', 'openPaste'],
+  ['p', 'openPaste'], // google the yanked text
   ['P', 'openPasteTab'],
 
   //
@@ -209,11 +209,11 @@ export const defaultMappings = [
   ['|T', 'lastUsedTab'], // by time across windows
   ['|t', 'lastActiveTab'], // last active tab in window
   ['tt', 'goToTab'], // <C-number> number+tt: goto tab number
-  ['tb', 'toggleBookmark'],
+  ['tb', 'toggleBookmark'], // Toggle Bookmark in other bookmarks folder
   //* C-d: add bookmark and show add-bookmark dialog
   //* C-S-d: bookmark window tabs and show bookmark-all-tabs dialog
-  ['tlb', 'toggleBookmarkInFolder'], //toggle later bookmark. note: the default folder name is 'later'
-  ['twlb', 'toggleBookmarksInFolder'], // note: all bookmarks in window
+  ['tlb', 'toggleBookmarkInFolder'], // Toggle Later Bookmark. note: the default folder name is 'Other bookmarks/later'
+  ['twlb', 'toggleBookmarksInFolder'], // Toggle Window Later Bookmark. note: all bookmarks in window. (default folder name is 'Other bookmarks/later')
   //
   // others that reuse 'to' command
   //
