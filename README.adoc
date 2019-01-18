@@ -49,4 +49,4 @@ link:tips.html[FAQ & Tips]
 
 == Change Logs
 
-include::CHANGELOG.adoc[]
+include::docs/changelog.adoc[leveloffset=offset,lines=ranges,tag(s)=name(s),indent=depth]
