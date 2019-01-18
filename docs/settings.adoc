@@ -9,6 +9,11 @@ link:../README.adoc[Home]
 
 link:commands.adoc[commands list]
 
+=== cVimrc
+
+* Boolean cVimrc settings are enabled with the command 'set' + <SETTING_NAME> and disabled with the command 'set' + no<SETTING_NAME> (for example, set regexp and set noregexp)
+* Boolean cVimrc settings can be inversed by adding "!" to the end
+* Other settings are defined with = used as a separator and are prefixed by let (for example, let hintcharacters="abc")
 
 |===
 |Name|Type|Description|Default
@@ -20,7 +25,7 @@ link:commands.adoc[commands list]
 
 | handlebothcwevents
 | boolean
-| turns on support for C-w to both close the tab AND delete the backword -- https://github.com/hbt/mouseless/issues/117
+| turns on support for C-w to both close the tab AND delete the backword
 | false
 
 | ignorenumerickeys
