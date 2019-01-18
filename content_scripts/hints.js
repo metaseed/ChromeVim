@@ -500,6 +500,15 @@ Hints.LINK_TYPE = 4;
 Hints.INPUT_LINK = 8;
 
 Hints.getLinkType = function(node) {
+  if (node instanceof Element) {
+    const ofl = getComputedStyle(node)['overflow-y'];
+    if ((ofl === 'scroll' || ofl === 'auto') && node.scrollHeight > node.clientHeight)
+      return Hints.LINK_TYPE;
+    const oflx = getComputedStyle(node)['overflow-x'];
+    if ((oflx === 'scroll' || ofl === 'auto') && node.scrollWidth > node.clientWidth)
+      return Hints.LINK_TYPE;
+  }
+
   if (node.nodeType !== Node.ELEMENT_NODE) return Hints.NON_LINK_TYPE;
 
   if (node.getAttribute('aria-hidden') === 'true') return Hints.NON_LINK_TYPE;

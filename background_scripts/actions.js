@@ -1529,6 +1529,9 @@ Actions = (function() {
         chrome.bookmarks.create({ url: url, title: title });
       } else if (results[0].parentId === '2') {
         chrome.bookmarks.remove(results[0].id);
+      } else {
+        // parentId ==1 remove from bookmark bar
+        chrome.bookmarks.remove(results[0].id);
       }
     });
   };

@@ -466,9 +466,11 @@ var KeyHandler = {
             PORT('toggleBookmark', { url }); // delete
             setTimeout(() => {
               PORT('getBookmarks');
-              Command.input.value = 'bookmarks ';
-              Command.complete('bookmarks ');
-            }, 0);
+              setTimeout(() => {
+                Command.input.value = 'bookmarks ';
+                Command.complete('bookmarks ');
+              }, 500);
+            }, 200);
           }
           break;
         }
