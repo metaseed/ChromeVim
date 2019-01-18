@@ -5,13 +5,10 @@
 
 == WebKey
 
-
 == What is it?
 
 Chrome extension empowering users to browse more with the keyboard  and less with the mouse.
 It is a cVim fork adding more features
-
-
 
 == Who is it for?
 
@@ -23,30 +20,29 @@ If you are familiar with vimperator/pentadactyl/vim, you will feel right at home
 
 == Installation
 
-link:installation.html[install instructions]
-
+include::docs/installation.adoc[]
 
 == Commands and settings
 
-link:commands.html[All commands]
+include::docs/commands.adoc[]
 
-link:settings.html[All settings]
+include::docs/settings.adoc[]
 
 
 == Contribute
 
-Mouseless is always hungry for contributions and seeking improvements.
-
-There are plenty of ways to link:contribute.html[contribute]
+WebKey is always hungry for contributions and seeking improvements.
+include::docs/contribute.adoc[]
 
 == Thanks
 
-These contributors shared their time and expertise freely. link:thanks.html[Thank you!]
+These contributors shared their time and expertise freely.
+include::docs/thanks.adoc[]
 
-== Help
+== Help & Tips
 
-link:tips.html[FAQ & Tips]
+include::docs/tips.adoc[]
 
 == Change Logs
 
-include::docs/changelog.adoc[leveloffset=offset,lines=ranges,tag(s)=name(s),indent=depth]
+include::docs/changelog.adoc[]

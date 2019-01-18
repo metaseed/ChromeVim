@@ -29,7 +29,7 @@ link:index.html[Home]
 . todo: add hint to goto scrollable element (clientHeight vs ..).
 . todo: add feature to save and read config in gist.
 
-== Mouseless Changelog
+== WebKey Changelog
 
 
 ## 1.4.6:
