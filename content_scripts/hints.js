@@ -402,13 +402,16 @@ Hints.evaluateLink = function (item) {
 
   var hint = this.linkElementBase.cloneNode(false);
   var style = hint.style;
-  var nodeZIndex = getComputedStyle(node).getPropertyValue('z-index');
-  style.zIndex = nodeZIndex + 1 + this.linkIndex;
+  var nodeZIndex = DOM.getZIndex(node);
+  if (nodeZIndex === 'auto') {
+    style.zIndex = this.linkIndex + 1;
+  } else {
+    style.zIndex = nodeZIndex + 1 + this.linkIndex;
+  }
   style.top = document.scrollingElement.scrollTop + rect.top + 'px';
   style.left = document.scrollingElement.scrollLeft + rect.left + 'px';
 
   item.hint = hint; // TODO: get rid of linkArr
-
   if (settings && settings.numerichints) {
     if (!settings.typelinkhints) {
       this.linkArr.push([hint, node]);

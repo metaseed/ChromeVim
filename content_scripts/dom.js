@@ -209,5 +209,22 @@ window.DOM = {
       );
       element.dispatchEvent(event);
     });
+  },
+  getZIndex: function (element, z = 'auto') {
+    let z1 = getComputedStyle(element).getPropertyValue('z-index');
+    let getZ = function (z, z1) {
+      if (z1 !== 'auto') {
+        if (z !== 'auto')
+          return Math.max(Number.parseInt(z), Number.parseInt(z1)).toString();
+        return z1;
+      }
+      if (z !== 'auto') return z;
+      return z1;
+    }
+    if (element.parentElement === null) {
+      return getZ(z, z1);
+    };
+    z = getZ(z, z1);
+    return this.getZIndex(element.parentElement, z);
   }
 };
