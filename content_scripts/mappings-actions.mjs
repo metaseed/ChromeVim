@@ -657,8 +657,11 @@ export const mappingsActions = {
   },
 
   goToLastInput: function () {
-    if (this.inputElements && this.inputElements[this.inputElementsIndex]) {
+    if (this.inputElements && this.inputElementsIndex && this.inputElements[this.inputElementsIndex]) {
       this.inputElements[this.inputElementsIndex].focus();
+      if (document.activeElement.select) {
+        document.activeElement.select();
+      }
     }
   },
   goToInput: function (repeats) {
@@ -684,12 +687,17 @@ export const mappingsActions = {
     }
 
     this.inputFocused = true;
-    this.inputElements[this.inputElementsIndex].focus();
-    if (document.activeElement.select) {
-      document.activeElement.select();
-    }
-    if (!document.activeElement.hasAttribute('readonly')) {
-      document.getSelection().modify('move', 'right', 'lineboundary');
+    var elementFocus = this.inputElements[this.inputElementsIndex];
+    elementFocus.focus();
+    DOM.mouseEvent('hover', elementFocus);
+    DOM.mouseEvent('click', elementFocus);
+    if (elementFocus === document.activeElement) {
+      if (document.activeElement.select) {
+        document.activeElement.select();
+      }
+      if (!document.activeElement.hasAttribute('readonly')) {
+        document.getSelection().modify('extend', 'right', 'lineboundary');
+      }
     }
   },
   shortCuts: function (command, repeats) {

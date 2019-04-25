@@ -1,6 +1,6 @@
 var Hints = {};
 
-Hints.tryGooglePattern = function(forward) {
+Hints.tryGooglePattern = function (forward) {
   if (location.hostname.indexOf('www.google.')) return false;
   var target = document.getElementById(forward ? 'pnnext' : 'pnprev');
   if (target) target.click();
@@ -22,20 +22,20 @@ Hints.matchPatternFilters = {
   }
 };
 
-Hints.matchPatterns = function(pattern) {
+Hints.matchPatterns = function (pattern) {
   var direction = pattern === settings.nextmatchpattern ? 'next' : 'prev';
   var applicableFilters = Object.keys(this.matchPatternFilters)
-    .filter(function(key) {
+    .filter(function (key) {
       return matchLocation(document.URL, key);
     })
-    .map(function(key) {
+    .map(function (key) {
       return Hints.matchPatternFilters[key][direction];
     });
   applicableFilters = Utils.compressArray(applicableFilters);
 
   var link = null;
   for (var i = 0; i < applicableFilters.length; i++) {
-    link = findFirstOf(document.querySelectorAll(applicableFilters[i]), function(e) {
+    link = findFirstOf(document.querySelectorAll(applicableFilters[i]), function (e) {
       return DOM.isVisible(e);
     });
     if (link !== null) break;
@@ -43,7 +43,7 @@ Hints.matchPatterns = function(pattern) {
   if (link === null) {
     if (this.tryGooglePattern(pattern === settings.nextmatchpattern)) return;
     if (typeof pattern === 'string') pattern = new RegExp('^' + pattern + '$', 'i');
-    link = findFirstOf(getLinkableElements(), function(e) {
+    link = findFirstOf(getLinkableElements(), function (e) {
       return (
         e.textContent.trim() &&
         (pattern.test(e.textContent) || pattern.test(e.getAttribute('value')))
@@ -56,7 +56,7 @@ Hints.matchPatterns = function(pattern) {
   }
 };
 
-Hints.hideHints = function(reset, multi, useKeyDelay) {
+Hints.hideHints = function (reset, multi, useKeyDelay) {
   if (reset && document.getElementById('cVim-link-container') !== null) {
     document
       .getElementById('cVim-link-container')
@@ -64,7 +64,7 @@ Hints.hideHints = function(reset, multi, useKeyDelay) {
   } else if (document.getElementById('cVim-link-container') !== null) {
     if (!multi) HUD.hide();
     if (settings.linkanimations) {
-      Hints.shadowDOM.addEventListener('transitionend', function() {
+      Hints.shadowDOM.addEventListener('transitionend', function () {
         var m = document.getElementById('cVim-link-container');
         if (m !== null) {
           m.parentNode.removeChild(m);
@@ -86,31 +86,31 @@ Hints.hideHints = function(reset, multi, useKeyDelay) {
   this.permutations = [];
   if (useKeyDelay && !this.active && settings.numerichints && settings.typelinkhints) {
     Hints.keyDelay = true;
-    window.setTimeout(function() {
+    window.setTimeout(function () {
       Hints.keyDelay = false;
     }, settings.typelinkhintsdelay);
   }
 };
 
-Hints.changeFocus = function() {
-  this.linkArr.forEach(function(item) {
+Hints.changeFocus = function () {
+  this.linkArr.forEach(function (item) {
     item[0].style.zIndex = 1 - +item[0].style.zIndex;
   });
 };
 
-Hints.removeContainer = function() {
+Hints.removeContainer = function () {
   var hintContainer = document.getElementById('cVim-link-container');
   if (hintContainer !== null) hintContainer.parentNode.removeChild(hintContainer);
 };
 
-Hints.dispatchAction = function(link, shift) {
+Hints.dispatchAction = function (link, shift) {
   if (!link) return false;
   var node = link.localName;
   this.lastClicked = link;
 
   if (settings.numerichints && settings.typelinkhints) {
     Hints.keyDelay = true;
-    window.setTimeout(function() {
+    window.setTimeout(function () {
       Hints.keyDelay = false;
     }, settings.typelinkhintsdelay);
   }
@@ -184,7 +184,7 @@ Hints.dispatchAction = function(link, shift) {
         link.hasAttribute('contenteditable')
       ) {
         setTimeout(
-          function() {
+          function () {
             link.focus();
             if (link.hasAttribute('readonly')) {
               link.select();
@@ -200,7 +200,7 @@ Hints.dispatchAction = function(link, shift) {
       }
       if (node === 'input' || /^(checkbox|menu)$/.test(link.getAttribute('role'))) {
         link.focus();
-        window.setTimeout(function() {
+        window.setTimeout(function () {
           DOM.mouseEvent('click', link);
         }, 0);
         break;
@@ -233,7 +233,7 @@ Hints.dispatchAction = function(link, shift) {
   if (this.multi) {
     this.removeContainer();
     window.setTimeout(
-      function() {
+      function () {
         if (!DOM.isEditable(document.activeElement)) this.create(this.type, true);
       }.bind(this),
       0
@@ -243,7 +243,7 @@ Hints.dispatchAction = function(link, shift) {
   }
 };
 
-Hints.showLinkInfo = function(hint) {
+Hints.showLinkInfo = function (hint) {
   var loc = hint[1].href || hint[1].src || hint[1].onclick;
   if (!loc) {
     return false;
@@ -252,7 +252,7 @@ Hints.showLinkInfo = function(hint) {
   return true;
 };
 
-Hints.handleHintFeedback = function() {
+Hints.handleHintFeedback = function () {
   var linksFound = 0,
     index,
     link,
@@ -363,7 +363,7 @@ Hints.handleHintFeedback = function() {
   }
   if (linksFound === 1) {
     if (this.shouldShowLinkInfo && this.showLinkInfo(this.linkArr[index])) {
-      this.acceptLink = function(shift) {
+      this.acceptLink = function (shift) {
         this.dispatchAction(this.linkArr[index][1], shift);
         this.hideHints(false);
         this.acceptLink = null;
@@ -375,7 +375,7 @@ Hints.handleHintFeedback = function() {
   }
 };
 
-Hints.handleHint = function(key) {
+Hints.handleHint = function (key) {
   key = key.replace('<Space>', ' ');
   switch (key) {
     case '/':
@@ -395,14 +395,14 @@ Hints.handleHint = function(key) {
   }
 };
 
-Hints.evaluateLink = function(item) {
+Hints.evaluateLink = function (item) {
   this.linkIndex += 1;
   var node = item.node;
   var rect = item.rect;
 
   var hint = this.linkElementBase.cloneNode(false);
   var style = hint.style;
-  style.zIndex = 8000 + this.linkIndex;
+  style.zIndex = 2147483647 - this.linkIndex;
   style.top = document.scrollingElement.scrollTop + rect.top + 'px';
   style.left = document.scrollingElement.scrollLeft + rect.left + 'px';
 
@@ -461,7 +461,7 @@ Hints.siteFilters = {
   }
 };
 
-Hints.createHintFilter = function(url) {
+Hints.createHintFilter = function (url) {
   var siteFilters = Hints.siteFilters;
   if (settings.FUNCTIONS['siteFilters']) {
     // Note(hbt) optimize by caching -- same as this.siteFilters
@@ -471,24 +471,24 @@ Hints.createHintFilter = function(url) {
 
   var rejectList = [],
     acceptList = [];
-  Object.getOwnPropertyNames(siteFilters).forEach(function(e) {
+  Object.getOwnPropertyNames(siteFilters).forEach(function (e) {
     if (!matchLocation(url, e)) return;
     var reject = siteFilters[e].reject || [],
       accept = siteFilters[e].accept || [];
-    accept.forEach(function(selector) {
+    accept.forEach(function (selector) {
       var items = [].slice.call(document.querySelectorAll(selector));
       acceptList = acceptList.concat(items);
     });
-    reject.forEach(function(selector) {
+    reject.forEach(function (selector) {
       var items = [].slice.call(document.querySelectorAll(selector));
       rejectList = rejectList.concat(items);
     });
   });
   return {
-    shouldAccept: function(node) {
+    shouldAccept: function (node) {
       return acceptList.indexOf(node) !== -1;
     },
-    shouldReject: function(node) {
+    shouldReject: function (node) {
       return rejectList.indexOf(node) !== -1;
     }
   };
@@ -499,7 +499,7 @@ Hints.WEAK_LINK_TYPE = 2;
 Hints.LINK_TYPE = 4;
 Hints.INPUT_LINK = 8;
 
-Hints.getLinkType = function(node) {
+Hints.getLinkType = function (node) {
   if (node instanceof Element) {
     const ofl = getComputedStyle(node)['overflow-y'];
     if ((ofl === 'scroll' || ofl === 'auto') && node.scrollHeight > node.clientHeight)
@@ -545,6 +545,7 @@ Hints.getLinkType = function(node) {
       return Hints.LINK_TYPE | Hints.INPUT_LINK;
     case node.hasAttribute('tabindex'):
     case node.hasAttribute('onclick'):
+    case node.getAttributeNames().find(e => e.includes('click')) !== undefined:
       return Hints.LINK_TYPE;
     case node.hasAttribute('aria-haspopup'):
     case node.hasAttribute('data-cmd'):
@@ -573,7 +574,7 @@ Hints.getLinkType = function(node) {
   return Hints.NON_LINK_TYPE;
 };
 
-Hints.isClickable = function(info) {
+Hints.isClickable = function (info) {
   var rect = info.rect;
   var locs = [
     [rect.left + 1, rect.top + 1],
@@ -593,7 +594,7 @@ Hints.isClickable = function(info) {
   return false;
 };
 
-Hints.getLinkInfo = Utils.cacheFunction(function(node) {
+Hints.getLinkInfo = Utils.cacheFunction(function (node) {
   var info = {
     node: node,
     linkType: Hints.LINK_TYPE
@@ -621,25 +622,25 @@ Hints.getLinkInfo = Utils.cacheFunction(function(node) {
   return info;
 });
 
-Hints.getLinks = function() {
+Hints.getLinks = function () {
   Hints.getLinkInfo.clearCache();
   Hints.hintFilter = Hints.createHintFilter(document.URL);
   var links = mapDOM(document.body, this.getLinkInfo);
   if (settings.sortlinkhints) {
     links = links
-      .map(function(item) {
+      .map(function (item) {
         var rect = item.rect;
         return [item, Math.sqrt(rect.top * rect.top + rect.left * rect.left)];
       })
-      .sort(function(a, b) {
+      .sort(function (a, b) {
         return a[1] - b[1];
       })
-      .map(function(e) {
+      .map(function (e) {
         return e[0];
       });
   }
 
-  links = links.filter(function(info, index) {
+  links = links.filter(function (info, index) {
     if ((info.linkType & Hints.WEAK_LINK_TYPE) === 0) return true;
     for (var i = index + 1; i < links.length; i++) {
       var depth = 0;
@@ -658,13 +659,13 @@ Hints.getLinks = function() {
 };
 
 // Golomb
-Hints.genHintsOld = function(M) {
+Hints.genHintsOld = function (M) {
   //Hints.genHints= function(M) {
   var base = settings.hintcharacters.length;
   if (M <= base) {
     return settings.hintcharacters.slice(0, M).split('');
   }
-  var codeWord = function(n, b) {
+  var codeWord = function (n, b) {
     for (var i = 0, word = []; i < b; i++) {
       word.push(settings.hintcharacters.charAt(n % base));
       n = ~~(n / base);
@@ -684,7 +685,7 @@ Hints.genHintsOld = function(M) {
   return codes0.concat(codes1);
 };
 
-Hints.genHints = function(M) {
+Hints.genHints = function (M) {
   //Hints.genHintsOld = function(M) {
   var linkCount = M;
   var hintKeys = settings.mouselesshintcharacters;
@@ -701,7 +702,7 @@ Hints.genHints = function(M) {
     }
   }
 
-  var logXOfBase = function(x, base) {
+  var logXOfBase = function (x, base) {
     return Math.log(x) / Math.log(base);
   };
 
@@ -709,7 +710,7 @@ Hints.genHints = function(M) {
    * Converts a number like "8" into a hint string like "JK". This is used to sequentially generate all of
    * the hint text. The hint string will be "padded with zeroes" to ensure its length is equal to numHintDigits.
    */
-  var numberToHintString = function(number, numHintDigits, characterSet) {
+  var numberToHintString = function (number, numHintDigits, characterSet) {
     var base = characterSet.length;
     var hintString = [];
     var remainder = 0;
@@ -751,11 +752,11 @@ Hints.genHints = function(M) {
   return hintStrings;
 };
 
-Hints.create = function(type, multi) {
+Hints.create = function (type, multi) {
   var self = this;
-  window.setTimeout(function() {
+  window.setTimeout(function () {
     if (!Command.domElementsLoaded) {
-      Command.callOnCvimLoad(function() {
+      Command.callOnCvimLoad(function () {
         self.create(type, multi);
       });
       return false;
@@ -779,7 +780,7 @@ Hints.create = function(type, multi) {
     if (settings.scalehints) {
       Hints.linkElementBase.className += ' cVim-hint-scale';
     }
-    self.getLinks().forEach(function(link) {
+    self.getLinks().forEach(function (link) {
       self.evaluateLink(link);
     });
     if (type && type.indexOf('multi') !== -1) {
@@ -813,25 +814,25 @@ Hints.create = function(type, multi) {
     if (!multi && settings && settings.hud) {
       HUD.display(
         'Follow link ' +
-          (function() {
-            return (
-              {
-                yank: '(yank)',
-                multiyank: '(multi-yank)',
-                image: '(reverse-image)',
-                fullimage: '(full image)',
-                tabbed: '(tabbed)',
-                inTab: '(in tab)',
-                tabbedActive: '(tabbed active)',
-                window: '(window)',
-                edit: '(edit)',
-                hover: '(hover)',
-                unhover: '(unhover)',
-                multi: '(multi)',
-                script: '(script: "' + self.scriptFunction + '")'
-              }[type] || ''
-            );
-          })()
+        (function () {
+          return (
+            {
+              yank: '(yank)',
+              multiyank: '(multi-yank)',
+              image: '(reverse-image)',
+              fullimage: '(full image)',
+              tabbed: '(tabbed)',
+              inTab: '(in tab)',
+              tabbedActive: '(tabbed active)',
+              window: '(window)',
+              edit: '(edit)',
+              hover: '(hover)',
+              unhover: '(unhover)',
+              multi: '(multi)',
+              script: '(script: "' + self.scriptFunction + '")'
+            }[type] || ''
+          );
+        })()
       );
     }
 
@@ -849,13 +850,13 @@ Hints.create = function(type, multi) {
       }
     }
 
-    [].forEach.call(document.querySelectorAll('style'), function(e) {
+    [].forEach.call(document.querySelectorAll('style'), function (e) {
       if (e.textContent.indexOf('cVim') !== -1) {
         Hints.shadowDOM.appendChild(e.cloneNode(true));
       }
     });
 
-    var create = function() {
+    var create = function () {
       Hints.shadowDOM.appendChild(frag);
       var style = document.createElement('style');
       style.textContent = Command.mainCSS;
@@ -868,7 +869,7 @@ Hints.create = function(type, multi) {
         {
           url: chrome.runtime.getURL('content_scripts/main.css')
         },
-        function(data) {
+        function (data) {
           Command.mainCSS = data;
           create();
         }
