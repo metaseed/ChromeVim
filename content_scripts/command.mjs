@@ -48,7 +48,7 @@ Command.matches = [];
 Command.customCommands = {};
 Command.lastInputValue = '';
 
-Command.setupFrameElements = function() {
+Command.setupFrameElements = function () {
   this.bar = document.createElement('div');
   this.bar.id = 'cVim-command-bar';
   this.bar.cVim = true;
@@ -86,7 +86,7 @@ Command.setupFrameElements = function() {
   }
 };
 
-Command.setup = function() {
+Command.setup = function () {
   this.input = document.createElement('input');
   this.input.type = 'text';
   this.input.id = 'cVim-command-bar-input';
@@ -102,7 +102,7 @@ Command.setup = function() {
   if (window.isCommandFrame) Command.setupFrameElements();
 };
 
-Command.commandBarFocused = function() {
+Command.commandBarFocused = function () {
   return (
     commandMode &&
     this.active &&
@@ -116,7 +116,7 @@ Command.history = {
   search: [],
   url: [],
   action: [],
-  setInfo: function(type, index) {
+  setInfo: function (type, index) {
     var fail = false;
     if (index < 0) {
       index = 0;
@@ -129,7 +129,7 @@ Command.history = {
     this.index[type] = index;
     return !fail;
   },
-  cycle: function(type, reverse) {
+  cycle: function (type, reverse) {
     if (this[type].length === 0) {
       return false;
     }
@@ -176,7 +176,7 @@ Command.completionOrder = {
   topsites: 4,
   bookmarks: 2,
   history: 3,
-  getImportance: function(item) {
+  getImportance: function (item) {
     if (!this.hasOwnProperty(item)) {
       return -1;
     }
@@ -184,14 +184,14 @@ Command.completionOrder = {
   }
 };
 
-Command.updateCompletions = function(useStyles) {
+Command.updateCompletions = function (useStyles) {
   if (!window.isCommandFrame) return;
   this.completionResults = [];
   this.dataElements = [];
   this.data.innerHTML = '';
   var key, i;
   var completionKeys = Object.keys(this.completions).sort(
-    function(a, b) {
+    function (a, b) {
       return this.completionOrder.getImportance(b) - this.completionOrder.getImportance(a);
     }.bind(this)
   );
@@ -246,7 +246,7 @@ Command.updateCompletions = function(useStyles) {
   }
 };
 
-Command.hideData = function() {
+Command.hideData = function () {
   this.completions = {};
   Search.lastActive = null;
   this.dataElements.length = 0;
@@ -256,16 +256,16 @@ Command.hideData = function() {
   }
 };
 
-Command.deleteCompletions = function(completions) {
+Command.deleteCompletions = function (completions) {
   completions = completions.split(',');
   for (var i = 0, l = completions.length; i < l; ++i) {
     this.completions[completions[i]] = [];
   }
 };
 
-Command.expandCompletion = function(value) {
+Command.expandCompletion = function (value) {
   var firstWord = value.match(/^[a-z]+(\b|$)/);
-  var exactMatch = this.descriptions.some(function(e) {
+  var exactMatch = this.descriptions.some(function (e) {
     return e[0] === firstWord;
   });
   if (firstWord && this.customCommands.hasOwnProperty(firstWord[0])) {
@@ -273,7 +273,7 @@ Command.expandCompletion = function(value) {
   }
   if (firstWord && !exactMatch) {
     firstWord = firstWord[0];
-    var completedWord = function() {
+    var completedWord = function () {
       for (var i = 0; i < this.descriptions.length; i++)
         if (
           this.descriptions[i][0].indexOf(firstWord) === 0 &&
@@ -288,23 +288,23 @@ Command.expandCompletion = function(value) {
   return value;
 };
 
-Command.callCompletionFunction = (function() {
+Command.callCompletionFunction = (function () {
   var self = Command;
   var search;
 
-  var searchCompletion = function(value) {
+  var searchCompletion = function (value) {
     self.deleteCompletions('engines,bookmarks,complete,chrome,search');
     search = Utils.compressArray(search.split(/ +/));
     if (
       (search.length < 2 && value.slice(-1) !== ' ') ||
       (!Complete.engineEnabled(search[0]) && !Complete.hasAlias(search[0]))
     ) {
-      self.completions.engines = Complete.getMatchingEngines(search.join(' ')).map(function(name) {
+      self.completions.engines = Complete.getMatchingEngines(search.join(' ')).map(function (name) {
         return [name, Complete.engines[name].requestUrl];
       });
       self.updateCompletions(true);
       self.completions.topsites = Search.topSites
-        .filter(function(e) {
+        .filter(function (e) {
           return ~(e[0] + ' ' + e[1]).toLowerCase().indexOf(
             search
               .slice(0)
@@ -313,14 +313,14 @@ Command.callCompletionFunction = (function() {
           );
         })
         .slice(0, 5)
-        .map(function(e) {
+        .map(function (e) {
           return [e[0], e[1]];
         });
       self.updateCompletions(true);
       if (search.length) {
         Marks.match(
           search.join(' '),
-          function(response) {
+          function (response) {
             self.completions.bookmarks = response;
             self.updateCompletions(true);
           },
@@ -342,15 +342,15 @@ Command.callCompletionFunction = (function() {
       }
     }
     if (Complete.engineEnabled(search[0])) {
-      Complete.queryEngine(search[0], search.slice(1).join(' '), function(response) {
+      Complete.queryEngine(search[0], search.slice(1).join(' '), function (response) {
         self.completions = { search: response };
         self.updateCompletions();
       });
     }
   };
 
-  var tabHistoryCompletion = function(value) {
-    RUNTIME('getHistoryStates', null, function(response) {
+  var tabHistoryCompletion = function (value) {
+    RUNTIME('getHistoryStates', null, function (response) {
       self.completions = {
         tabhistory: searchArray({
           array: response.links,
@@ -362,14 +362,14 @@ Command.callCompletionFunction = (function() {
     });
   };
 
-  var restoreTabCompletion = function(value) {
-    RUNTIME('getChromeSessions', null, function(sessions) {
+  var restoreTabCompletion = function (value) {
+    RUNTIME('getChromeSessions', null, function (sessions) {
       self.completions = {
         chromesessions: Object.keys(sessions)
-          .map(function(e) {
+          .map(function (e) {
             return [sessions[e].id + ': ' + sessions[e].title, sessions[e].url, sessions[e].id];
           })
-          .filter(function(e) {
+          .filter(function (e) {
             return ~e
               .join('')
               .toLowerCase()
@@ -380,9 +380,9 @@ Command.callCompletionFunction = (function() {
     });
   };
 
-  var deleteSessionCompletion = function() {
+  var deleteSessionCompletion = function () {
     self.completions = {
-      sessions: sessions.filter(function(e) {
+      sessions: sessions.filter(function (e) {
         var regexp;
         var isValidRegex = true;
         try {
@@ -399,7 +399,7 @@ Command.callCompletionFunction = (function() {
     self.updateCompletions();
   };
 
-  return function(value) {
+  return function (value) {
     search = value.replace(/^(chrome:\/\/|\S+ +)/, '');
     var baseCommand = (value.match(/^\S+/) || [null])[0];
     switch (baseCommand) {
@@ -411,7 +411,7 @@ Command.callCompletionFunction = (function() {
         searchCompletion(value);
         return true;
       case 'chrome':
-        Search.chromeMatch(search, function(matches) {
+        Search.chromeMatch(search, function (matches) {
           self.completions = { chrome: matches };
           self.updateCompletions();
         });
@@ -420,10 +420,10 @@ Command.callCompletionFunction = (function() {
         tabHistoryCompletion(value);
         return true;
       case 'tabattach':
-        RUNTIME('getWindows', function(wins) {
+        RUNTIME('getWindows', function (wins) {
           if (Command.active === true) {
             Command.completions = {
-              windows: Object.keys(wins).map(function(e, i) {
+              windows: Object.keys(wins).map(function (e, i) {
                 var tlen = wins[e].length.toString();
                 return [
                   (i + 1).toString() + ' (' + tlen + (tlen === '1' ? ' Tab)' : ' Tabs)'),
@@ -450,7 +450,7 @@ Command.callCompletionFunction = (function() {
         deleteSessionCompletion(value);
         return true;
       case 'set':
-        Search.settingsMatch(search, function(matches) {
+        Search.settingsMatch(search, function (matches) {
           self.completions = { settings: matches };
           self.updateCompletions();
         });
@@ -476,7 +476,7 @@ Command.callCompletionFunction = (function() {
         if (search[0] === '/') {
           return Marks.matchPath(search);
         }
-        Marks.match(search, function(response) {
+        Marks.match(search, function (response) {
           self.completions.bookmarks = response;
           self.updateCompletions();
         });
@@ -486,7 +486,7 @@ Command.callCompletionFunction = (function() {
   };
 })();
 
-Command.complete = function(value) {
+Command.complete = function (value) {
   Search.index = null;
   this.typed = this.input.value;
   var originalValue = value; // prevent expandCompletion from
@@ -497,22 +497,22 @@ Command.complete = function(value) {
   }
   // Default completion for commands
   this.completions = {
-    complete: this.descriptions.filter(function(element) {
+    complete: this.descriptions.filter(function (element) {
       return originalValue === element[0].slice(0, originalValue.length);
     })
   };
   this.updateCompletions();
 };
 
-Command.execute = function(value, repeats) {
+Command.execute = function (value, repeats) {
   if (value.indexOf('@%') !== -1) {
-    RUNTIME('getRootUrl', function(url) {
+    RUNTIME('getRootUrl', function (url) {
       Command.execute(value.split('@%').join(url), repeats);
     });
     return;
   }
   if (value.indexOf('@"') !== -1) {
-    RUNTIME('getPaste', function(paste) {
+    RUNTIME('getPaste', function (paste) {
       Command.execute(value.split('@"').join(paste), repeats);
     });
     return;
@@ -527,7 +527,7 @@ Command.execute = function(value, repeats) {
   }
 
   value = this.expandCompletion(value);
-  value = value.replace(/@@[a-zA-Z_$][a-zA-Z0-9_$]*/g, function(e) {
+  value = value.replace(/@@[a-zA-Z_$][a-zA-Z0-9_$]*/g, function (e) {
     return settings.hasOwnProperty(e) ? settings[e] : e;
   });
 
@@ -553,7 +553,7 @@ Command.execute = function(value, repeats) {
     .concat(value.match(/[&$!*=?|]*$/) || [])
     .join('')
     .split('')
-    .forEach(function(e) {
+    .forEach(function (e) {
       switch (e) {
         case '&':
           tab.active = false;
@@ -582,7 +582,7 @@ Command.execute = function(value, repeats) {
       }
     });
   value = value.replace(/^([^\s&$*!=?|]*)[&$*!=?|]*\s/, '$1 ');
-  value = value.replace(/[&$*!=?|]+$/, function(e) {
+  value = value.replace(/[&$*!=?|]+$/, function (e) {
     return e.replace(/[^=?]/g, '');
   });
   if (Complete.engineEnabled(Utils.compressArray(value.split(/\s+/g))[1]))
@@ -683,7 +683,7 @@ Command.execute = function(value, repeats) {
     }
     if (
       this.completionResults.length &&
-      !this.completionResults.some(function(e) {
+      !this.completionResults.some(function (e) {
         return e[2] === value.replace(/^\S+\s*/, '');
       })
     ) {
@@ -743,7 +743,7 @@ Command.execute = function(value, repeats) {
       path = 'file://' + path;
       path = path.split('~').join(settings.homedirectory || '~');
     }
-    RUNTIME('loadLocalConfig', { path: path }, function(res) {
+    RUNTIME('loadLocalConfig', { path: path }, function (res) {
       if (res.code === -1) {
         // TODO: Fix Status (status bar cannot be displayed after the command
         //       bar iframe exits
@@ -801,7 +801,7 @@ Command.execute = function(value, repeats) {
       selectedBuffer = Command.completionResults[0];
       if (selectedBuffer === void 0) return;
     } else {
-      selectedBuffer = Command.completionResults.filter(function(e) {
+      selectedBuffer = Command.completionResults.filter(function (e) {
         return e[1].indexOf((index + 1).toString()) === 0;
       })[0];
     }
@@ -827,7 +827,7 @@ Command.execute = function(value, repeats) {
     if (~sessions.indexOf(value)) {
       sessions.splice(sessions.indexOf(value), 1);
     }
-    value.split(' ').forEach(function(v) {
+    value.split(' ').forEach(function (v) {
       RUNTIME('deleteSession', { name: v });
     });
     PORT('getSessionNames');
@@ -851,7 +851,7 @@ Command.execute = function(value, repeats) {
     if (!~sessions.indexOf(value)) {
       sessions.push(value);
     }
-    RUNTIME('createSession', { name: value }, function(response) {
+    RUNTIME('createSession', { name: value }, function (response) {
       sessions = response;
     });
     return;
@@ -863,7 +863,7 @@ Command.execute = function(value, repeats) {
       Status.setMessage('session name required', 1, 'error');
       return;
     }
-    RUNTIME('openSession', { name: value, sameWindow: !tab.active }, function() {
+    RUNTIME('openSession', { name: value, sameWindow: !tab.active }, function () {
       Status.setMessage('session does not exist', 1, 'error');
     });
     return;
@@ -932,9 +932,9 @@ Command.execute = function(value, repeats) {
   }
 };
 
-Command.show = function(search, value, complete) {
+Command.show = function (search, value, complete) {
   if (!this.domElementsLoaded) {
-    Command.callOnCvimLoad(function() {
+    Command.callOnCvimLoad(function () {
       Command.show(search, value, complete);
     });
     return;
@@ -973,7 +973,7 @@ Command.show = function(search, value, complete) {
   }
   this.bar.style.display = 'inline-block';
   setTimeout(
-    function() {
+    function () {
       this.input.focus();
       if (complete !== null) {
         this.complete(value);
@@ -994,7 +994,7 @@ Command.show = function(search, value, complete) {
   );
 };
 
-Command.hide = function(callback) {
+Command.hide = function (callback) {
   if (window.isCommandFrame && this.input) this.input.blur();
   commandMode = false;
   this.historyMode = false;
@@ -1011,7 +1011,7 @@ Command.hide = function(callback) {
   if (window.isCommandFrame) PORT('hideCommandFrame');
 };
 
-Command.insertCSS = function() {
+Command.insertCSS = function () {
   var css = settings.COMMANDBARCSS;
   if (!css) {
     return;
@@ -1030,9 +1030,9 @@ Command.insertCSS = function() {
   }
 };
 
-Command.callOnCvimLoad = (function() {
+Command.callOnCvimLoad = (function () {
   var fnQueue = [];
-  return function(FN) {
+  return function (FN) {
     if (!this.domElementsLoaded) {
       if (typeof FN === 'function') {
         fnQueue.push(FN);
@@ -1041,7 +1041,7 @@ Command.callOnCvimLoad = (function() {
       if (typeof FN === 'function') {
         FN();
       }
-      fnQueue.forEach(function(FN) {
+      fnQueue.forEach(function (FN) {
         FN();
       });
       fnQueue.length = 0;
@@ -1049,7 +1049,7 @@ Command.callOnCvimLoad = (function() {
   };
 })();
 
-Command.onDOMLoad = function() {
+Command.onDOMLoad = function () {
   this.onDOMLoadAll();
   if (window.self === window.top) {
     Command.frame = document.createElement('iframe');
@@ -1059,18 +1059,18 @@ Command.onDOMLoad = function() {
   }
 };
 
-Command.preventAutoFocus = function() {
+Command.preventAutoFocus = function () {
   var manualFocus = false;
 
-  var addTextListeners = (function() {
+  var addTextListeners = (function () {
     var allElems = [];
-    return function(elems) {
-      elems = [].filter.call(elems, function(e) {
+    return function (elems) {
+      elems = [].filter.call(elems, function (e) {
         return allElems.indexOf(e) === -1;
       });
       allElems = allElems.concat(elems);
-      elems.forEach(function(elem) {
-        var listener = function(event) {
+      elems.forEach(function (elem) {
+        var listener = function (event) {
           if (manualFocus) {
             elem.removeEventListener('focus', listener);
             return;
@@ -1087,7 +1087,7 @@ Command.preventAutoFocus = function() {
 
   var reset;
   if (KeyboardEvent.prototype.hasOwnProperty('key')) {
-    reset = function(key) {
+    reset = function (key) {
       if (['Control', 'Alt', 'Meta', 'Shift'].indexOf(key) !== -1) return;
       manualFocus = true;
       KeyHandler.listener.removeListener('keydown', reset);
@@ -1096,7 +1096,7 @@ Command.preventAutoFocus = function() {
     KeyHandler.listener.addListener('keydown', reset);
     window.addEventListener('mousedown', reset, true);
   } else {
-    reset = function(event) {
+    reset = function (event) {
       if (!event.isTrusted) return true;
       manualFocus = true;
       window.removeEventListener('keypress', reset, true);
@@ -1106,7 +1106,7 @@ Command.preventAutoFocus = function() {
     window.addEventListener('mousedown', reset, true);
   }
 
-  var preventFocus = function() {
+  var preventFocus = function () {
     if (manualFocus) return;
     var textElements = document.querySelectorAll('input,textarea,*[contenteditable]');
     for (var i = 0; i < textElements.length; i++) {
@@ -1120,7 +1120,7 @@ Command.preventAutoFocus = function() {
   preventFocus();
 };
 
-Command.onDOMLoadAll = function() {
+Command.onDOMLoadAll = function () {
   this.insertCSS();
   this.onBottom = settings.barposition === 'bottom';
   if (this.data !== void 0) {
@@ -1132,7 +1132,7 @@ Command.onDOMLoadAll = function() {
     {
       url: chrome.runtime.getURL('content_scripts/main.css')
     },
-    function(data) {
+    function (data) {
       this.mainCSS = data;
     }.bind(this)
   );
@@ -1142,16 +1142,16 @@ Command.onDOMLoadAll = function() {
   Scroll.addHistoryState();
 };
 
-Command.updateSettings = function(config) {
+Command.updateSettings = function (config) {
   var key;
   if (Array.isArray(config.completionengines)) {
-    config.completionengines.forEach(function(name) {
+    config.completionengines.forEach(function (name) {
       Complete.enableEngine(name);
     });
   }
   this.customCommands = config.COMMANDS || {};
   Object.keys(this.customCommands).forEach(
-    function(name) {
+    function (name) {
       this.descriptions.push([name, ':' + this.customCommands[name]]);
     }.bind(this)
   );
@@ -1196,7 +1196,7 @@ Command.updateSettings = function(config) {
   }
 };
 
-Command.addSettingBlock = function(config) {
+Command.addSettingBlock = function (config) {
   for (var key in config) {
     if (key === 'MAPPINGS') {
       settings.MAPPINGS += '\n' + config[key];
@@ -1209,7 +1209,7 @@ Command.addSettingBlock = function(config) {
   }
 };
 
-Command.init = function(enabled) {
+Command.init = function (enabled) {
   Mappings.defaults = Object.clone(Mappings.defaultsClone);
   Mappings.parseCustom(settings.MAPPINGS, true);
   if (enabled) {
@@ -1222,7 +1222,7 @@ Command.init = function(enabled) {
     }
     addListeners();
     if (typeof settings.AUTOFUNCTIONS === 'object') {
-      Object.getOwnPropertyNames(settings.AUTOFUNCTIONS).forEach(function(name) {
+      Object.getOwnPropertyNames(settings.AUTOFUNCTIONS).forEach(function (name) {
         eval('(function(){' + settings.AUTOFUNCTIONS[name] + '})()');
       });
     }
@@ -1246,10 +1246,10 @@ Command.init = function(enabled) {
   }
 };
 
-Command.onSettingsLoad = (function() {
+Command.onSettingsLoad = (function () {
   var funcList = [];
   var loaded = false;
-  return function(callback) {
+  return function (callback) {
     if (typeof callback === 'function') {
       if (!loaded) {
         funcList.push(callback);
@@ -1257,7 +1257,7 @@ Command.onSettingsLoad = (function() {
         callback();
       }
     } else {
-      funcList.forEach(function(func) {
+      funcList.forEach(function (func) {
         func();
       });
       funcList.length = 0;
@@ -1266,8 +1266,8 @@ Command.onSettingsLoad = (function() {
   };
 })();
 
-Command.destroy = function() {
-  var removeElements = function() {
+Command.destroy = function () {
+  var removeElements = function () {
     for (var i = 0; i < arguments.length; i++) {
       var elem = arguments[i];
       if (!elem) continue;
@@ -1285,10 +1285,10 @@ Command.destroy = function() {
   );
 };
 
-Command.configureSettings = function(_settings) {
+Command.configureSettings = function (_settings) {
   settings = _settings;
   this.onSettingsLoad();
-  DOM.onTitleChange(function(text) {
+  DOM.onTitleChange(function (text) {
     if (!Session.ignoreTitleUpdate && settings.showtabindices && Session.tabIndex) {
       if (!/^\d{1,2} /.test(text)) {
         document.title = Session.tabIndex + ' ' + text;
@@ -1299,7 +1299,7 @@ Command.configureSettings = function(_settings) {
     Session.ignoreTitleUpdate = false;
   });
   this.initialLoadStarted = true;
-  var checkBlacklist = function() {
+  var checkBlacklist = function () {
     var blacklists = settings.blacklists,
       blacklist;
     Command.blacklisted = false;
@@ -1320,13 +1320,13 @@ Command.configureSettings = function(_settings) {
     }
     return isBlacklisted;
   };
-  Search.settings = Object.keys(settings).filter(function(e) {
+  Search.settings = Object.keys(settings).filter(function (e) {
     return typeof settings[e] === 'boolean';
   });
   removeListeners();
   settings.searchlimit = +settings.searchlimit;
   if (!checkBlacklist()) {
-    RUNTIME('getActiveState', null, function(isActive) {
+    RUNTIME('getActiveState', null, function (isActive) {
       Command.init(isActive);
     });
   } else {

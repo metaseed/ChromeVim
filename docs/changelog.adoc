@@ -21,6 +21,7 @@ link:index.html[Home]
 . using es module to refactor code, remove large js files(started, ongoing...)
 . add function: using <Delete> key to delete bookmark in command bar completetion :bookmarks
 . add function: support hint of scrollable element, to do focus.
+. fix gotoInput command.
 .
 . todo: make all operations defined in mappings.js displayed in command mode.
 . todo: adjust default insert command according to vim

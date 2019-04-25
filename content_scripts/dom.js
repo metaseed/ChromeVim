@@ -1,5 +1,5 @@
 window.DOM = {
-  isSubmittable: function(element) {
+  isSubmittable: function (element) {
     if (!element) {
       return false;
     }
@@ -11,7 +11,7 @@ window.DOM = {
     return false;
   },
 
-  isEditable: function(element) {
+  isEditable: function (element) {
     if (!element) {
       return false;
     }
@@ -39,7 +39,7 @@ window.DOM = {
     return true;
   },
 
-  isTextElement: function(element) {
+  isTextElement: function (element) {
     if (!element) {
       return false;
     }
@@ -55,13 +55,13 @@ window.DOM = {
     return false;
   },
 
-  onTitleChange: function(callback) {
-    waitForLoad(function() {
+  onTitleChange: function (callback) {
+    waitForLoad(function () {
       var title = (document.getElementsByTagName('title') || [])[0];
       if (!title) {
         return;
       }
-      new MutationObserver(function() {
+      new MutationObserver(function () {
         callback(title.textContent);
       }).observe(title, {
         childList: true
@@ -73,7 +73,7 @@ window.DOM = {
    * Retrieves the proper boundingRect of an element if it is visible on-screen.
    * @return boundingRect or null (if element is not visible on-screen)
    */
-  getVisibleBoundingRect: function(node) {
+  getVisibleBoundingRect: function (node) {
     var style = getComputedStyle(node, null);
     if (style.visibility !== 'visible' || style.display === 'none') {
       return null;
@@ -117,7 +117,7 @@ window.DOM = {
   },
 
   // makes bounding rect writeable
-  cloneRect: function(rect) {
+  cloneRect: function (rect) {
     return {
       left: rect.left,
       right: rect.right,
@@ -128,7 +128,7 @@ window.DOM = {
     };
   },
 
-  getVisibleBoundingAreaRect: function(node) {
+  getVisibleBoundingAreaRect: function (node) {
     var map = node.parentElement;
     if (!map || map.localName.toLowerCase() !== 'map') return null;
     var mapName = map.getAttribute('name');
@@ -137,7 +137,7 @@ window.DOM = {
     if (!mapImg) return null;
     var mapImgRect = DOM.getVisibleBoundingRect(mapImg);
     if (mapImgRect === null) return null;
-    var coords = node.coords.split(',').map(function(coord) {
+    var coords = node.coords.split(',').map(function (coord) {
       return parseInt(coord, 10);
     });
     return {
@@ -150,10 +150,20 @@ window.DOM = {
     };
   },
 
+  isInView: function (element) {
+    var br = element.getBoundingClientRect();
+    return (
+      br.top + br.height >= 0 &&
+      br.left + br.width >= 0 &&
+      br.right - br.width <= window.innerWidth &&
+      br.top < window.innerHeight
+    )
+  },
+
   /**
    * Checks if an element is visible (not necessarily on-screen)
    */
-  isVisible: function(element) {
+  isVisible: function (element) {
     if (!(element instanceof Element)) return false;
     return (
       element.offsetParent &&
@@ -164,7 +174,7 @@ window.DOM = {
     );
   },
 
-  mouseEvent: function(type, element) {
+  mouseEvent: function (type, element) {
     var events;
     switch (type) {
       case 'hover':
@@ -178,7 +188,7 @@ window.DOM = {
         break;
     }
 
-    events.forEach(function(eventName) {
+    events.forEach(function (eventName) {
       var event = document.createEvent('MouseEvents');
       event.initMouseEvent(
         eventName,

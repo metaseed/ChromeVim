@@ -1,10 +1,10 @@
 export const mappingsActions = {
-  lastUsedTab: function() {
+  lastUsedTab: function () {
     RUNTIME('lastUsedTab');
   },
-  '<Nop>': function() {},
-  toggleVisualMode: function() {
-    Command.callOnCvimLoad(function() {
+  '<Nop>': function () { },
+  toggleVisualMode: function () {
+    Command.callOnCvimLoad(function () {
       Visual.caretModeActive = true;
       Visual.getTextNodes();
       Visual.lineMode = false;
@@ -30,7 +30,7 @@ export const mappingsActions = {
       }
     });
   },
-  toggleVisualLineMode: function() {
+  toggleVisualLineMode: function () {
     if (Visual.caretModeActive || Visual.visualModeActive) {
       return false;
     }
@@ -47,42 +47,42 @@ export const mappingsActions = {
       Visual.focusSearchResult(true);
     }
   },
-  openLastHint: function() {
+  openLastHint: function () {
     Hints.dispatchAction(Hints.lastClicked);
   },
-  nextMatchPattern: function() {
+  nextMatchPattern: function () {
     Hints.matchPatterns(settings.nextmatchpattern);
   },
-  previousMatchPattern: function() {
+  previousMatchPattern: function () {
     Hints.matchPatterns(settings.previousmatchpattern);
   },
-  cancelWebRequest: function() {
+  cancelWebRequest: function () {
     window.stop();
   },
-  cancelAllWebRequests: function() {
+  cancelAllWebRequests: function () {
     RUNTIME('cancelAllWebRequests');
   },
-  percentScroll: function(repeats) {
+  percentScroll: function (repeats) {
     repeats = Mappings.repeats === '0' || Mappings.repeats === '' ? 0 : repeats;
     document.scrollingElement.scrollTop =
       ((document.body.scrollHeight - window.innerHeight) * repeats) / 100;
   },
-  goToTab: function(repeats) {
+  goToTab: function (repeats) {
     RUNTIME('goToTab', { index: repeats - 1 });
   },
-  goToRootUrl: function() {
+  goToRootUrl: function () {
     RUNTIME('openLink', {
       url:
         location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : ''),
       tab: { pinned: null }
     });
   },
-  goUpUrl: function(repeats) {
+  goUpUrl: function (repeats) {
     var path =
       '/' +
       location.pathname
         .split('/')
-        .filter(function(e) {
+        .filter(function (e) {
           return e;
         })
         .slice(0, -repeats)
@@ -99,14 +99,14 @@ export const mappingsActions = {
       });
     }
   },
-  nextFrame: function(repeats) {
+  nextFrame: function (repeats) {
     RUNTIME('focusFrame', { repeats: repeats });
   },
-  rootFrame: function() {
+  rootFrame: function () {
     RUNTIME('focusFrame', { isRoot: true });
   },
 
-  dumpBookmarksFolder: function(repeats, folderName) {
+  dumpBookmarksFolder: function (repeats, folderName) {
     PORT('dumpBookmarksFolder', {
       msg: {
         folder: folderName
@@ -114,7 +114,7 @@ export const mappingsActions = {
     });
   },
 
-  loadBookmarksFolder: function(repeats, folderName) {
+  loadBookmarksFolder: function (repeats, folderName) {
     PORT('loadBookmarksFolder', {
       msg: {
         folder: folderName
@@ -122,7 +122,7 @@ export const mappingsActions = {
     });
   },
 
-  toggleBookmark: function() {
+  toggleBookmark: function () {
     PORT('toggleBookmark', {
       url: document.URL,
       title: document.title.replace(/^(\d{1,2})? /, '')
@@ -130,7 +130,7 @@ export const mappingsActions = {
     PORT('getBookmarks');
   },
 
-  toggleBookmarkInFolder: function(repeats, folderName) {
+  toggleBookmarkInFolder: function (repeats, folderName) {
     PORT('toggleBookmarkInFolder', {
       msg: {
         folder: folderName || 'later'
@@ -138,7 +138,7 @@ export const mappingsActions = {
     });
   },
 
-  toggleBookmarksInFolder: function(repeats, folderName) {
+  toggleBookmarksInFolder: function (repeats, folderName) {
     PORT('toggleBookmarksInFolder', {
       msg: {
         folder: folderName || 'later'
@@ -146,27 +146,27 @@ export const mappingsActions = {
     });
   },
 
-  toggleDomainStylesheets: function(repeats, url) {
+  toggleDomainStylesheets: function (repeats, url) {
     RUNTIME('toggleDomainStylesheets', { url: url, hostname: getHostname(window.location.href) });
   },
-  markMergeTab: function() {
+  markMergeTab: function () {
     RUNTIME('mergeMarkTab', {
       msg: {}
     });
   },
-  markMergeWindow: function() {
+  markMergeWindow: function () {
     RUNTIME('mergeMarkTab', {
       msg: {
         all: true
       }
     });
   },
-  putMergeTabs: function() {
+  putMergeTabs: function () {
     RUNTIME('mergePutTab', {
       msg: {}
     });
   },
-  myCloseWindowsOthers: function() {
+  myCloseWindowsOthers: function () {
     RUNTIME('myCloseTab', {
       msg: {
         otherWindows: true,
@@ -174,28 +174,28 @@ export const mappingsActions = {
       }
     });
   },
-  myCloseTabsLeft: function() {
+  myCloseTabsLeft: function () {
     RUNTIME('myCloseTab', {
       msg: {
         type: 'closeLeft'
       }
     });
   },
-  myCloseTabsRight: function() {
+  myCloseTabsRight: function () {
     RUNTIME('myCloseTab', {
       msg: {
         type: 'closeRight'
       }
     });
   },
-  myCloseTabsOthers: function() {
+  myCloseTabsOthers: function () {
     RUNTIME('myCloseTab', {
       msg: {
         type: 'closeOther'
       }
     });
   },
-  myCloseTabsAllExcept: function() {
+  myCloseTabsAllExcept: function () {
     RUNTIME('myCloseTab', {
       msg: {
         type: 'closeOther'
@@ -208,10 +208,10 @@ export const mappingsActions = {
       }
     });
   },
-  windowUnpinAllTabs: function() {
+  windowUnpinAllTabs: function () {
     RUNTIME('unpinTabs', { msg: {} });
   },
-  browserUnpinAllTabs: function() {
+  browserUnpinAllTabs: function () {
     RUNTIME('unpinTabs', {
       msg: {
         allWindows: true
@@ -219,57 +219,57 @@ export const mappingsActions = {
     });
   },
 
-  toggleIncognitoTab: function() {
+  toggleIncognitoTab: function () {
     RUNTIME('toggleIncognitoTab');
   },
 
-  toggleIncognitoWindow: function() {
+  toggleIncognitoWindow: function () {
     RUNTIME('toggleIncognitoWindow');
   },
 
-  closeTab: function(repeats) {
+  closeTab: function (repeats) {
     RUNTIME('closeTab', { repeats: repeats });
   },
-  closeLeftTab: function(repeats) {
+  closeLeftTab: function (repeats) {
     RUNTIME('closeLeftTab', { repeats: repeats });
   },
-  closeRightTab: function(repeats) {
+  closeRightTab: function (repeats) {
     RUNTIME('closeRightTab', { repeats: repeats });
   },
-  closeLeftTabs: function() {
+  closeLeftTabs: function () {
     RUNTIME('closeLeftTabs');
   },
-  closeRightTabs: function() {
+  closeRightTabs: function () {
     RUNTIME('closeRightTabs');
   },
-  pinTab: function() {
+  pinTab: function () {
     RUNTIME('pinTab', { pinned: true });
   },
-  togglePin: function() {
+  togglePin: function () {
     RUNTIME('pinTab');
   },
-  unpinTabs: function() {
+  unpinTabs: function () {
     RUNTIME('pinTab', { pinned: false });
   },
-  firstTab: function() {
+  firstTab: function () {
     RUNTIME('firstTab');
   },
-  lastTab: function() {
+  lastTab: function () {
     RUNTIME('lastTab');
   },
-  lastClosedTab: function(repeats) {
+  lastClosedTab: function (repeats) {
     RUNTIME('openLast', { repeats: repeats });
   },
-  moveTabRight: function(repeats) {
+  moveTabRight: function (repeats) {
     RUNTIME('moveTabRight', { repeats: repeats });
   },
-  moveTabLeft: function(repeats) {
+  moveTabLeft: function (repeats) {
     RUNTIME('moveTabLeft', { repeats: repeats });
   },
-  lastActiveTab: function() {
+  lastActiveTab: function () {
     RUNTIME('lastActiveTab');
   },
-  reverseImage: function() {
+  reverseImage: function () {
     if (
       /\(\d+×\d+\)$/.test(document.title) === true &&
       document.body.firstChild.localName === 'img'
@@ -283,17 +283,17 @@ export const mappingsActions = {
         return;
       }
     } else {
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         Hints.create('image');
       }, 0);
     }
   },
-  multiReverseImage: function() {
-    window.setTimeout(function() {
+  multiReverseImage: function () {
+    window.setTimeout(function () {
       Hints.create('multiimage');
     }, 0);
   },
-  toggleImageZoom: function() {
+  toggleImageZoom: function () {
     if (/\.[a-z]+\s+\(\d+×\d+\)/i.test(document.title)) {
       var images = document.getElementsByTagName('img');
       if (images.length) {
@@ -301,35 +301,35 @@ export const mappingsActions = {
       }
     }
   },
-  zoomPageIn: function(repeats) {
-    RUNTIME('zoomIn', { repeats: repeats }, function() {
+  zoomPageIn: function (repeats) {
+    RUNTIME('zoomIn', { repeats: repeats }, function () {
       document.body.style.zoom =
         (+document.body.style.zoom ? parseFloat(document.body.style.zoom) : 1) +
         settings.zoomfactor * repeats;
     });
   },
-  zoomPageOut: function(repeats) {
-    RUNTIME('zoomOut', { repeats: repeats }, function() {
+  zoomPageOut: function (repeats) {
+    RUNTIME('zoomOut', { repeats: repeats }, function () {
       document.body.style.zoom =
         (+document.body.style.zoom ? parseFloat(document.body.style.zoom) : 1) -
         settings.zoomfactor * repeats;
     });
   },
-  zoomOrig: function() {
-    RUNTIME('zoomOrig', null, function() {
+  zoomOrig: function () {
+    RUNTIME('zoomOrig', null, function () {
       document.body.style.zoom = '1';
     });
   },
-  scrollMatchTop: function() {
+  scrollMatchTop: function () {
     var documentZoom = parseFloat(document.body.style.zoom) || 1;
     if (Find.matches.length && Find.matches[Find.index]) {
       window.scrollBy(0, Find.matches[Find.index].getBoundingClientRect().top * documentZoom);
     }
   },
-  scrollMatchCenter: function() {
+  scrollMatchCenter: function () {
     var documentZoom = parseFloat(document.body.style.zoom) || 1;
     if (Find.matches.length && Find.matches[Find.index]) {
-      var scrollOffset = function() {
+      var scrollOffset = function () {
         return (
           this.matches[this.index].getBoundingClientRect().top * documentZoom +
           this.matches[this.index].offsetHeight -
@@ -339,10 +339,10 @@ export const mappingsActions = {
       window.scrollBy(0, scrollOffset);
     }
   },
-  scrollMatchBottom: function() {
+  scrollMatchBottom: function () {
     var documentZoom = parseFloat(document.body.style.zoom) || 1;
     if (Find.matches.length && Find.matches[Find.index]) {
-      var scrollOffset = function() {
+      var scrollOffset = function () {
         return (
           this.matches[this.index].getBoundingClientRect().top * documentZoom +
           this.matches[this.index].offsetHeight * documentZoom -
@@ -352,49 +352,49 @@ export const mappingsActions = {
       window.scrollBy(0, scrollOffset);
     }
   },
-  openLastLinkInTab: function(repeats) {
+  openLastLinkInTab: function (repeats) {
     RUNTIME('openLastLinkInTab', { repeats: repeats });
   },
-  openNextLinkInTab: function(repeats) {
+  openNextLinkInTab: function (repeats) {
     RUNTIME('openNextLinkInTab', { repeats: repeats });
   },
-  scrollDown: function(repeats) {
+  scrollDown: function (repeats) {
     Scroll.scroll('down', repeats);
   },
-  scrollUp: function(repeats) {
+  scrollUp: function (repeats) {
     Scroll.scroll('up', repeats);
   },
-  scrollDownHalfScreen: function(repeats) {
+  scrollDownHalfScreen: function (repeats) {
     Scroll.scroll('pageDown', repeats);
   },
-  scrollFullPageDown: function(repeats) {
+  scrollFullPageDown: function (repeats) {
     Scroll.scroll('fullPageDown', repeats);
   },
-  scrollUpHalfScreen: function(repeats) {
+  scrollUpHalfScreen: function (repeats) {
     Scroll.scroll('pageUp', repeats);
   },
-  scrollFullPageUp: function(repeats) {
+  scrollFullPageUp: function (repeats) {
     Scroll.scroll('fullPageUp', repeats);
   },
-  scrollLeft: function(repeats) {
+  scrollLeft: function (repeats) {
     Scroll.scroll('left', repeats);
   },
-  scrollRight: function(repeats) {
+  scrollRight: function (repeats) {
     Scroll.scroll('right', repeats);
   },
-  scrollToTop: function() {
+  scrollToTop: function () {
     Scroll.scroll('top');
   },
-  scrollToBottom: function() {
+  scrollToBottom: function () {
     Scroll.scroll('bottom');
   },
-  scrollToLeft: function() {
+  scrollToLeft: function () {
     Scroll.scroll('leftmost');
   },
-  scrollToRight: function() {
+  scrollToRight: function () {
     Scroll.scroll('rightmost');
   },
-  lastScrollPosition: function() {
+  lastScrollPosition: function () {
     if (!Scroll.lastPosition) {
       return;
     }
@@ -405,13 +405,13 @@ export const mappingsActions = {
     window.scrollTo.apply(null, Scroll.lastPosition);
     Scroll.lastPosition = currentPosition;
   },
-  previousScrollPosition: function() {
+  previousScrollPosition: function () {
     Scroll.previousHistoryState();
   },
-  nextScrollPosition: function() {
+  nextScrollPosition: function () {
     Scroll.nextHistoryState();
   },
-  goToMark: function() {
+  goToMark: function () {
     settings.localMarks = settings.localMarks || {};
     settings.localMarks[getHostname(window.location.href)] =
       settings.localMarks[getHostname(window.location.href)] || {};
@@ -428,7 +428,7 @@ export const mappingsActions = {
       Status.setMessage('Mark not set', 1, 'error');
     }
   },
-  setMark: function() {
+  setMark: function () {
     var mark = Mappings.lastCommand.queue.slice(-1);
     var pos = [document.scrollingElement.scrollLeft, document.scrollingElement.scrollTop];
     Scroll.positions[mark] = pos;
@@ -446,68 +446,68 @@ export const mappingsActions = {
       sendSettings: true
     });
   },
-  createHint: function() {
+  createHint: function () {
     Hints.create();
   },
-  openHintInTab: function() {
+  openHintInTab: function () {
     Hints.create('inTab');
   },
-  createTabbedHint: function() {
+  createTabbedHint: function () {
     Hints.create('tabbed');
   },
-  createActiveTabbedHint: function() {
+  createActiveTabbedHint: function () {
     Hints.create('tabbedActive');
   },
-  createMultiHint: function() {
+  createMultiHint: function () {
     Hints.create('multi');
   },
-  createHintWindow: function() {
+  createHintWindow: function () {
     Hints.create('window');
   },
-  createEditHint: function() {
+  createEditHint: function () {
     Hints.create('edit');
   },
-  createHoverHint: function() {
+  createHoverHint: function () {
     Hints.create('hover');
   },
-  createUnhoverHint: function() {
+  createUnhoverHint: function () {
     Hints.create('unhover');
   },
-  createScriptHint: function(repeats, scriptName) {
+  createScriptHint: function (repeats, scriptName) {
     Hints.scriptFunction = scriptName;
     if (settings.FUNCTIONS.hasOwnProperty(scriptName)) {
       Hints.create('script');
     }
   },
-  openUrlExternalEditor: function() {
+  openUrlExternalEditor: function () {
     PORT('editWithVim', {
       text: window.location.href,
       callback: 'openUrlExternalEditorCallback'
     });
   },
-  yankUrl: function() {
+  yankUrl: function () {
     Hints.create('yank');
   },
-  multiYankUrl: function() {
+  multiYankUrl: function () {
     Hints.create('multiyank');
   },
-  fullImageHint: function() {
+  fullImageHint: function () {
     Hints.create('fullimage');
   },
-  yankTabUrl: function() {
-    RUNTIME('getRootUrl', function(url) {
+  yankTabUrl: function () {
+    RUNTIME('getRootUrl', function (url) {
       Clipboard.copy(url);
       Status.setMessage(url, 2);
     });
   },
-  yankFrameUrl: function() {
+  yankFrameUrl: function () {
     Clipboard.copy(document.URL);
     Status.setMessage(document.URL, 2);
   },
-  yankWindowUrls: function() {
+  yankWindowUrls: function () {
     PORT('yankWindowUrls');
   },
-  yankHighlight: function() {
+  yankHighlight: function () {
     var selection = document.getSelection();
     if (selection.type === 'Range' && selection.toString() !== '') {
       Clipboard.copy(selection.toString());
@@ -518,24 +518,24 @@ export const mappingsActions = {
       Clipboard.copy(match.textContent);
     }
   },
-  openPaste: function() {
+  openPaste: function () {
     Clipboard.paste(false);
   },
-  openPasteTab: function(repeats) {
+  openPasteTab: function (repeats) {
     for (var i = 0; i < repeats; ++i) {
       Clipboard.paste(true);
     }
   },
-  nextCompletionResult: function() {
+  nextCompletionResult: function () {
     if (Command.commandBarFocused()) Search.nextResult(false);
   },
-  previousCompletionResult: function() {
+  previousCompletionResult: function () {
     if (Command.commandBarFocused()) Search.nextResult(true);
   },
-  addQuickMark: function() {
+  addQuickMark: function () {
     Marks.addQuickMark(Mappings.lastCommand.queue.slice(-1));
   },
-  openQuickMark: function(repeats) {
+  openQuickMark: function (repeats) {
     Marks.openQuickMark(
       Mappings.lastCommand.queue.slice(-1),
       {
@@ -544,7 +544,7 @@ export const mappingsActions = {
       repeats
     );
   },
-  openQuickMarkTabbed: function(repeats) {
+  openQuickMarkTabbed: function (repeats) {
     Marks.openQuickMark(
       Mappings.lastCommand.queue.slice(-1),
       {
@@ -553,7 +553,7 @@ export const mappingsActions = {
       repeats
     );
   },
-  openQuickMarkWindowed: function(repeats) {
+  openQuickMarkWindowed: function (repeats) {
     Marks.openQuickMark(
       Mappings.lastCommand.queue.slice(-1),
       {
@@ -562,25 +562,25 @@ export const mappingsActions = {
       repeats
     );
   },
-  insertMode: function() {
-    Command.callOnCvimLoad(function() {
+  insertMode: function () {
+    Command.callOnCvimLoad(function () {
       HUD.display(' -- INSERT -- ');
     });
     insertMode = true;
   },
-  reloadTab: function() {
+  reloadTab: function () {
     RUNTIME('reloadTab', { nocache: false });
   },
-  reloadTabIgnoreCache: function() {
+  reloadTabIgnoreCache: function () {
     RUNTIME('reloadTab', { nocache: true });
   },
-  reloadAllButCurrent: function() {
+  reloadAllButCurrent: function () {
     RUNTIME('reloadAllTabs', { nocache: false, current: true });
   },
-  reloadAllTabs: function() {
+  reloadAllTabs: function () {
     RUNTIME('reloadAllTabs', { nocache: false, current: false });
   },
-  nextSearchResult: function(repeats) {
+  nextSearchResult: function (repeats) {
     if (Find.matches.length) {
       Find.search(Find.mode || '/', repeats);
     } else if (Find.lastSearch !== void 0 && typeof Find.lastSearch === 'string') {
@@ -594,7 +594,7 @@ export const mappingsActions = {
       Find.search(Find.mode || '/', +(Find.mode === '?'));
     }
   },
-  previousSearchResult: function(repeats) {
+  previousSearchResult: function (repeats) {
     if (Find.matches.length) {
       Find.search(Find.mode || '?', -repeats);
     } else if (Find.lastSearch !== void 0 && typeof Find.lastSearch === 'string') {
@@ -608,27 +608,27 @@ export const mappingsActions = {
       Find.search(Find.mode || '?', -(Find.mode !== '?'));
     }
   },
-  tabDetachWithChildren: function(r) {
+  tabDetachWithChildren: function (r) {
     RUNTIME('tabDetachWithChildren');
   },
-  tabGoToParent: function(r) {
+  tabGoToParent: function (r) {
     RUNTIME('tabGoToParent', { repeats: r });
   },
-  nextTab: function(r) {
+  nextTab: function (r) {
     RUNTIME('nextTab', { repeats: r });
   },
-  previousTab: function(r) {
+  previousTab: function (r) {
     RUNTIME('previousTab', { repeats: r });
   },
-  goBack: function(repeats) {
+  goBack: function (repeats) {
     history.go(-1 * repeats);
   },
-  goForward: function(repeats) {
+  goForward: function (repeats) {
     history.go(1 * repeats);
   },
 
-  _switchDomain: function(direction, repeats) {
-    RUNTIME('getHistoryStates', null, function(response) {
+  _switchDomain: function (direction, repeats) {
+    RUNTIME('getHistoryStates', null, function (response) {
       if (response.links.length === 0) return;
 
       var curDomain = new URL(response.links[response.state]).hostname;
@@ -649,25 +649,26 @@ export const mappingsActions = {
       }
     });
   },
-  previousDomain: function(repeats) {
+  previousDomain: function (repeats) {
     this._switchDomain(-1, repeats);
   },
-  nextDomain: function(repeats) {
+  nextDomain: function (repeats) {
     this._switchDomain(1, repeats);
   },
 
-  goToLastInput: function() {
+  goToLastInput: function () {
     if (this.inputElements && this.inputElements[this.inputElementsIndex]) {
       this.inputElements[this.inputElementsIndex].focus();
     }
   },
-  goToInput: function(repeats) {
+  goToInput: function (repeats) {
     this.inputElements = [];
     var allInput = document.querySelectorAll('input,textarea,*[contenteditable]');
     for (var i = 0, l = allInput.length; i < l; i++) {
       if (
         DOM.isEditable(allInput[i]) &&
         DOM.isVisible(allInput[i]) &&
+        DOM.isInView(allInput[i]) &&
         allInput[i].id !== 'cVim-command-bar-input'
       ) {
         this.inputElements.push(allInput[i]);
@@ -676,22 +677,12 @@ export const mappingsActions = {
     if (this.inputElements.length === 0) {
       return false;
     }
+
     this.inputElementsIndex = (repeats % this.inputElements.length) - 1;
     if (this.inputElementsIndex < 0) {
-      this.inputElementsIndex = 0;
+      this.inputElementsIndex = this.inputElements.length - 1;
     }
-    for (i = 0, l = this.inputElements.length; i < l; i++) {
-      var br = this.inputElements[i].getBoundingClientRect();
-      if (
-        br.top + br.height >= 0 &&
-        br.left + br.width >= 0 &&
-        br.right - br.width <= window.innerWidth &&
-        br.top < window.innerHeight
-      ) {
-        this.inputElementsIndex = i;
-        break;
-      }
-    }
+
     this.inputFocused = true;
     this.inputElements[this.inputElementsIndex].focus();
     if (document.activeElement.select) {
@@ -701,18 +692,18 @@ export const mappingsActions = {
       document.getSelection().modify('move', 'right', 'lineboundary');
     }
   },
-  shortCuts: function(command, repeats) {
+  shortCuts: function (command, repeats) {
     commandMode = true;
     if (command.indexOf('@%') !== -1) {
       RUNTIME(
         'getRootUrl',
-        function(url) {
+        function (url) {
           this.shortCuts(command.split('@%').join(url), repeats);
         }.bind(this)
       );
       return;
     }
-    return window.setTimeout(function() {
+    return window.setTimeout(function () {
       var shouldComplete = !/<cr>(\s+)?$/i.test(command);
       command = command
         .replace(/^:/, '')
@@ -727,7 +718,7 @@ export const mappingsActions = {
       this.repeats = '';
     }, 0);
   },
-  openSearchBar: function() {
+  openSearchBar: function () {
     Find.lastIndex = Find.index;
     if (document.readyState === 'interactive' || document.readyState === 'complete') {
       Command.lastScrollTop = document.scrollingElement.scrollTop;
@@ -736,7 +727,7 @@ export const mappingsActions = {
     Find.previousMatches = Find.matches.length > 0;
     return Command.show('/');
   },
-  openSearchBarReverse: function() {
+  openSearchBarReverse: function () {
     Find.lastIndex = Find.index;
     commandMode = true;
     if (document.readyState === 'interactive' || document.readyState === 'complete') {
@@ -745,7 +736,7 @@ export const mappingsActions = {
     Find.previousMatches = Find.matches.length > 0;
     return Command.show('?');
   },
-  openLinkSearchBar: function() {
+  openLinkSearchBar: function () {
     Find.lastIndex = Find.index;
     if (document.readyState === 'interactive' || document.readyState === 'complete') {
       Command.lastScrollTop = document.scrollingElement.scrollTop;
@@ -754,11 +745,11 @@ export const mappingsActions = {
     Find.previousMatches = Find.matches.length > 0;
     return Command.show('$');
   },
-  openCommandBar: function() {
+  openCommandBar: function () {
     commandMode = true;
     return Command.show(false, '', settings.completeonopen);
   },
-  repeatCommand: function(repeats) {
+  repeatCommand: function (repeats) {
     if (this.hasOwnProperty(Mappings.lastCommand.fn)) {
       this[Mappings.lastCommand.fn].call(
         this,
@@ -767,31 +758,31 @@ export const mappingsActions = {
       );
     }
   },
-  quitChrome: function() {
+  quitChrome: function () {
     PORT('quitChrome');
   },
-  passKeys: function(repeats) {
+  passKeys: function (repeats) {
     Mappings.keyPassesLeft = repeats;
   },
-  enterPassMode: function() {
+  enterPassMode: function () {
     passMode = true;
     Status.setMessage('Entering pass-mode', 1);
   },
-  exitPassMode: function() {
+  exitPassMode: function () {
     passMode = false;
     Status.setMessage('Exited pass-mode', 1);
   },
-  resetScrollFocus: function() {
+  resetScrollFocus: function () {
     window.resetScrollFocus();
   },
-  clearSearchHighlight: function() {
+  clearSearchHighlight: function () {
     Find.clear();
     HUD.hide();
   },
-  toggleMute: function() {
+  toggleMute: function () {
     RUNTIME('toggleMute');
   },
-  exportSettings: function() {
+  exportSettings: function () {
     var content = JSON.stringify(settings);
     var uriContent = 'data:text/plain;charset=utf-8,' + encodeURIComponent(content);
     var a = document.createElement('a');
@@ -799,13 +790,13 @@ export const mappingsActions = {
     a.download = 'cvim-settings.json';
     a.click();
   },
-  viewSourceExternalEditor: function() {
+  viewSourceExternalEditor: function () {
     RUNTIME('viewSourceExternalEditor', { url: window.location.href });
   },
-  hideDownloadsShelf: function() {
+  hideDownloadsShelf: function () {
     RUNTIME('hideDownloadsShelf');
   },
-  openLastDownload: function() {
+  openLastDownload: function () {
     // TODO(hbt) ENHANCE add counter support where it would download the the second last download for example
     RUNTIME('openLastDownloadedFile');
   },
@@ -822,7 +813,7 @@ export const mappingsActions = {
     RUNTIME('restartLastDownload');
   },
   copyURLDownloads: () => {
-    RUNTIME('copyURLDownloads', function(o) {
+    RUNTIME('copyURLDownloads', function (o) {
       console.log(o);
     });
   },
@@ -832,12 +823,12 @@ export const mappingsActions = {
   }
 };
 
-(function() {
-  var replaceURLNumber = function(callback) {
+(function () {
+  var replaceURLNumber = function (callback) {
     var url = document.URL.replace(/\b\d+\b/, callback);
     if (url !== document.URL) RUNTIME('openLink', { url: url, tab: { tabbed: false } });
   };
-  var replaceURLLastNumber = function(repeats) {
+  var replaceURLLastNumber = function (repeats) {
     if (document.location.href.match(/(.*?)(\d+)(\D*)$/)) {
       var pre = RegExp.$1,
         number = RegExp.$2,
@@ -855,26 +846,26 @@ export const mappingsActions = {
       RUNTIME('openLink', { url: url, tab: { tabbed: false } });
     }
   };
-  mappingsActions.incrementURLPath = function(repeats) {
-    replaceURLNumber(function(e) {
+  mappingsActions.incrementURLPath = function (repeats) {
+    replaceURLNumber(function (e) {
       return +e + repeats;
     });
   };
-  mappingsActions.incrementURLFirstPath = function(repeats) {
+  mappingsActions.incrementURLFirstPath = function (repeats) {
     Mappings.actions.incrementURLPath(repeats);
   };
-  mappingsActions.decrementURLPath = function(repeats) {
-    replaceURLNumber(function(e) {
+  mappingsActions.decrementURLPath = function (repeats) {
+    replaceURLNumber(function (e) {
       return Math.max(0, +e - repeats);
     });
   };
-  mappingsActions.decrementURLFirstPath = function(repeats) {
+  mappingsActions.decrementURLFirstPath = function (repeats) {
     Mappings.actions.decrementURLPath(repeats);
   };
-  mappingsActions.incrementURLLastPath = function(repeats) {
+  mappingsActions.incrementURLLastPath = function (repeats) {
     replaceURLLastNumber(repeats);
   };
-  mappingsActions.decrementURLLastPath = function(repeats) {
+  mappingsActions.decrementURLLastPath = function (repeats) {
     replaceURLLastNumber(repeats * -1);
   };
 })();
