@@ -565,25 +565,25 @@ Hints.getLinkType = function (node) {
     node.hasAttribute('data-ga-click') ||
     node.hasAttribute('aria-selected'))
     return Hints.WEAK_LINK_TYPE;
-}
 
-var role = node.getAttribute('role');
-if (role) {
-  if (
-    role === 'button' ||
-    role === 'option' ||
-    role === 'checkbox' ||
-    role.indexOf('menuitem') !== -1
-  ) {
-    return Hints.LINK_TYPE;
+
+  var role = node.getAttribute('role');
+  if (role) {
+    if (
+      role === 'button' ||
+      role === 'option' ||
+      role === 'checkbox' ||
+      role.indexOf('menuitem') !== -1
+    ) {
+      return Hints.LINK_TYPE;
+    }
   }
-}
 
-if ((node.getAttribute('class') || '').indexOf('button') !== -1) {
-  return Hints.WEAK_LINK_TYPE;
-}
+  if ((node.getAttribute('class') || '').indexOf('button') !== -1) {
+    return Hints.WEAK_LINK_TYPE;
+  }
 
-return Hints.NON_LINK_TYPE;
+  return Hints.NON_LINK_TYPE;
 };
 
 Hints.isClickable = function (info) {
