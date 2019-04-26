@@ -144,7 +144,9 @@ export const defaultMappings = [
   ['<', 'moveTabLeft'], // move left
 
   /*
-   ** hint. note: if hint is hidden by another, press Alt to switch it to top.
+   ** hint. note: if hint is hidden by another.
+   ** If hide, press Alt to switch it to top.
+   ** Press and hold '/' to hide the hints, release to show again.
    */
   ['f', 'createHint'], // fast hint
   ['S', 'openHintInTab'], // i.e.: want to directly open a link in same tab when in google search results

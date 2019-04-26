@@ -92,9 +92,9 @@ Hints.hideHints = function (reset, multi, useKeyDelay) {
   }
 };
 
-Hints.changeFocus = function () {
+Hints.switchToTop = function () {
   this.linkArr.forEach(function (item) {
-    item[0].style.zIndex = 1 - +item[0].style.zIndex;
+    item[0].style.zIndex = 2147483647 - +item[0].style.zIndex;
   });
 };
 
@@ -402,6 +402,14 @@ Hints.evaluateLink = function (item) {
 
   var hint = this.linkElementBase.cloneNode(false);
   var style = hint.style;
+
+  if (item.linkType & Hints.SCROLL_LINK) {
+    hint.classList.add('cVim-link-hint-scroll');
+  }
+  if (item.linkType & Hints.INPUT_LINK) {
+    hint.classList.add('cVim-link-hint-input');
+  }
+
   var nodeZIndex = DOM.getZIndex(node);
   if (nodeZIndex === 'auto') {
     style.zIndex = this.linkIndex + 1;
@@ -502,15 +510,16 @@ Hints.NON_LINK_TYPE = 1;
 Hints.WEAK_LINK_TYPE = 2;
 Hints.LINK_TYPE = 4;
 Hints.INPUT_LINK = 8;
+Hints.SCROLL_LINK = 16;
 
 Hints.getLinkType = function (node) {
   if (node instanceof Element) {
     const ofl = getComputedStyle(node)['overflow-y'];
     if ((ofl === 'scroll' || ofl === 'auto') && node.scrollHeight > node.clientHeight)
-      return Hints.LINK_TYPE;
+      return Hints.LINK_TYPE | Hints.SCROLL_LINK;
     const oflx = getComputedStyle(node)['overflow-x'];
     if ((oflx === 'scroll' || ofl === 'auto') && node.scrollWidth > node.clientWidth)
-      return Hints.LINK_TYPE;
+      return Hints.LINK_TYPE | Hints.SCROLL_LINK;
   }
 
   if (node.nodeType !== Node.ELEMENT_NODE) return Hints.NON_LINK_TYPE;
@@ -544,38 +553,37 @@ Hints.getLinkType = function (node) {
       return Hints.LINK_TYPE | Hints.INPUT_LINK;
   }
 
-  switch (true) {
-    case node.hasAttribute('contenteditable'):
-      return Hints.LINK_TYPE | Hints.INPUT_LINK;
-    case node.hasAttribute('tabindex'):
-    case node.hasAttribute('onclick'):
-    case node.getAttributeNames().find(e => e.includes('click')) !== undefined:
-      return Hints.LINK_TYPE;
-    case node.hasAttribute('aria-haspopup'):
-    case node.hasAttribute('data-cmd'):
-    case node.hasAttribute('jsaction'):
-    case node.hasAttribute('data-ga-click'):
-    case node.hasAttribute('aria-selected'):
-      return Hints.WEAK_LINK_TYPE;
-  }
-
-  var role = node.getAttribute('role');
-  if (role) {
-    if (
-      role === 'button' ||
-      role === 'option' ||
-      role === 'checkbox' ||
-      role.indexOf('menuitem') !== -1
-    ) {
-      return Hints.LINK_TYPE;
-    }
-  }
-
-  if ((node.getAttribute('class') || '').indexOf('button') !== -1) {
+  if (node.hasAttribute('contenteditable'))
+    return Hints.LINK_TYPE | Hints.INPUT_LINK;
+  if (node.hasAttribute('tabindex') ||
+    node.hasAttribute('onclick') ||
+    node.getAttributeNames().find(e => e.includes('click')) !== undefined)
+    return Hints.LINK_TYPE;
+  if (node.hasAttribute('aria-haspopup') ||
+    node.hasAttribute('data-cmd') ||
+    node.hasAttribute('jsaction') ||
+    node.hasAttribute('data-ga-click') ||
+    node.hasAttribute('aria-selected'))
     return Hints.WEAK_LINK_TYPE;
-  }
+}
 
-  return Hints.NON_LINK_TYPE;
+var role = node.getAttribute('role');
+if (role) {
+  if (
+    role === 'button' ||
+    role === 'option' ||
+    role === 'checkbox' ||
+    role.indexOf('menuitem') !== -1
+  ) {
+    return Hints.LINK_TYPE;
+  }
+}
+
+if ((node.getAttribute('class') || '').indexOf('button') !== -1) {
+  return Hints.WEAK_LINK_TYPE;
+}
+
+return Hints.NON_LINK_TYPE;
 };
 
 Hints.isClickable = function (info) {
@@ -844,12 +852,14 @@ Hints.create = function (type, multi) {
       self.permutations = self.genHints(self.linkArr.length);
       for (i = self.linkArr.length - 1; i >= 0; --i) {
         self.linkArr[i][0].textContent = self.permutations[i];
+        self.linkArr[i][1].setAttribute('data-hint', self.linkArr[i][0].textContent);
         frag.appendChild(self.linkArr[i][0]);
       }
     } else {
       for (i = 0, l = self.linkArr.length; i < l; ++i) {
         self.linkArr[i][0].textContent =
           (i + 1).toString() + (self.linkArr[i][3] ? ': ' + self.linkArr[i][3] : '');
+        self.linkArr[i][1].setAttribute('data-hint', self.linkArr[i][0].textContent);
         frag.appendChild(self.linkArr[i][0]);
       }
     }

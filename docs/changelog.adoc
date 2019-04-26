@@ -22,6 +22,8 @@ link:index.html[Home]
 . add function: using <Delete> key to delete bookmark in command bar completetion :bookmarks
 . add function: support hint of scrollable element, to do focus.
 . fix gotoInput command.
+. enhance the Hint switchToTop method.
+. give the scrollable area hint and input hint different defaut background colors.
 .
 . todo: make all operations defined in mappings.js displayed in command mode.
 . todo: adjust default insert command according to vim

@@ -2,7 +2,7 @@ var insertMode, commandMode, passMode, settings;
 
 var KeyListener;
 
-KeyListener = function(onKeyDown, onKeyUp) {
+KeyListener = function (onKeyDown, onKeyUp) {
   this.eventCallbacks = { keydown: [], keyup: [] };
   this.addListener('keydown', onKeyDown);
   this.addListener('keyup', onKeyUp);
@@ -12,30 +12,30 @@ KeyListener = function(onKeyDown, onKeyUp) {
   window.addEventListener('keyup', this.createListener('keyup'), true);
 };
 
-KeyListener.prototype.addListener = function(type, callback) {
+KeyListener.prototype.addListener = function (type, callback) {
   if (typeof callback !== 'function' || ['keydown', 'keyup'].indexOf(type) === -1) return;
   this.eventCallbacks[type] = this.eventCallbacks[type] || [];
   this.eventCallbacks[type].push(callback);
 };
 
-KeyListener.prototype.removeListener = function(type, callback) {
+KeyListener.prototype.removeListener = function (type, callback) {
   if (!this.eventCallbacks.hasOwnProperty(type) || typeof callback !== 'function') return false;
   var listeners = this.eventCallbacks[type];
   var origLen = listeners.length;
-  listeners = listeners.filter(function(e) {
+  listeners = listeners.filter(function (e) {
     return e !== callback;
   });
   this.eventCallbacks[type] = listeners;
   return origLen !== listeners.length;
 };
 
-KeyListener.keyEquals = function(a, b) {
+KeyListener.keyEquals = function (a, b) {
   function normalizeKey(key) {
     if (!/^<.*>$/.test(key)) return key;
     key = key.slice(1, -1).toLowerCase();
     var mods = key
       .split('-')
-      .filter(function(e) {
+      .filter(function (e) {
         return e;
       })
       .sort();
@@ -94,12 +94,12 @@ KeyListener.prototype.overrides = {
   123: 'F12'
 };
 
-KeyListener.prototype.convertLang = function(key) {
+KeyListener.prototype.convertLang = function (key) {
   if (this.langMap.hasOwnProperty(key)) return this.langMap[key];
   return key;
 };
 
-KeyListener.prototype.eventToCode = function(event, _super) {
+KeyListener.prototype.eventToCode = function (event, _super) {
   var key = event.key;
   if (_super.overrides.hasOwnProperty(event.which)) {
     key = _super.overrides[event.which];
@@ -137,9 +137,9 @@ KeyListener.prototype.eventToCode = function(event, _super) {
   return _super.convertLang(key);
 };
 
-KeyListener.prototype.createListener = function(type) {
+KeyListener.prototype.createListener = function (type) {
   var _super = this;
-  return function(event) {
+  return function (event) {
     if (typeof event.key === 'undefined' || !event.isTrusted) return true;
     var code = _super.eventToCode.call(this, event, _super);
     if (_super.isActive) {
@@ -155,15 +155,15 @@ KeyListener.prototype.createListener = function(type) {
   };
 };
 
-KeyListener.prototype.activate = function() {
+KeyListener.prototype.activate = function () {
   this.isActive = true;
 };
 
-KeyListener.prototype.deactivate = function() {
+KeyListener.prototype.deactivate = function () {
   this.isActive = false;
 };
 
-KeyListener.prototype.parseLangMap = function(mapStr) {
+KeyListener.prototype.parseLangMap = function (mapStr) {
   function tokenize(mapStr) {
     var tokens = [];
     for (var i = 0; i < mapStr.length; i++) {
@@ -204,7 +204,7 @@ KeyListener.prototype.parseLangMap = function(mapStr) {
       return;
     }
     if (tokens[mid] !== 'SEMI_SEP') parseError('mismatched characters');
-    for (i = 0, j = mid + 1; i < mid; i++, j++) {
+    for (i = 0, j = mid + 1; i < mid; i++ , j++) {
       if (tokens[i].length !== 1) parseError('unexpected token: ' + tokens[i]);
       if (tokens[j].length !== 1) parseError('unexpected token: ' + tokens[j]);
       pairs[tokens[i]] = tokens[j];
@@ -236,13 +236,13 @@ KeyListener.prototype.parseLangMap = function(mapStr) {
   return parsed;
 };
 
-KeyListener.prototype.setLangMap = function(map) {
+KeyListener.prototype.setLangMap = function (map) {
   if (typeof map === 'string') this.langMap = this.parseLangMap(map);
   else this.langMap = map;
 };
 
 var KeyHandler = {
-  down: function(key, event) {
+  down: function (key, event) {
     var commandName = currentTrieNode.getKey(key) && currentTrieNode.getKey(key).value;
     if (passMode && commandName !== 'exitPassMode') {
       return;
@@ -251,7 +251,7 @@ var KeyHandler = {
     if (Hints.active) {
       event.preventDefault();
       if (event.which === 18) {
-        Hints.changeFocus();
+        Hints.switchToTop();
         return;
       }
     }
@@ -278,7 +278,7 @@ var KeyHandler = {
       event.stopImmediatePropagation();
       switch (event.which) {
         case 18: // Alt
-          Hints.changeFocus();
+          Hints.switchToTop();
           return;
         case 191: // Slash
           event.preventDefault();
@@ -373,7 +373,7 @@ var KeyHandler = {
       // If key event ocurred in IME and the key is not regular one,
       // set key vaule empty to avoid action.
       if (event.isComposing && /^<.*>$/.test(key)) key = '';
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         Command.lastInputValue = Command.input.value;
       }, 0);
       switch (key) {
@@ -417,10 +417,10 @@ var KeyHandler = {
           }
           if (Command.type === 'action') {
             var inputValue = Command.input.value + (event.ctrlKey ? '&!' : '');
-            Command.hide(function() {
+            Command.hide(function () {
               // prevent tab from switching back after
               // the iframe hides if the command triggers a tab change
-              setTimeout(function() {
+              setTimeout(function () {
                 Command.execute(inputValue, 1);
               }, 10);
             });
@@ -481,12 +481,12 @@ var KeyHandler = {
             Command.input.value.length === 0
           ) {
             event.preventDefault();
-            setTimeout(function() {
+            setTimeout(function () {
               Command.hide();
             }, 10);
             break;
           }
-          setTimeout(function() {
+          setTimeout(function () {
             Command.history.reset = true;
             if (Command.type === 'action') {
               Command.complete(Command.input.value);
@@ -505,18 +505,18 @@ var KeyHandler = {
       }
     }
     if (settings && settings.insertmappings && isInput) {
-      Mappings.insertCommand(key, function() {
+      Mappings.insertCommand(key, function () {
         event.stopImmediatePropagation();
         event.preventDefault();
         if (Command.commandBarFocused() && Command.type !== 'search') {
-          window.setTimeout(function() {
+          window.setTimeout(function () {
             Command.complete(Command.input.value);
           }, 0);
         }
       });
     }
   },
-  up: function(key, event) {
+  up: function (key, event) {
     if (
       Command.commandBarFocused() ||
       (!insertMode && Mappings.queue.length && Mappings.validMatch)
@@ -525,19 +525,19 @@ var KeyHandler = {
       event.preventDefault();
     }
     window.scrollKeyUp = true;
-    if (Hints.active && event.which === 191)
+    if (Hints.active && event.which === 191) // the slash:'/' key
       document.getElementById('cVim-link-container').style.opacity = '1';
   }
 };
 
 KeyHandler.listener = new KeyListener(KeyHandler.down, KeyHandler.up);
 
-window.removeListeners = function() {
+window.removeListeners = function () {
   KeyHandler.listenersActive = false;
   KeyHandler.listener.deactivate();
 };
 
-window.addListeners = function() {
+window.addListeners = function () {
   KeyHandler.listenersActive = true;
   KeyHandler.listener.activate();
 };
@@ -546,9 +546,9 @@ addListeners();
 
 window.addEventListener(
   'DOMContentLoaded',
-  waitForESMLoad(function() {
+  waitForESMLoad(function () {
     if (self === top) {
-      RUNTIME('isNewInstall', null, function(message) {
+      RUNTIME('isNewInstall', null, function (message) {
         if (message) {
           alert(message);
         }
