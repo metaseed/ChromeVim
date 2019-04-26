@@ -47,7 +47,7 @@ export const mappingsActions = {
       Visual.focusSearchResult(true);
     }
   },
-  openLastHint: function () {
+  repeatLastHintAction: function () {
     Hints.dispatchAction(Hints.lastClicked);
   },
   nextMatchPattern: function () {
@@ -269,7 +269,7 @@ export const mappingsActions = {
   lastActiveTab: function () {
     RUNTIME('lastActiveTab');
   },
-  reverseImage: function () {
+  showHintForImageSearch: function () {
     if (
       /\(\d+×\d+\)$/.test(document.title) === true &&
       document.body.firstChild.localName === 'img'
@@ -288,7 +288,7 @@ export const mappingsActions = {
       }, 0);
     }
   },
-  multiReverseImage: function () {
+  showHintForMutipleImageSearch: function () {
     window.setTimeout(function () {
       Hints.create('multiimage');
     }, 0);
@@ -446,31 +446,31 @@ export const mappingsActions = {
       sendSettings: true
     });
   },
-  createHint: function () {
+  showHint: function () {
     Hints.create();
   },
-  openHintInTab: function () {
+  showHintForOpenInSameTab: function () {
     Hints.create('inTab');
   },
-  createTabbedHint: function () {
+  showHintForOpenInInactiveTab: function () {
     Hints.create('tabbed');
   },
-  createActiveTabbedHint: function () {
+  showHintForOpenInActiveTab: function () {
     Hints.create('tabbedActive');
   },
-  createMultiHint: function () {
+  showMutipleHint: function () {
     Hints.create('multi');
   },
-  createHintWindow: function () {
+  showHintForOpenInNewWindow: function () {
     Hints.create('window');
   },
   createEditHint: function () {
     Hints.create('edit');
   },
-  createHoverHint: function () {
+  showHintForHover: function () {
     Hints.create('hover');
   },
-  createUnhoverHint: function () {
+  showHintForUnhover: function () {
     Hints.create('unhover');
   },
   createScriptHint: function (repeats, scriptName) {
@@ -485,10 +485,10 @@ export const mappingsActions = {
       callback: 'openUrlExternalEditorCallback'
     });
   },
-  yankUrl: function () {
+  showHintForUrlYank: function () {
     Hints.create('yank');
   },
-  multiYankUrl: function () {
+  showHintForMutipleUrlYank: function () {
     Hints.create('multiyank');
   },
   fullImageHint: function () {

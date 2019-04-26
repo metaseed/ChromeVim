@@ -146,21 +146,21 @@ export const defaultMappings = [
   /*
    ** hint. note: if hint is hidden by another.
    ** If hide, press Alt to switch it to top.
-   ** Press and hold '/' to hide the hints, release to show again.
+   ** Press and hold '/' to temporarily hide the hints, release to show again.
    */
-  ['f', 'createHint'], // fast hint
-  ['S', 'openHintInTab'], // i.e.: want to directly open a link in same tab when in google search results
-  ['ss', 'openLastHint'], // |s is used by last-scroll-position command.
-  ['st', 'createTabbedHint'], // show hint and to new inactive tab
-  ['sT', 'createActiveTabbedHint'], // show hint and to new active tab
-  ['smt', 'createMultiHint'],
-  ['sw', 'createHintWindow'],
-  ['sh', 'createHoverHint'],
-  ['sH', 'createUnhoverHint'],
-  ['si', 'reverseImage'],
-  ['smi', 'multiReverseImage'],
-  ['sy', 'yankUrl'],
-  ['smy', 'multiYankUrl'],
+  ['f', 'showHint'], // fast hint
+  ['S', 'showHintForOpenInSameTab'], // i.e.: want to directly open a link in same tab when in google search results
+  ['ss', 'repeatLastHintAction'], // |s is used by last-scroll-position command.
+  ['st', 'showHintForOpenInInactiveTab'], // show hint and to new inactive tab
+  ['sT', 'showHintForOpenInActiveTab'], // show hint and to new active tab
+  ['smt', 'showMutipleHint'],
+  ['sw', 'showHintForOpenInNewWindow'],
+  ['sh', 'showHintForHover'],
+  ['sH', 'showHintForUnhover'],
+  ['si', 'showHintForImageSearch'],
+  ['smi', 'showHintForMutipleImageSearch'],
+  ['sy', 'showHintForUrlYank'],
+  ['smy', 'showHintForMutipleUrlYank'],
 
   /*
    ** iteration in collection or tree

@@ -48,70 +48,70 @@ map x mouselessCommandName
 |===
 |Name|Description
 
-| scrollDown                      
-|       scroll down                                                           
+| scrollDown
+|       scroll down
 
-| scrollUp                        
-|       scroll up                                                             
-
-
-| scrollLeft                      
-|       scroll left                                                           
+| scrollUp
+|       scroll up
 
 
-| scrollRight                     
-|       scroll right                                                          
+| scrollLeft
+|       scroll left
 
 
-| scrollPageDown                  
-|       scroll half-page down                                                 
+| scrollRight
+|       scroll right
 
 
-| scrollFullPageDown              
-|       scroll full-page down                                                 
+| scrollPageDown
+|       scroll half-page down
 
 
-| scrollPageUp                    
-|       scroll half-page up                                                   
+| scrollFullPageDown
+|       scroll full-page down
 
 
-| scrollFullPageUp                
-|       scroll full-page up                                                   
+| scrollPageUp
+|       scroll half-page up
 
 
-| scrollToTop                     
-|       scroll to the top of the page                                         
+| scrollFullPageUp
+|       scroll full-page up
 
 
-| scrollToBottom                  
-|       scroll to the bottom of the page                                      
+| scrollToTop
+|       scroll to the top of the page
 
 
-| scrollToLeft                    
-|       scroll to the left of the page                                        
+| scrollToBottom
+|       scroll to the bottom of the page
 
 
-| scrollToRight                   
-|       scroll to the right of the page                                       
+| scrollToLeft
+|       scroll to the left of the page
 
 
-| resetScrollFocus                
-|       reset the scroll focus to the main page                               
+| scrollToRight
+|       scroll to the right of the page
 
 
-| percentScroll                   
-|       scroll &lt;N&gt; percent down the page                                
+| resetScrollFocus
+|       reset the scroll focus to the main page
 
 
-| lastScrollPosition              
-|       go to last scroll position (toggle)                                             
+| percentScroll
+|       scroll &lt;N&gt; percent down the page
+
+
+| lastScrollPosition
+|       go to last scroll position (toggle)
 
 | previousScrollPosition
-| goes to last saved scroll position 
+| goes to last saved scroll position
 
 
 | nextScrollPosition
-| goes to next saved scroll position 
+| goes to next saved scroll position
 
 |===
 
@@ -121,47 +121,47 @@ map x mouselessCommandName
 |Name|Description
 
 
-| openLastHint                    
-|       repeat last hint command                                              
+| repeatLastHintAction
+|       repeat last hint command
 
-| createHint                      
-|       open link in current tab                                              
-
-
-| createTabbedHint                
-|       open link in new background tab 
+| showHint
+|       open link in current tab
 
 
-| createActiveTabbedHint          
+| showHintForOpenInInactiveTab
+|       open link in new background tab
+
+
+| showHintForOpenInActiveTab
 |       open link in new tab and go to it (active)
 
 
-| createHintWindow                
-|       open link in new window                                               
+| showHintForOpenInNewWindow
+|       open link in new window
 
 
-| createHoverHint                 
-|       trigger a hover event (mouseover + mouseenter)                        
+| showHintForHover
+|       trigger a hover event (mouseover + mouseenter)
 
 
-| createUnhoverHint               
-|       trigger a unhover event (mouseout + mouseleave)                       
+| showHintForUnhover
+|       trigger a unhover event (mouseout + mouseleave)
 
 
-| createMultiHint                 
-|       open multiple links                                                   
+| showMutipleHint
+|       open multiple links
 
 
-| createEditHint                  
-|       edit text with external editor                                        
+| createEditHint
+|       edit text with external editor
 
 
-| createScriptHint(`<FUNCTION_NAME>`) 
-|   call a code block with the link as the first argument                 
+| createScriptHint(`<FUNCTION_NAME>`)
+|   call a code block with the link as the first argument
 
 
-| fullImageHint                   
-|       opens images in a new tab                                             
+| fullImageHint
+|       opens images in a new tab
 
 
 |===
@@ -174,57 +174,57 @@ map x mouselessCommandName
 | lastActiveTab
 | go to last active tab. A tab is flagged as active when its url changes
 
-| muteTab                         
-|       mute/unmute a tab                                                     
+| muteTab
+|       mute/unmute a tab
 
-| reloadTab                       
-|       reload the current tab                                                
-
-
-| reloadTabUncached               
-|       reload the current tab + local cache                                  
-
-| reloadAllTabs                   
-|       reload all tabs in all windows                                                       
-
-| reloadAllButCurrent             
-|       reload all tabs in current window                                                       
+| reloadTab
+|       reload the current tab
 
 
-| nextTab                         
-|       navigate to the next tab                                              
+| reloadTabUncached
+|       reload the current tab + local cache
+
+| reloadAllTabs
+|       reload all tabs in all windows
+
+| reloadAllButCurrent
+|       reload all tabs in current window
 
 
-| previousTab                     
-|       navigate to the previous tab                                          
+| nextTab
+|       navigate to the next tab
 
 
-| firstTab 
+| previousTab
+|       navigate to the previous tab
+
+
+| firstTab
 |       go to the first tab
 
-| lastTab               
+| lastTab
 | go to last tab
 
 
 
-| closeTab                        
-|       close the current tab                                                 
+| closeTab
+|       close the current tab
 
 
-| closeTabLeft                    
-|       close the tab to the left of the current tab                          
+| closeTabLeft
+|       close the tab to the left of the current tab
 
 
-| closeTabRight                   
-|       close the tab to the right of the current tab                         
+| closeTabRight
+|       close the tab to the right of the current tab
 
 
-| closeTabsToLeft                 
-|       close all tabs to the left of the current tab                         
+| closeTabsToLeft
+|       close all tabs to the left of the current tab
 
 
-| closeTabsToRight                
-|       close all tabs to the right of the current tab                        
+| closeTabsToRight
+|       close all tabs to the right of the current tab
 
 | myCloseTabsOthers
 | close other tabs in the current window except current tab
@@ -254,52 +254,52 @@ map x mouselessCommandName
 | move marked tabs into the current window
 
 | windowUnpinAllTabs
-| unpin all tabs in current window 
+| unpin all tabs in current window
 
 | browserUnpinAllTabs
 | unpin all tabs in all windows
 
 
-| :buffer                         
-|       search for another active tab                                         
+| :buffer
+|       search for another active tab
 
-| moveTabLeft                     
-|       move current tab left                                                 
-
-
-| moveTabRight                    
-|       move current tab right                                                
+| moveTabLeft
+|       move current tab left
 
 
-
-| pinTab                          
-|       pin/unpin the current tab                                             
-
-
-| lastUsedTab                     
-|       toggle the focus between the last used tabs                           
-
-| lastClosedTab                   
-|       open the last closed tab                                              
-
-| :tabnew google                  
-|       alias to ":tabnew google "                                            
+| moveTabRight
+|       move current tab right
 
 
-| :tabnew                         
-|       :tabnew                                                               
+
+| pinTab
+|       pin/unpin the current tab
 
 
-| :tabnew @%                      
-|       :tabnew &lt;CURRENT URL&gt;                                           
+| lastUsedTab
+|       toggle the focus between the last used tabs
+
+| lastClosedTab
+|       open the last closed tab
+
+| :tabnew google
+|       alias to ":tabnew google "
 
 
-| :open @%                        
-|       :open &lt;CURRENT URL&gt;                                             
+| :tabnew
+|       :tabnew
 
 
-| goToTab                         
-|       switch to tab &lt;N&gt;                                               
+| :tabnew @%
+|       :tabnew &lt;CURRENT URL&gt;
+
+
+| :open @%
+|       :open &lt;CURRENT URL&gt;
+
+
+| goToTab
+|       switch to tab &lt;N&gt;
 
 | toggleIncognitoTab
 | reopens tab url in incognito or normal. preserves current tab.
@@ -315,32 +315,32 @@ map x mouselessCommandName
 |===
 |Name|Description
 
-| goToInput                       
-|       go to first input box                                                 
+| goToInput
+|       go to first input box
 
 
-| goToLastInput                   
-|       go to the last focused input box by `gi`                              
+| goToLastInput
+|       go to the last focused input box by `gi`
 
 
-| repeatCommand                   
-|       repeat the last command                                               
+| repeatCommand
+|       repeat the last command
 
-| openCommandBar                  
-|       open command bar                                                
-
-
-
-| multiReverseImage               
-|       reverse image search multiple links                                   
+| openCommandBar
+|       open command bar
 
 
 
-| reverseImage                    
-|       reverse image search (google images)                                  
+| showHintForMutipleImageSearch
+|       reverse image search multiple links
 
-| passKeys                        
-|       pass `<N>` keys through to the current page                           
+
+
+| showHintForImageSearch
+|       reverse image search (google images)
+
+| passKeys
+|       pass `<N>` keys through to the current page
 
 | enterPassMode
 | pass all keys except for `exitPassMode` keybinding
@@ -348,32 +348,32 @@ map x mouselessCommandName
 | exitPassMode
 | exit PassMode and resume listening to all keybindings
 
-| zoomPageIn                      
-|       zoom page in                                                          
+| zoomPageIn
+|       zoom page in
 
 
-| zoomPageOut                     
-|       zoom page out                                                         
+| zoomPageOut
+|       zoom page out
 
 
-| zoomOrig                        
-|       zoom page to original size                                            
+| zoomOrig
+|       zoom page to original size
 
-| nextFrame                       
-|       cycle through iframes                                                 
+| nextFrame
+|       cycle through iframes
 
 
-| rootFrame                       
-|       go to the root frame                                                  
+| rootFrame
+|       go to the root frame
 
-| :viewsource!                    
-|       go to the view-source:// page for the current Url                     
+| :viewsource!
+|       go to the view-source:// page for the current Url
 
 | viewSourceExternalEditor
 | same as viewsource but opens in configured external editor
 
-| toggleImageZoom                 
-|       toggle image zoom (same as clicking the image on image-only pages)    
+| toggleImageZoom
+|       toggle image zoom (same as clicking the image on image-only pages)
 
 | toggleDomainStylesheets
 | toggle a stylesheet for this domain
@@ -388,19 +388,19 @@ map x mouselessCommandName
 |===
 |Name|Description
 
-| goUpUrl                         
-|       go up one path in the URL                                             
+| goUpUrl
+|       go up one path in the URL
 
 
-| goToRootUrl                     
-|       go to to the base URL                                                 
+| goToRootUrl
+|       go to to the base URL
 
 
 | incrementURLPath, incrementURLFirstPath
-| increment the first number in the URL path                            
+| increment the first number in the URL path
 
-| decrementURLPath, decrementURLFirstPath 
-| decrement the first number in the URL path 
+| decrementURLPath, decrementURLFirstPath
+| decrement the first number in the URL path
 
 | incrementURLLastPath
 | increment the last number in the URL path
@@ -408,12 +408,12 @@ map x mouselessCommandName
 | decrementURLLastPath
 | decrement the last number in the URL path
 
-| nextMatchPattern                
-|       click the "next" link on the page (see nextmatchpattern above)        
+| nextMatchPattern
+|       click the "next" link on the page (see nextmatchpattern above)
 
 
-| previousMatchPattern            
-|       click the "back" link on the page (see previousmatchpattern above)    
+| previousMatchPattern
+|       click the "back" link on the page (see previousmatchpattern above)
 
 
 
@@ -424,34 +424,34 @@ map x mouselessCommandName
 |Name|Description
 
 
-| multiYankUrl                    
-|       yank multiple links to clipboard (open the list of links with P)                   
+| showHintForMutipleUrlYank
+|       yank multiple links to clipboard (open the list of links with P)
 
 
-| yankUrl                         
-|       copy URL from link to clipboard                                       
+| showHintForUrlYank
+|       copy URL from link to clipboard
 
-| yankDocumentUrl                 
-|       copy the URL of the current page to the clipboard                     
-
-
-| yankRootUrl                     
-|       copy the URL of the current frame to the clipboard                    
+| yankDocumentUrl
+|       copy the URL of the current page to the clipboard
 
 
-| yankWindowUrls                  
-|       copy the URLs in the current window                                   
+| yankRootUrl
+|       copy the URL of the current frame to the clipboard
 
 
-| yankHighlight                   
-|       copy the currently matched text from find mode (if any)               
+| yankWindowUrls
+|       copy the URLs in the current window
 
 
-| openPaste                       
-|       open the clipboard selection                                          
+| yankHighlight
+|       copy the currently matched text from find mode (if any)
 
-| openPasteTab                    
-|       open the clipboard selection in a new tab                             
+
+| openPaste
+|       open the clipboard selection
+
+| openPasteTab
+|       open the clipboard selection in a new tab
 
 | copyURLDownloads
 | copy final url of all active download
@@ -464,37 +464,37 @@ map x mouselessCommandName
 |Name|Description
 
 
-| openSearchBar                   
-|       open search bar                                                       
+| openSearchBar
+|       open search bar
 
 
-| openSearchBarReverse            
-|       open search bar (reverse search)                                      
+| openSearchBarReverse
+|       open search bar (reverse search)
 
 
-| openLinkSearchBar               
-|       open link search bar (same as pressing `/?`)                          
+| openLinkSearchBar
+|       open link search bar (same as pressing `/?`)
 
 
 
-| centerMatchH                    
-|       center page to current search match (middle)                          
+| centerMatchH
+|       center page to current search match (middle)
 
 
-| centerMatchT                    
-|       center page to current search match (top)                             
+| centerMatchT
+|       center page to current search match (top)
 
 
-| centerMatchB                    
-|       center page to current search match (bottom)                          
-| nextSearchResult                
-|       next search result                                                    
+| centerMatchB
+|       center page to current search match (bottom)
+| nextSearchResult
+|       next search result
 
-| previousSearchResult            
-|       previous search result                                                
+| previousSearchResult
+|       previous search result
 
-| clearSearchHighlight            
-|       clear search mode highlighting                                        
+| clearSearchHighlight
+|       clear search mode highlighting
 
 
 
@@ -506,12 +506,12 @@ map x mouselessCommandName
 |Name|Description
 
 
-| toggleVisualMode                
-|       enter visual/caret mode (highlight current search/selection)          
+| toggleVisualMode
+|       enter visual/caret mode (highlight current search/selection)
 
 
-| toggleVisualLineMode            
-|       enter visual line mode from caret mode/currently highlighted search   
+| toggleVisualLineMode
+|       enter visual line mode from caret mode/currently highlighted search
 
 
 |===
@@ -521,70 +521,70 @@ map x mouselessCommandName
 |===
 |Name|Description
 
-| insertMode                      
-|       enter insert mode (escape to exit)                                    
+| insertMode
+|       enter insert mode (escape to exit)
 
-| beginningOfLine                 
-|       move cursor to the beginning of the line                              
+| beginningOfLine
+|       move cursor to the beginning of the line
 
 | beginningOfLineOrSelectAll
 |       move cursor to the beginning of the line or select all if already at beginning
 
 
-| endOfLine                       
-|       move cursor to the end of the line                                    
+| endOfLine
+|       move cursor to the end of the line
 
 
-| deleteToBeginning               
-|       delete to the beginning of the line                                   
+| deleteToBeginning
+|       delete to the beginning of the line
 
 
-| deleteToEnd                     
-|       delete to the end of the line                                         
+| deleteToEnd
+|       delete to the end of the line
 
 
-| deleteWord                      
-|       delete back one word                                                  
+| deleteWord
+|       delete back one word
 
 
-| deleteForwardWord               
-|       delete forward one word                                               
+| deleteForwardWord
+|       delete forward one word
 
 
-| deleteChar                      
-|       delete back one character                                             
+| deleteChar
+|       delete back one character
 
 
-| deleteForwardChar               
-|       delete forward one character                                          
+| deleteForwardChar
+|       delete forward one character
 
 
-| backwardWord                    
-|       move cursor back one word                                             
+| backwardWord
+|       move cursor back one word
 
 
-| forwardWord                     
-|       move cursor forward one word                                          
+| forwardWord
+|       move cursor forward one word
 
 
-| forwardChar                     
-|       move cursor forward one letter                                        
+| forwardChar
+|       move cursor forward one letter
 
 
-| backwardChar                    
-|       move cursor back one letter                                           
+| backwardChar
+|       move cursor back one letter
 
 
-| forwardLine                     
-|       move cursor forward one line                                          
+| forwardLine
+|       move cursor forward one line
 
 
-| backwardLine                    
-|       move cursor back one line                                             
+| backwardLine
+|       move cursor back one line
 
 
-| selectAll                       
-|       select input text (equivalent to `<C-a>`)                       
+| selectAll
+|       select input text (equivalent to `<C-a>`)
 
 |===
 
@@ -593,8 +593,8 @@ map x mouselessCommandName
 |===
 |Name|Description
 
-| hideDownloadsShelf              
-|       hide the download shelf                                               
+| hideDownloadsShelf
+|       hide the download shelf
 
 | pauseDownloads
 | pause all active downloads
@@ -621,11 +621,11 @@ map x mouselessCommandName
 |===
 |Name|Description
 
-| editWithVim     
-| edit with Vim in a terminal (need the [cvim_server.py](https://github.com/1995eaton/chromium-vim/blob/master/cvim_server.py) script running for this to work) 
+| editWithVim
+| edit with Vim in a terminal (need the [cvim_server.py](https://github.com/1995eaton/chromium-vim/blob/master/cvim_server.py) script running for this to work)
 
-| createEditHint                  
-|       edit text with external editor                                        
+| createEditHint
+|       edit text with external editor
 
 | openUrlExternalEditor
 | open current url in external editor for editing
@@ -640,22 +640,22 @@ map x mouselessCommandName
 |===
 |Name|Description
 
-| cancelWebRequest                
-|       stop the current tab from loading                                     
+| cancelWebRequest
+|       stop the current tab from loading
 
 
-| cancelAllWebRequests            
-|       stop all tabs from loading                                            
+| cancelAllWebRequests
+|       stop all tabs from loading
 
 
-| quitChrome                      
-|       close all browser windows                                             
+| quitChrome
+|       close all browser windows
 
-| :chrome://downloads&lt;CR&gt;   
-|       alias to :chrome://downloads&lt;CR&gt;                                
+| :chrome://downloads&lt;CR&gt;
+|       alias to :chrome://downloads&lt;CR&gt;
 
-| :chrome://extensions&lt;CR&gt;  
-|       alias to :chrome://extensions&lt;CR&gt;                               
+| :chrome://extensions&lt;CR&gt;
+|       alias to :chrome://extensions&lt;CR&gt;
 
 | exportSettings
 | export the mouseless settings JSON object storing your whole config as a file
@@ -668,23 +668,23 @@ map x mouselessCommandName
 |Name|Description
 
 
-| addQuickMark                    
-|       create quickmark &lt;*&gt;                                            
+| addQuickMark
+|       create quickmark &lt;*&gt;
 
-| openQuickMark                   
-|       open quickmark &lt;*&gt; in the current tab                           
+| openQuickMark
+|       open quickmark &lt;*&gt; in the current tab
 
-| openQuickMarkTabbed             
-|       open quickmark &lt;*&gt; in a new tab                                 
+| openQuickMarkTabbed
+|       open quickmark &lt;*&gt; in a new tab
 
-| openQuickMarkWindowed           
-|       open quickmark &lt;*&gt; in a new window                              
+| openQuickMarkWindowed
+|       open quickmark &lt;*&gt; in a new window
 
-| setMark                         
-|       create mark &lt;*&gt;                                                 
+| setMark
+|       create mark &lt;*&gt;
 
-| goToMark                        
-|       go to mark &lt;*&gt;                                                  
+| goToMark
+|       go to mark &lt;*&gt;
 |===
 
 
@@ -695,21 +695,21 @@ NOTE: Marks (aka local marks) are limited to the current page and are saved by d
 |Name|Description
 
 
-| :history                        
-|       search through browser history                                        
+| :history
+|       search through browser history
 
-| goBack                          
-|       go back                                                               
+| goBack
+|       go back
 
-| goForward                       
-|       go forward                                                        
+| goForward
+|       go forward
 
-| openLastLinkInTab               
-|       open the last URL in the current tab's history in a new tab           
+| openLastLinkInTab
+|       open the last URL in the current tab's history in a new tab
 
 
-| openNextLinkInTab               
-|       open the next URL from the current tab's history in a new tab         
+| openNextLinkInTab
+|       open the next URL from the current tab's history in a new tab
 
 | previousDomain
 | Jump to previous domain in tab's history
@@ -725,17 +725,17 @@ NOTE: Marks (aka local marks) are limited to the current page and are saved by d
 |===
 |Name|Description
 
-| :bookmarks                      
-|       search through bookmarks                                              
+| :bookmarks
+|       search through bookmarks
 
-| createBookmark                  
-|       create or toggle a bookmark for the current URL                       
+| createBookmark
+|       create or toggle a bookmark for the current URL
 
 | toggleBookmark
 | create/toggle bookmark in a specified folder
 
 | toggleWindowBookmarks
-| same as toggleBookmark but applies to all tabs in window 
+| same as toggleBookmark but applies to all tabs in window
 
 | loadBookmarksFolder
 | load bookmarks from external bookmarks-editor program (experimental)
@@ -751,13 +751,13 @@ NOTE: Marks (aka local marks) are limited to the current page and are saved by d
 |Name|Description
 
 | `<ESC>`
-| exits visual mode to caret, caret to normal and removes focus on active element 
+| exits visual mode to caret, caret to normal and removes focus on active element
 |===
 
 
 === CLI Commands
 
-NOTE: Type `:` before calling command 
+NOTE: Type `:` before calling command
 
 |===
 |Name|Description

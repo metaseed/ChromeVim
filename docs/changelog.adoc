@@ -17,7 +17,7 @@ link:index.html[Home]
 . add <C-Up> <C-Down> to command panel to navigate in completion items.(<Tab><S-Tab> is keeped; up, down are used to command history).
 . map <F1> to help command.
 . modify help page to contains other help info: shortcuts of chrome...
-. add command 'openHintInTab' which is useful in google search.
+. add command 'showHintForOpenInSameTab' which is useful in google search.
 . using es module to refactor code, remove large js files(started, ongoing...)
 . add function: using <Delete> key to delete bookmark in command bar completetion :bookmarks
 . add function: support hint of scrollable element, to do focus.

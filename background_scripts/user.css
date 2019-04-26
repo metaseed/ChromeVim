@@ -92,13 +92,13 @@
 
 .cVim-completion-item .cVim-left {
   color: #fff;
-  width: 37%;
+  width: 30%;
 }
 
 .cVim-completion-item .cVim-right {
   font-style: italic;
   color: #888;
-  width: 57%;
+  width: 70%;
 }
 
 #cVim-link-container,

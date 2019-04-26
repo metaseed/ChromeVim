@@ -16,7 +16,7 @@ let qmark
       \ a = ['http://www.reddit.com/r/learnjavascript/new', 'http://www.reddit.com/r/learnpython/new/', 'http://www.reddit.com/r/learnprogramming/new']
 imap <C-o> editWithVim
 map <C-o> :duplicate<CR>
-map af createTabbedHint
+map af showHintForOpenInInactiveTab
 map xx closeTab
 map $ lastTab
 
@@ -41,7 +41,7 @@ map cn :execute nzz<CR>
 map cN :execute Nzz<CR>
 map <C-d> :file ~/
 map <C-e> scrollUp
-map <C-s> openLastHint
+map <C-s> repeatLastHintAction
 map <C-g> :set smoothscroll!<CR>
 map <C-h> :nohl<CR>
 map cc :set hud!<CR>
