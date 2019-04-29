@@ -247,15 +247,13 @@ var KeyHandler = {
     if (passMode && commandName !== 'exitPassMode') {
       return;
     }
-
     if (Hints.active) {
       event.preventDefault();
-      if (event.which === 18) {
+      if (event.which === 16) { // 16 is shift key
         Hints.switchToTop();
         return;
       }
     }
-
     if (Visual.visualModeActive || Visual.caretModeActive) event.preventDefault();
 
     if (Mappings.keyPassesLeft) {
@@ -276,14 +274,10 @@ var KeyHandler = {
 
     if (Hints.active) {
       event.stopImmediatePropagation();
-      switch (event.which) {
-        case 18: // Alt
-          Hints.switchToTop();
-          return;
-        case 32: // Space
-          event.preventDefault();
-          document.getElementById('cVim-link-container').style.opacity = '0';
-          return;
+      if (event.which === 32) {
+        event.preventDefault();
+        document.getElementById('cVim-link-container').style.opacity = '0';
+        return;
       }
     }
 

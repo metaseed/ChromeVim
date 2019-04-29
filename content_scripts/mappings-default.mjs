@@ -148,7 +148,7 @@ export const defaultMappings = [
 
   /*
    ** display hint. note: if hint is hidden by another.
-   ** If hide, press Alt to switch it to top.
+   ** If hide, press Shift to shift it to top.
    ** Press and hold the space key to temporarily hide the hints, release to show again.
    */
   ['f', 'displayHint'], // fast hint

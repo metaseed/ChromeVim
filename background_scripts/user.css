@@ -125,7 +125,7 @@ div.cVim-link-hint-scroll {
 }
 
 div.cVim-link-hint-input {
-  background-color: gray;
+  background-color: lightseagreen;
 }
 
 .cVim-link-hint {
@@ -135,7 +135,7 @@ div.cVim-link-hint-input {
   border-radius: 2px !important;
   padding: 2px !important;
   font-size: 8pt !important;
-  font-weight: 500 !important;
+  font-weight: 700 !important;
   text-transform: uppercase !important;
   border: 1px solid #ad810c;
   display: inline-block !important;
