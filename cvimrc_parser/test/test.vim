@@ -16,7 +16,7 @@ let qmark
       \ a = ['http://www.reddit.com/r/learnjavascript/new', 'http://www.reddit.com/r/learnpython/new/', 'http://www.reddit.com/r/learnprogramming/new']
 imap <C-o> editWithVim
 map <C-o> :duplicate<CR>
-map af showHintForOpenInInactiveTab
+map af displayHintForOpenInInactiveTab
 map xx closeTab
 map $ lastTab
 

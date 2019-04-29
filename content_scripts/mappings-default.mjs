@@ -38,11 +38,15 @@ export const defaultMappings = [
   // scroll
   //
   ['j', 'scrollDown'],
+  ['<A-s>', 'scrollDown'],
   ['k', 'scrollUp'],
+  ['<A-w>', 'scrollUp'],
   ['gg', 'scrollToTop'], // <Home>
   ['G', 'scrollToBottom'], // <End>
   ['h', 'scrollLeft'],
+  ['<A-a>', 'scrollLeft'],
   ['l', 'scrollRight'],
+  ['<A-d>', 'scrollRight'],
   ['0', 'scrollToLeft'], // to the most left (begin)
   ['$', 'scrollToRight'], // to the most right (end)
 
@@ -74,7 +78,7 @@ export const defaultMappings = [
    ** search
    */
   ['b', ':bookmarks '], // search in bookmarks
-  ['B', ':buffer '], // search in all tabs across windows
+  ['T', ':buffer '], // search in all tabs across windows
   //* C-h: show chrome history page
   ['I', ':history '], // search in history
 
@@ -118,7 +122,6 @@ export const defaultMappings = [
   //* A-Home: homepage
   ['oo', ':tabnew @%<CR>'], // Open again. Note: @% is current tab address
   ['O', ':open '],
-  ['T', ':tabnew '],
   ['oc', 'lastClosedTab'], // <C-S-t>
   //* C-n: newWindow
   //* C-S-n: newWindowIncognito
@@ -144,23 +147,23 @@ export const defaultMappings = [
   ['<', 'moveTabLeft'], // move left
 
   /*
-   ** hint. note: if hint is hidden by another.
+   ** display hint. note: if hint is hidden by another.
    ** If hide, press Alt to switch it to top.
-   ** Press and hold '/' to temporarily hide the hints, release to show again.
+   ** Press and hold the space key to temporarily hide the hints, release to show again.
    */
-  ['f', 'showHint'], // fast hint
-  ['S', 'showHintForOpenInSameTab'], // i.e.: want to directly open a link in same tab when in google search results
-  ['ss', 'repeatLastHintAction'], // |s is used by last-scroll-position command.
-  ['st', 'showHintForOpenInInactiveTab'], // show hint and to new inactive tab
-  ['sT', 'showHintForOpenInActiveTab'], // show hint and to new active tab
-  ['smt', 'showMutipleHint'],
-  ['sw', 'showHintForOpenInNewWindow'],
-  ['sh', 'showHintForHover'],
-  ['sH', 'showHintForUnhover'],
-  ['si', 'showHintForImageSearch'],
-  ['smi', 'showHintForMutipleImageSearch'],
-  ['sy', 'showHintForUrlYank'],
-  ['smy', 'showHintForMutipleUrlYank'],
+  ['f', 'displayHint'], // fast hint
+  ['D', 'displayHintForOpenInSameTab'], // i.e.: want to directly open a link in same tab when in google search results
+  ['da', 'repeatLastHintAction'], // |s is used by last-scroll-position command.
+  ['dt', 'displayHintForOpenInInactiveTab'], // show hint and to new inactive tab
+  ['dT', 'displayHintForOpenInActiveTab'], // show hint and to new active tab
+  ['dmt', 'displayMutipleHint'],
+  ['dw', 'displayHintForOpenInNewWindow'],
+  ['dh', 'displayHintForHover'],
+  ['dH', 'displayHintForUnhover'],
+  ['di', 'displayHintForImageSearch'],
+  ['dmi', 'displayHintForMutipleImageSearch'],
+  ['dy', 'displayHintForUrlYank'],
+  ['dmy', 'displayHintForMutipleUrlYank'],
 
   /*
    ** iteration in collection or tree
@@ -190,7 +193,7 @@ export const defaultMappings = [
   ['[u', 'goUpUrl'],
   [']i', 'goToInput'],
   ['|i', 'goToLastInput'],
-  ['{s', 'resetScrollFocus'],
+  ['{s', 'setScrollFocusToMainPage'],
   ['|s', 'lastScrollPosition'],
   ['[s', 'previousScrollPosition'],
   [']s', 'nextScrollPosition'],

@@ -95,7 +95,7 @@ map x mouselessCommandName
 |       scroll to the right of the page
 
 
-| resetScrollFocus
+| setScrollFocusToMainPage
 |       reset the scroll focus to the main page
 
 
@@ -124,31 +124,31 @@ map x mouselessCommandName
 | repeatLastHintAction
 |       repeat last hint command
 
-| showHint
+| displayHint
 |       open link in current tab
 
 
-| showHintForOpenInInactiveTab
+| displayHintForOpenInInactiveTab
 |       open link in new background tab
 
 
-| showHintForOpenInActiveTab
+| displayHintForOpenInActiveTab
 |       open link in new tab and go to it (active)
 
 
-| showHintForOpenInNewWindow
+| displayHintForOpenInNewWindow
 |       open link in new window
 
 
-| showHintForHover
+| displayHintForHover
 |       trigger a hover event (mouseover + mouseenter)
 
 
-| showHintForUnhover
+| displayHintForUnhover
 |       trigger a unhover event (mouseout + mouseleave)
 
 
-| showMutipleHint
+| displayMutipleHint
 |       open multiple links
 
 
@@ -331,12 +331,12 @@ map x mouselessCommandName
 
 
 
-| showHintForMutipleImageSearch
+| displayHintForMutipleImageSearch
 |       reverse image search multiple links
 
 
 
-| showHintForImageSearch
+| displayHintForImageSearch
 |       reverse image search (google images)
 
 | passKeys
@@ -424,11 +424,11 @@ map x mouselessCommandName
 |Name|Description
 
 
-| showHintForMutipleUrlYank
+| displayHintForMutipleUrlYank
 |       yank multiple links to clipboard (open the list of links with P)
 
 
-| showHintForUrlYank
+| displayHintForUrlYank
 |       copy URL from link to clipboard
 
 | yankDocumentUrl

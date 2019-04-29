@@ -280,7 +280,7 @@ var KeyHandler = {
         case 18: // Alt
           Hints.switchToTop();
           return;
-        case 191: // Slash
+        case 32: // Space
           event.preventDefault();
           document.getElementById('cVim-link-container').style.opacity = '0';
           return;
@@ -525,7 +525,7 @@ var KeyHandler = {
       event.preventDefault();
     }
     window.scrollKeyUp = true;
-    if (Hints.active && event.which === 191) // the slash:'/' key
+    if (Hints.active && event.which === 32) // the space:' ' key
       document.getElementById('cVim-link-container').style.opacity = '1';
   }
 };

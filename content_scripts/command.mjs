@@ -3,11 +3,11 @@ export const Command = {};
 window.Command = Command;
 
 Command.descriptions = [
-  ['open', 'Open a link in the current tab'],
-  ['tabnew', 'Open a link in a new tab'],
+  ['open', 'Open the typed/completed URL/google search'],
+  ['tabnew', 'Open a new tab with the typed/completed search'],
   ['tabnext', 'Switch to the next open tab'],
   ['tabprevious', 'Switch to the previous open tab'],
-  ['new', 'Open a link in a new window'],
+  ['new', 'Open a new window with the typed/completed search'],
   ['buffer', 'Select from a list of current tabs'],
   ['history', 'Search through your browser history'],
   ['bookmarks', 'Search through your bookmarks'],

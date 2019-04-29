@@ -41,7 +41,7 @@ var scrollingElement = (function() {
     lastScrollElem = null,
     clickFocus = false;
 
-  window.resetScrollFocus = function() {
+  window.setScrollFocusToMainPage = function() {
     clickFocus = false;
   };
 

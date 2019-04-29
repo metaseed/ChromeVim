@@ -269,7 +269,7 @@ export const mappingsActions = {
   lastActiveTab: function () {
     RUNTIME('lastActiveTab');
   },
-  showHintForImageSearch: function () {
+  displayHintForImageSearch: function () {
     if (
       /\(\d+×\d+\)$/.test(document.title) === true &&
       document.body.firstChild.localName === 'img'
@@ -288,7 +288,7 @@ export const mappingsActions = {
       }, 0);
     }
   },
-  showHintForMutipleImageSearch: function () {
+  displayHintForMutipleImageSearch: function () {
     window.setTimeout(function () {
       Hints.create('multiimage');
     }, 0);
@@ -446,31 +446,31 @@ export const mappingsActions = {
       sendSettings: true
     });
   },
-  showHint: function () {
+  displayHint: function () {
     Hints.create();
   },
-  showHintForOpenInSameTab: function () {
+  displayHintForOpenInSameTab: function () {
     Hints.create('inTab');
   },
-  showHintForOpenInInactiveTab: function () {
+  displayHintForOpenInInactiveTab: function () {
     Hints.create('tabbed');
   },
-  showHintForOpenInActiveTab: function () {
+  displayHintForOpenInActiveTab: function () {
     Hints.create('tabbedActive');
   },
-  showMutipleHint: function () {
+  displayMutipleHint: function () {
     Hints.create('multi');
   },
-  showHintForOpenInNewWindow: function () {
+  displayHintForOpenInNewWindow: function () {
     Hints.create('window');
   },
   createEditHint: function () {
     Hints.create('edit');
   },
-  showHintForHover: function () {
+  displayHintForHover: function () {
     Hints.create('hover');
   },
-  showHintForUnhover: function () {
+  displayHintForUnhover: function () {
     Hints.create('unhover');
   },
   createScriptHint: function (repeats, scriptName) {
@@ -485,10 +485,10 @@ export const mappingsActions = {
       callback: 'openUrlExternalEditorCallback'
     });
   },
-  showHintForUrlYank: function () {
+  displayHintForUrlYank: function () {
     Hints.create('yank');
   },
-  showHintForMutipleUrlYank: function () {
+  displayHintForMutipleUrlYank: function () {
     Hints.create('multiyank');
   },
   fullImageHint: function () {
@@ -780,8 +780,8 @@ export const mappingsActions = {
     passMode = false;
     Status.setMessage('Exited pass-mode', 1);
   },
-  resetScrollFocus: function () {
-    window.resetScrollFocus();
+  setScrollFocusToMainPage: function () {
+    window.setScrollFocusToMainPage();
   },
   clearSearchHighlight: function () {
     Find.clear();
