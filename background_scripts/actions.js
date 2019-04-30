@@ -1024,625 +1024,624 @@ Actions = (function () {
         buffers
       })
     });
-  });
-};
+  };
 
-_.getSessionNames = function (o) {
-  o.callback({
-    type: 'sessions',
-    sessions: Object.keys(sessions).map(function (e) {
-      return [
-        e,
-        Object.keys(sessions[e]).length.toString() +
-        ' tab' +
-        (Object.keys(sessions[e]).length === 1 ? '' : 's')
-      ];
-    })
-  });
-};
-
-_.retrieveAllHistory = function (o) {
-  o.callback({ type: 'commandHistory', history: History.commandHistory });
-};
-
-_.getBookmarkPath = function (o) {
-  chrome.bookmarks.getTree(function (marks) {
-    Bookmarks.getPath(marks[0].children, o.request.path, function (e) {
-      o.callback({ type: 'bookmarkPath', path: e });
-    });
-  });
-};
-
-_.getLastCommand = function (o) {
-  if (lastCommand) {
-    o.callback({ type: 'updateLastCommand', data: lastCommand });
-  }
-};
-
-_.getSettings = function (o) {
-  Options.refreshSettings(function () {
+  _.getSessionNames = function (o) {
     o.callback({
-      type: 'sendSettings',
-      settings: o.request.reset ? defaultSettings : settings
+      type: 'sessions',
+      sessions: Object.keys(sessions).map(function (e) {
+        return [
+          e,
+          Object.keys(sessions[e]).length.toString() +
+          ' tab' +
+          (Object.keys(sessions[e]).length === 1 ? '' : 's')
+        ];
+      })
     });
-  });
-};
+  };
 
-_.setIconEnabled = function (o) {
-  chrome.browserAction.setIcon(
-    {
-      path: 'icons/38.png',
-      tabId: o.sender.tab.id
-    },
-    function () {
-      return chrome.runtime.lastError;
-    }
-  );
-};
+  _.retrieveAllHistory = function (o) {
+    o.callback({ type: 'commandHistory', history: History.commandHistory });
+  };
 
-_.getFilePath = function (o) {
-  Files.getPath(o.request.path, function (data) {
-    o.callback(data);
-  });
-  return true;
-};
+  _.getBookmarkPath = function (o) {
+    chrome.bookmarks.getTree(function (marks) {
+      Bookmarks.getPath(marks[0].children, o.request.path, function (e) {
+        o.callback({ type: 'bookmarkPath', path: e });
+      });
+    });
+  };
 
-_.getBlacklisted = function (o) {
-  Popup.getBlacklisted(function () {
-    o.callback(true);
-  });
-};
-
-_.editWithVim = function (o) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'http://127.0.0.1:' + settings.vimport);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      var method = o.request.callback || 'editWithVim';
-      o.callback({ type: method, text: xhr.responseText, elementId: o.request.elementId });
+  _.getLastCommand = function (o) {
+    if (lastCommand) {
+      o.callback({ type: 'updateLastCommand', data: lastCommand });
     }
   };
-  xhr.send(
-    JSON.stringify({
-      data: '' + (o.request.text || ''),
-      line: o.request.line || 0,
-      column: o.request.column || 0
-    })
-  );
-};
 
-_.httpRequest = function (o) {
-  httpRequest(o.request.request).then(function (res) {
-    o.callback({ type: 'httpRequest', id: o.request.id, text: res });
-  });
-};
-
-_.quitChrome = function () {
-  chrome.windows.getAll({ populate: false }, function (windowList) {
-    windowList.forEach(function (e) {
-      chrome.windows.remove(e.id);
+  _.getSettings = function (o) {
+    Options.refreshSettings(function () {
+      o.callback({
+        type: 'sendSettings',
+        settings: o.request.reset ? defaultSettings : settings
+      });
     });
-  });
-};
+  };
 
-_.parseRC = function (o) {
-  o.callback({ type: 'parseRC', config: RCParser.parse(o.request.config) });
-};
-
-_.showCommandFrame = function (o) {
-  Frames.get(o.sender.tab.id).focusedId = o.request.frameId;
-  chrome.tabs.sendMessage(o.sender.tab.id, {
-    action: o.request.action,
-    search: o.request.search,
-    value: o.request.value,
-    complete: o.request.complete
-  });
-};
-
-_.markActiveFrame = function (o) {
-  var frame = Frames.get(o.sender.tab.id);
-  if (frame) {
-    frame.focusedId = o.request.frameId;
-  }
-};
-
-_.hideCommandFrame = function (o) {
-  chrome.tabs.sendMessage(
-    o.sender.tab.id,
-    {
-      action: o.request.action
-    },
-    function () {
-      var frame = Frames.get(o.sender.tab.id);
-      if (frame) {
-        frame.focus(frame.focusedId, true);
+  _.setIconEnabled = function (o) {
+    chrome.browserAction.setIcon(
+      {
+        path: 'icons/38.png',
+        tabId: o.sender.tab.id
+      },
+      function () {
+        return chrome.runtime.lastError;
       }
-    }
-  );
-};
-
-_.callFind = function (o) {
-  chrome.tabs.sendMessage(o.sender.tab.id, {
-    action: o.request.action,
-    command: o.request.command,
-    params: o.request.params
-  });
-};
-
-_.setFindIndex = function (o) {
-  chrome.tabs.sendMessage(o.sender.tab.id, {
-    action: o.request.action,
-    index: o.request.index
-  });
-};
-
-_.yankWindowUrls = function (o) {
-  chrome.tabs.query({ currentWindow: true }, function (tabs) {
-    Clipboard.copy(
-      tabs
-        .map(function (tab) {
-          return tab.url;
-        })
-        .join('\n')
     );
-    o.callback(tabs.length);
-  });
-};
+  };
 
-_.doIncSearch = function (o) {
-  chrome.tabs.sendMessage(o.sender.tab.id, o.request);
-};
+  _.getFilePath = function (o) {
+    Files.getPath(o.request.path, function (data) {
+      o.callback(data);
+    });
+    return true;
+  };
 
-_.cancelIncSearch = function (o) {
-  chrome.tabs.sendMessage(o.sender.tab.id, o.request);
-};
+  _.getBlacklisted = function (o) {
+    Popup.getBlacklisted(function () {
+      o.callback(true);
+    });
+  };
 
-_.echoRequest = function (o) {
-  chrome.tabs.sendMessage(o.sender.tab.id, o.request);
-};
+  _.editWithVim = function (o) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://127.0.0.1:' + settings.vimport);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        var method = o.request.callback || 'editWithVim';
+        o.callback({ type: method, text: xhr.responseText, elementId: o.request.elementId });
+      }
+    };
+    xhr.send(
+      JSON.stringify({
+        data: '' + (o.request.text || ''),
+        line: o.request.line || 0,
+        column: o.request.column || 0
+      })
+    );
+  };
 
-_.loadLocalConfig = function (o) {
-  var path =
-    o.request.path ||
-    'file://' + settings.configpath.split('~').join(settings.homedirectory || '~');
-  httpRequest({ url: path }).then(
-    function (data) {
-      var added = window.parseConfig(data);
-      if (added.error) {
-        console.error(
-          'parse error on line %d of cVimrc: %s',
-          added.error.lineno,
-          added.error.message
-        );
+  _.httpRequest = function (o) {
+    httpRequest(o.request.request).then(function (res) {
+      o.callback({ type: 'httpRequest', id: o.request.id, text: res });
+    });
+  };
+
+  _.quitChrome = function () {
+    chrome.windows.getAll({ populate: false }, function (windowList) {
+      windowList.forEach(function (e) {
+        chrome.windows.remove(e.id);
+      });
+    });
+  };
+
+  _.parseRC = function (o) {
+    o.callback({ type: 'parseRC', config: RCParser.parse(o.request.config) });
+  };
+
+  _.showCommandFrame = function (o) {
+    Frames.get(o.sender.tab.id).focusedId = o.request.frameId;
+    chrome.tabs.sendMessage(o.sender.tab.id, {
+      action: o.request.action,
+      search: o.request.search,
+      value: o.request.value,
+      complete: o.request.complete
+    });
+  };
+
+  _.markActiveFrame = function (o) {
+    var frame = Frames.get(o.sender.tab.id);
+    if (frame) {
+      frame.focusedId = o.request.frameId;
+    }
+  };
+
+  _.hideCommandFrame = function (o) {
+    chrome.tabs.sendMessage(
+      o.sender.tab.id,
+      {
+        action: o.request.action
+      },
+      function () {
+        var frame = Frames.get(o.sender.tab.id);
+        if (frame) {
+          frame.focus(frame.focusedId, true);
+        }
+      }
+    );
+  };
+
+  _.callFind = function (o) {
+    chrome.tabs.sendMessage(o.sender.tab.id, {
+      action: o.request.action,
+      command: o.request.command,
+      params: o.request.params
+    });
+  };
+
+  _.setFindIndex = function (o) {
+    chrome.tabs.sendMessage(o.sender.tab.id, {
+      action: o.request.action,
+      index: o.request.index
+    });
+  };
+
+  _.yankWindowUrls = function (o) {
+    chrome.tabs.query({ currentWindow: true }, function (tabs) {
+      Clipboard.copy(
+        tabs
+          .map(function (tab) {
+            return tab.url;
+          })
+          .join('\n')
+      );
+      o.callback(tabs.length);
+    });
+  };
+
+  _.doIncSearch = function (o) {
+    chrome.tabs.sendMessage(o.sender.tab.id, o.request);
+  };
+
+  _.cancelIncSearch = function (o) {
+    chrome.tabs.sendMessage(o.sender.tab.id, o.request);
+  };
+
+  _.echoRequest = function (o) {
+    chrome.tabs.sendMessage(o.sender.tab.id, o.request);
+  };
+
+  _.loadLocalConfig = function (o) {
+    var path =
+      o.request.path ||
+      'file://' + settings.configpath.split('~').join(settings.homedirectory || '~');
+    httpRequest({ url: path }).then(
+      function (data) {
+        var added = window.parseConfig(data);
+        if (added.error) {
+          console.error(
+            'parse error on line %d of cVimrc: %s',
+            added.error.lineno,
+            added.error.message
+          );
+          o.callback({
+            code: -2,
+            error: added.error,
+            config: settings
+          });
+          return;
+        }
+        added = added.value;
+        added.localconfig = added.localconfig || false;
+        var oldSettings = Object.clone(settings);
+        var settingsClone = Object.clone(defaultSettings);
+        added.localconfig = oldSettings.localconfig;
+        Object.merge(settingsClone, added);
+        if (oldSettings.localconfig) {
+          Object.merge(settings, oldSettings);
+          Object.merge(settings, added);
+          Options.saveSettings({
+            settings: Object.clone(settings),
+            sendSettings: false
+          });
+          Options.sendSettings();
+        } else {
+          Object.merge(settings, added);
+          settings.RC = oldSettings.RC;
+          Options.sendSettings();
+        }
         o.callback({
-          code: -2,
-          error: added.error,
+          code: 0,
+          error: null,
           config: settings
         });
-        return;
-      }
-      added = added.value;
-      added.localconfig = added.localconfig || false;
-      var oldSettings = Object.clone(settings);
-      var settingsClone = Object.clone(defaultSettings);
-      added.localconfig = oldSettings.localconfig;
-      Object.merge(settingsClone, added);
-      if (oldSettings.localconfig) {
-        Object.merge(settings, oldSettings);
-        Object.merge(settings, added);
-        Options.saveSettings({
-          settings: Object.clone(settings),
-          sendSettings: false
-        });
-        Options.sendSettings();
-      } else {
-        Object.merge(settings, added);
-        settings.RC = oldSettings.RC;
-        Options.sendSettings();
-      }
-      o.callback({
-        code: 0,
-        error: null,
-        config: settings
-      });
-    },
-    function () {
-      o.callback({
-        code: -1,
-        error: null,
-        config: settings
-      });
-    }
-  );
-  return true;
-};
-
-_.toggleMute = function (o) {
-  chrome.tabs.update(o.sender.tab.id, { muted: !o.sender.tab.mutedInfo.muted });
-};
-
-_.pauseDownloads = function (o) {
-  chrome.downloads.search(
-    {
-      state: 'in_progress'
-    },
-    function (downloads) {
-      downloads.forEach(download => {
-        chrome.downloads.pause(download.id);
-      });
-    }
-  );
-};
-
-_.openLastDownloadedFile = function (o) {
-  // Note(hbt) partial implementation - view http://stackoverflow.com/questions/26775564/how-to-open-a-downloaded-file
-  chrome.downloads.search(
-    {
-      exists: true,
-      state: 'complete'
-    },
-    function (dlds) {
-      // sort dlds by end time
-      let sortedDlds = window._.sortBy(dlds, v => {
-        return v.endTime;
-      });
-      let last = sortedDlds.pop();
-      chrome.downloads.open(last.id);
-    }
-  );
-};
-
-_.resumeDownloads = function (o) {
-  chrome.downloads.search(
-    {
-      state: 'in_progress'
-    },
-    function (downloads) {
-      downloads.forEach(download => {
-        chrome.downloads.resume(download.id);
-      });
-    }
-  );
-};
-
-_.cancelDownloads = function (o) {
-  chrome.downloads.search(
-    {
-      state: 'in_progress'
-    },
-    function (downloads) {
-      downloads.forEach(download => {
-        chrome.downloads.cancel(download.id);
-      });
-    }
-  );
-};
-
-_.copyURLDownloads = function (o) {
-  chrome.downloads.search(
-    {
-      state: 'in_progress'
-    },
-    function (downloads) {
-      var urls = [];
-      downloads.forEach(download => {
-        urls.push(download.finalUrl);
-      });
-      Clipboard.copy(urls.join('\n'));
-    }
-  );
-};
-
-_.restartLastDownload = function (o) {
-  chrome.downloads.search({}, function (downloads) {
-    var last = downloads.pop();
-    chrome.downloads.download({
-      url: last.finalUrl
-    });
-  });
-};
-
-_.toggleDomainStylesheets = function (o) {
-  var styleurl = o.request.url;
-  var hostname = o.request.hostname;
-  var tab = o.sender.tab;
-
-  settings.domainStylesheets[hostname] = settings.domainStylesheets[hostname] || {};
-
-  // toggle
-  if (settings.domainStylesheets[hostname] === styleurl) {
-    settings.domainStylesheets[hostname] = '';
-    delete settings.domainStylesheets[hostname];
-  } else {
-    settings.domainStylesheets[hostname] = styleurl;
-  }
-
-  Options.saveSettings({
-    settings: settings
-  });
-
-  chrome.tabs.reload(tab.id);
-};
-
-_.dumpBookmarksFolder = function (o) {
-  // TODO(hbt) NEXT abstract url in settings and flag as experimental -- 2 locations
-  let url =
-    'http://localhost:7077/rest-begin-folder-edit.php?folder_name=' + o.request.msg.folder;
-  $.ajax({
-    url: url,
-    async: false
-  }).done(function (data) {
-    // TODO(hbt) NEXT add confirm msg (status bar) everythign went well
-  });
-};
-
-_.loadBookmarksFolder = function (o) {
-  var _ = window._;
-
-  {
-    function deepPluck(obj, k) {
-      let ret = [];
-
-      if (_.isArray(obj)) {
-        _.each(obj, function (i) {
-          ret.push(deepPluck(i, k));
-        });
-      } else if (_.isObject(obj) && _.has(obj, k)) {
-        ret.push(obj[k]);
-      }
-
-      if (_.isObject(obj)) {
-        _.each(_.keys(obj), function (key) {
-          ret.push(deepPluck(obj[key], k));
+      },
+      function () {
+        o.callback({
+          code: -1,
+          error: null,
+          config: settings
         });
       }
+    );
+    return true;
+  };
 
-      return _.flatten(ret);
-    }
+  _.toggleMute = function (o) {
+    chrome.tabs.update(o.sender.tab.id, { muted: !o.sender.tab.mutedInfo.muted });
+  };
 
-    function emptyExistingFolder(folder, callback) {
-      chrome.bookmarks.search(
-        {
-          title: folder
-        },
-        function (marks) {
-          console.assert(marks.length === 1, 'folder is the only one with that name');
-
-          var omark = marks[0];
-
-          chrome.bookmarks.removeTree(marks[0].id, function () {
-            chrome.bookmarks.create(
-              {
-                parentId: omark.parentId,
-                title: omark.title,
-                index: omark.index
-              },
-              function () {
-                callback();
-              }
-            );
-          });
-        }
-      );
-    }
-
-    function loadEditedBookmarks(folder) {
-      function getBookmarksJSON() {
-        let ret = '';
-        let url = 'http://localhost:7077/rest-finish-folder-edit.php';
-        $.ajax({
-          url: url,
-          async: false
-        }).done(function (data) {
-          ret = JSON.parse(data);
-          console.assert(_.isObject(ret.roots), 'bookmarks loaded properly');
-        });
-        return ret;
-      }
-
-      function loadBookmarksIntoFolder(marks, folder) {
-        function createMark(mark, folderId, index) {
-          if (mark.type === 'folder') {
-            chrome.bookmarks.create(
-              {
-                parentId: folderId,
-                title: mark.name,
-                index: index
-              },
-              function (nmark) {
-                if (mark.children) {
-                  _.each(mark.children, (child, index) => {
-                    createMark(child, nmark.id, index);
-                  });
-                }
-              }
-            );
-          }
-
-          if (mark.type === 'url') {
-            chrome.bookmarks.create(
-              {
-                parentId: folderId,
-                title: mark.name,
-                url: mark.url,
-                index: index
-              },
-              function (nmark) { }
-            );
-          }
-        }
-
-        {
-          chrome.bookmarks.search(
-            {
-              title: folder
-            },
-            function (smarks) {
-              console.assert(smarks.length === 1, 'folder is the only one with that name');
-              let folderId = smarks[0].id;
-
-              _.each(marks, (mark, index) => {
-                createMark(mark, folderId, index);
-              });
-            }
-          );
-        }
-      }
-
-      function getBookmarksByFolderName(allmarks, folder) {
-        var children = deepPluck(allmarks.roots, 'children');
-        var child = _.select(children, child => {
-          return child.type == 'folder' && child.name == folder;
-        });
-        console.assert(
-          _.isArray(child) && child[0].children.length > 0,
-          'found folder and it has data'
-        );
-        return child[0].children;
-      }
-
+  _.pauseDownloads = function (o) {
+    chrome.downloads.search(
       {
-        let allmarks = getBookmarksJSON();
-        let bmarks = getBookmarksByFolderName(allmarks, folder);
-        loadBookmarksIntoFolder(bmarks, folder);
+        state: 'in_progress'
+      },
+      function (downloads) {
+        downloads.forEach(download => {
+          chrome.downloads.pause(download.id);
+        });
       }
-    }
-  }
+    );
+  };
 
-  {
-    emptyExistingFolder(o.request.msg.folder, function () {
-      loadEditedBookmarks(o.request.msg.folder);
-    });
-  }
-};
+  _.openLastDownloadedFile = function (o) {
+    // Note(hbt) partial implementation - view http://stackoverflow.com/questions/26775564/how-to-open-a-downloaded-file
+    chrome.downloads.search(
+      {
+        exists: true,
+        state: 'complete'
+      },
+      function (dlds) {
+        // sort dlds by end time
+        let sortedDlds = window._.sortBy(dlds, v => {
+          return v.endTime;
+        });
+        let last = sortedDlds.pop();
+        chrome.downloads.open(last.id);
+      }
+    );
+  };
 
-_.toggleBookmark = function (o) {
-  var url = o.request.url,
-    title = o.request.title;
-  chrome.bookmarks.search({ url: url }, function (results) {
-    if (!results.length) {
-      chrome.bookmarks.create({ url: url, title: title });
-    } else if (results[0].parentId === '2') {
-      chrome.bookmarks.remove(results[0].id);
-    } else {
-      // parentId ==1 remove from bookmark bar
-      chrome.bookmarks.remove(results[0].id);
-    }
-  });
-};
+  _.resumeDownloads = function (o) {
+    chrome.downloads.search(
+      {
+        state: 'in_progress'
+      },
+      function (downloads) {
+        downloads.forEach(download => {
+          chrome.downloads.resume(download.id);
+        });
+      }
+    );
+  };
 
-_.toggleBookmarksInFolder = function (o) {
-  var __ = window._;
-  chrome.tabs.get(o.sender.tab.id, function (tab) {
-    chrome.tabs.getAllInWindow(tab.windowId, function (tabs) {
-      __.each(tabs, function (tab) {
-        var o2 = {};
-        o2.request = o.request;
-        o2.sender = { tab: tab };
-        o2.callback = o.callback;
-        _.toggleBookmarkInFolder(o2);
+  _.cancelDownloads = function (o) {
+    chrome.downloads.search(
+      {
+        state: 'in_progress'
+      },
+      function (downloads) {
+        downloads.forEach(download => {
+          chrome.downloads.cancel(download.id);
+        });
+      }
+    );
+  };
+
+  _.copyURLDownloads = function (o) {
+    chrome.downloads.search(
+      {
+        state: 'in_progress'
+      },
+      function (downloads) {
+        var urls = [];
+        downloads.forEach(download => {
+          urls.push(download.finalUrl);
+        });
+        Clipboard.copy(urls.join('\n'));
+      }
+    );
+  };
+
+  _.restartLastDownload = function (o) {
+    chrome.downloads.search({}, function (downloads) {
+      var last = downloads.pop();
+      chrome.downloads.download({
+        url: last.finalUrl
       });
     });
-  });
-};
+  };
 
-_.toggleBookmarkInFolder = function (o) {
-  // TODO(hbt) ENHANCE refactor to remove vrome msg object
-  var _ = window._;
-  var msg = o.request.msg;
-  var tab = o.sender.tab;
+  _.toggleDomainStylesheets = function (o) {
+    var styleurl = o.request.url;
+    var hostname = o.request.hostname;
+    var tab = o.sender.tab;
 
-  chrome.bookmarks.search(
+    settings.domainStylesheets[hostname] = settings.domainStylesheets[hostname] || {};
+
+    // toggle
+    if (settings.domainStylesheets[hostname] === styleurl) {
+      settings.domainStylesheets[hostname] = '';
+      delete settings.domainStylesheets[hostname];
+    } else {
+      settings.domainStylesheets[hostname] = styleurl;
+    }
+
+    Options.saveSettings({
+      settings: settings
+    });
+
+    chrome.tabs.reload(tab.id);
+  };
+
+  _.dumpBookmarksFolder = function (o) {
+    // TODO(hbt) NEXT abstract url in settings and flag as experimental -- 2 locations
+    let url =
+      'http://localhost:7077/rest-begin-folder-edit.php?folder_name=' + o.request.msg.folder;
+    $.ajax({
+      url: url,
+      async: false
+    }).done(function (data) {
+      // TODO(hbt) NEXT add confirm msg (status bar) everythign went well
+    });
+  };
+
+  _.loadBookmarksFolder = function (o) {
+    var _ = window._;
+
     {
-      title: msg.folder
-    },
-    function (collection) {
-      var _folder = collection[0];
-      if (!_folder)
-        chrome.bookmarks.create({ title: msg.folder }, folder => toggleInFolder(folder));
-      else toggleInFolder(_folder);
-      function toggleInFolder(folder) {
-        chrome.bookmarks.getChildren(folder.id, children => {
-          // fix inconsistent trailing slash in urls
-          var tabUrl = tab.url;
-          tabUrl = removeTrailingSlash(tabUrl);
+      function deepPluck(obj, k) {
+        let ret = [];
 
-          function removeTrailingSlash(url) {
-            if (url && url.endsWith('/')) {
-              url = url.substring(0, url.length - 1);
-            }
-            return url;
-          }
-
-          children = _.map(children, child => {
-            child.url = removeTrailingSlash(child.url);
-            return child;
+        if (_.isArray(obj)) {
+          _.each(obj, function (i) {
+            ret.push(deepPluck(i, k));
           });
+        } else if (_.isObject(obj) && _.has(obj, k)) {
+          ret.push(obj[k]);
+        }
 
-          // toggle
-          var children = _.indexBy(children, 'url');
+        if (_.isObject(obj)) {
+          _.each(_.keys(obj), function (key) {
+            ret.push(deepPluck(obj[key], k));
+          });
+        }
 
-          if (_.keys(children).includes(tabUrl)) {
-            var b = children[tabUrl];
-            chrome.bookmarks.remove(b.id, function () {
-              o.callback({
-                type: 'Status.setMessage',
-                text: 'removed bookmark from ' + msg.folder
-              });
-            });
-          } else {
-            // Note(hbt) for some reason tab information is missing title -- displays url instead
-            chrome.tabs.get(tab.id, function (tab2) {
-              var title = tab2.title;
-              title = title.trim();
-              if (settings.showtabindices) {
-                // remove first word
-                title = title.substr(title.indexOf(' ') + 1);
-              }
+        return _.flatten(ret);
+      }
 
+      function emptyExistingFolder(folder, callback) {
+        chrome.bookmarks.search(
+          {
+            title: folder
+          },
+          function (marks) {
+            console.assert(marks.length === 1, 'folder is the only one with that name');
+
+            var omark = marks[0];
+
+            chrome.bookmarks.removeTree(marks[0].id, function () {
               chrome.bookmarks.create(
                 {
-                  parentId: folder.id,
-                  url: tabUrl,
-                  title: title
+                  parentId: omark.parentId,
+                  title: omark.title,
+                  index: omark.index
                 },
                 function () {
-                  o.callback({
-                    type: 'Status.setMessage',
-                    text: 'added bookmark to ' + msg.folder
-                  });
+                  callback();
                 }
               );
             });
           }
-        });
+        );
+      }
+
+      function loadEditedBookmarks(folder) {
+        function getBookmarksJSON() {
+          let ret = '';
+          let url = 'http://localhost:7077/rest-finish-folder-edit.php';
+          $.ajax({
+            url: url,
+            async: false
+          }).done(function (data) {
+            ret = JSON.parse(data);
+            console.assert(_.isObject(ret.roots), 'bookmarks loaded properly');
+          });
+          return ret;
+        }
+
+        function loadBookmarksIntoFolder(marks, folder) {
+          function createMark(mark, folderId, index) {
+            if (mark.type === 'folder') {
+              chrome.bookmarks.create(
+                {
+                  parentId: folderId,
+                  title: mark.name,
+                  index: index
+                },
+                function (nmark) {
+                  if (mark.children) {
+                    _.each(mark.children, (child, index) => {
+                      createMark(child, nmark.id, index);
+                    });
+                  }
+                }
+              );
+            }
+
+            if (mark.type === 'url') {
+              chrome.bookmarks.create(
+                {
+                  parentId: folderId,
+                  title: mark.name,
+                  url: mark.url,
+                  index: index
+                },
+                function (nmark) { }
+              );
+            }
+          }
+
+          {
+            chrome.bookmarks.search(
+              {
+                title: folder
+              },
+              function (smarks) {
+                console.assert(smarks.length === 1, 'folder is the only one with that name');
+                let folderId = smarks[0].id;
+
+                _.each(marks, (mark, index) => {
+                  createMark(mark, folderId, index);
+                });
+              }
+            );
+          }
+        }
+
+        function getBookmarksByFolderName(allmarks, folder) {
+          var children = deepPluck(allmarks.roots, 'children');
+          var child = _.select(children, child => {
+            return child.type == 'folder' && child.name == folder;
+          });
+          console.assert(
+            _.isArray(child) && child[0].children.length > 0,
+            'found folder and it has data'
+          );
+          return child[0].children;
+        }
+
+        {
+          let allmarks = getBookmarksJSON();
+          let bmarks = getBookmarksByFolderName(allmarks, folder);
+          loadBookmarksIntoFolder(bmarks, folder);
+        }
       }
     }
-  );
-};
 
-return function (_request, _sender, _callback, _port) {
-  var action = _request.action;
-  if (!_.hasOwnProperty(action) || typeof _[action] !== 'function') return;
-
-  var o = {
-    request: _request,
-    sender: _sender,
-    callback: _callback,
-    port: _port
+    {
+      emptyExistingFolder(o.request.msg.folder, function () {
+        loadEditedBookmarks(o.request.msg.folder);
+      });
+    }
   };
-  o.request.repeats = Math.max(~~o.request.repeats, 1);
 
-  if (o.request.url && !o.request.noconvert) {
-    o.url = Utils.toSearchURL(o.request.url);
-  } else if (o.request.url) {
-    o.url = o.request.url;
-  } else {
-    o.url = settings.defaultnewtabpage ? 'chrome://newtab' : '../pages/blank.html';
-  }
+  _.toggleBookmark = function (o) {
+    var url = o.request.url,
+      title = o.request.title;
+    chrome.bookmarks.search({ url: url }, function (results) {
+      if (!results.length) {
+        chrome.bookmarks.create({ url: url, title: title });
+      } else if (results[0].parentId === '2') {
+        chrome.bookmarks.remove(results[0].id);
+      } else {
+        // parentId ==1 remove from bookmark bar
+        chrome.bookmarks.remove(results[0].id);
+      }
+    });
+  };
 
-  if (!o.sender.tab && action !== 'openLinkTab') return;
+  _.toggleBookmarksInFolder = function (o) {
+    var __ = window._;
+    chrome.tabs.get(o.sender.tab.id, function (tab) {
+      chrome.tabs.getAllInWindow(tab.windowId, function (tabs) {
+        __.each(tabs, function (tab) {
+          var o2 = {};
+          o2.request = o.request;
+          o2.sender = { tab: tab };
+          o2.callback = o.callback;
+          _.toggleBookmarkInFolder(o2);
+        });
+      });
+    });
+  };
 
-  return _[action](o);
-};
-}) ();
+  _.toggleBookmarkInFolder = function (o) {
+    // TODO(hbt) ENHANCE refactor to remove vrome msg object
+    var _ = window._;
+    var msg = o.request.msg;
+    var tab = o.sender.tab;
+
+    chrome.bookmarks.search(
+      {
+        title: msg.folder
+      },
+      function (collection) {
+        var _folder = collection[0];
+        if (!_folder)
+          chrome.bookmarks.create({ title: msg.folder }, folder => toggleInFolder(folder));
+        else toggleInFolder(_folder);
+        function toggleInFolder(folder) {
+          chrome.bookmarks.getChildren(folder.id, children => {
+            // fix inconsistent trailing slash in urls
+            var tabUrl = tab.url;
+            tabUrl = removeTrailingSlash(tabUrl);
+
+            function removeTrailingSlash(url) {
+              if (url && url.endsWith('/')) {
+                url = url.substring(0, url.length - 1);
+              }
+              return url;
+            }
+
+            children = _.map(children, child => {
+              child.url = removeTrailingSlash(child.url);
+              return child;
+            });
+
+            // toggle
+            var children = _.indexBy(children, 'url');
+
+            if (_.keys(children).includes(tabUrl)) {
+              var b = children[tabUrl];
+              chrome.bookmarks.remove(b.id, function () {
+                o.callback({
+                  type: 'Status.setMessage',
+                  text: 'removed bookmark from ' + msg.folder
+                });
+              });
+            } else {
+              // Note(hbt) for some reason tab information is missing title -- displays url instead
+              chrome.tabs.get(tab.id, function (tab2) {
+                var title = tab2.title;
+                title = title.trim();
+                if (settings.showtabindices) {
+                  // remove first word
+                  title = title.substr(title.indexOf(' ') + 1);
+                }
+
+                chrome.bookmarks.create(
+                  {
+                    parentId: folder.id,
+                    url: tabUrl,
+                    title: title
+                  },
+                  function () {
+                    o.callback({
+                      type: 'Status.setMessage',
+                      text: 'added bookmark to ' + msg.folder
+                    });
+                  }
+                );
+              });
+            }
+          });
+        }
+      }
+    );
+  };
+
+  return function (_request, _sender, _callback, _port) {
+    var action = _request.action;
+    if (!_.hasOwnProperty(action) || typeof _[action] !== 'function') return;
+
+    var o = {
+      request: _request,
+      sender: _sender,
+      callback: _callback,
+      port: _port
+    };
+    o.request.repeats = Math.max(~~o.request.repeats, 1);
+
+    if (o.request.url && !o.request.noconvert) {
+      o.url = Utils.toSearchURL(o.request.url);
+    } else if (o.request.url) {
+      o.url = o.request.url;
+    } else {
+      o.url = settings.defaultnewtabpage ? 'chrome://newtab' : '../pages/blank.html';
+    }
+
+    if (!o.sender.tab && action !== 'openLinkTab') return;
+
+    return _[action](o);
+  };
+})();

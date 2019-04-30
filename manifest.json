@@ -9,7 +9,6 @@
     "48": "icons/48.png",
     "16": "icons/16.png"
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
   "commands": {
     "nextTab": {
       "description": "Go to the next tab"
@@ -56,6 +55,8 @@
   "author": "Jake Eaton, metasong",
   "permissions": [
     "<all_urls>",
+    "webRequest",
+    "webRequestBlocking",
     "tabs",
     "management",
     "history",
@@ -79,7 +80,8 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["<all_urls>", "chrome://*/*"],
+      "match_about_blank": true,
       "js": [
         "content_scripts/index.js",
         "vendor/jquery.js",
@@ -114,5 +116,6 @@
     "cmdline_frame.html",
     "content_scripts/*.js",
     "content_scripts/*.mjs"
-  ]
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

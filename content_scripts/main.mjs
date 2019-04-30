@@ -22,4 +22,4 @@ import './mappings.mjs';
 import './frames.mjs';
 import './messenger.mjs';
 
-export function main() {}
+export function main() { }
