@@ -211,16 +211,17 @@ window.DOM = {
     });
   },
   getZIndex: function (element, z = 'auto') {
-    let z1 = getComputedStyle(element).getPropertyValue('z-index');
     let getZ = function (z, z1) {
-      if (z1 !== 'auto') {
-        if (z !== 'auto')
-          return Math.max(Number.parseInt(z), Number.parseInt(z1)).toString();
-        return z1;
+      if (+z1 !== NaN) {
+        if (+z !== NaN)
+          return Math.max(+z, +z1);
+        return +z1;
       }
-      if (z !== 'auto') return z;
+      if (+z !== NaN) return +z;
       return z1;
     }
+
+    let z1 = getComputedStyle(element).getPropertyValue('z-index');
     if (element.parentElement === null) {
       return getZ(z, z1);
     };

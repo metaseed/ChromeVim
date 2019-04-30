@@ -243,13 +243,14 @@ KeyListener.prototype.setLangMap = function (map) {
 
 var KeyHandler = {
   down: function (key, event) {
-    var commandName = currentTrieNode.getKey(key) && currentTrieNode.getKey(key).value;
+    let k = currentTrieNode.getKey(key);
+    let commandName = k && k.value;
     if (passMode && commandName !== 'exitPassMode') {
       return;
     }
     if (Hints.active) {
-      event.preventDefault();
       if (event.which === 16) { // 16 is shift key
+        event.preventDefault();
         Hints.switchToTop();
         return;
       }
@@ -274,7 +275,7 @@ var KeyHandler = {
 
     if (Hints.active) {
       event.stopImmediatePropagation();
-      if (event.which === 32) {
+      if (event.which === 32) { // space key
         event.preventDefault();
         document.getElementById('cVim-link-container').style.opacity = '0';
         return;
@@ -294,13 +295,13 @@ var KeyHandler = {
 
     if (Command.commandBarFocused()) event.stopImmediatePropagation();
 
-    var escapeKey = key === '<Esc>' || key === '<C-[>';
+    var isEscapeKey = key === '<Esc>' || key === '<C-[>';
 
     if (Visual.caretModeActive || Visual.visualModeActive) {
       event.stopImmediatePropagation();
       Visual.selection = document.getSelection();
       if (event.which === 8) event.preventDefault();
-      if (escapeKey) {
+      if (isEscapeKey) {
         Visual.lineMode = false;
         if (Visual.visualModeActive === false) {
           Visual.exit();
@@ -319,7 +320,7 @@ var KeyHandler = {
       return;
     }
 
-    if (escapeKey) {
+    if (isEscapeKey) {
       Mappings.handleEscapeKey();
       event.preventDefault();
       event.stopImmediatePropagation();
@@ -351,7 +352,7 @@ var KeyHandler = {
       return;
     }
 
-    if (!isInput) {
+    if (!isInput || Hints.active) {
       if (Mappings.queue.length) {
         event.preventDefault();
         event.stopImmediatePropagation();

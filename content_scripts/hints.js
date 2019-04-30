@@ -377,12 +377,9 @@ Hints.handleHintFeedback = function () {
 
 Hints.handleHint = function (key) {
   key = key.replace('<Space>', ' ');
-  switch (key) {
-    case '/':
-      return (document.getElementById('cVim-link-container').style.opacity = '0');
-    case '<Tab>':
-      Hints.shouldShowLinkInfo = !Hints.shouldShowLinkInfo;
-      return;
+  if (key === '<Tab>') {
+    Hints.shouldShowLinkInfo = !Hints.shouldShowLinkInfo;
+    return;
   }
   if (settings.numerichints && key === '<Enter>') {
     return this.numericMatch ? this.dispatchAction(this.numericMatch) : this.hideHints(false);
@@ -412,9 +409,9 @@ Hints.evaluateLink = function (item) {
 
   var nodeZIndex = DOM.getZIndex(node);
   if (nodeZIndex === 'auto') {
-    style.zIndex = this.linkIndex + 1;
+    style.zIndex = this.linkIndex;
   } else {
-    style.zIndex = nodeZIndex + 1 + this.linkIndex;
+    style.zIndex = nodeZIndex + this.linkIndex;
   }
   style.top = document.scrollingElement.scrollTop + rect.top + 'px';
   style.left = document.scrollingElement.scrollLeft + rect.left + 'px';

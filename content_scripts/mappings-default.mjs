@@ -1,4 +1,5 @@
 export const defaultInsertMappings = [
+  ['<C-S-f>', 'displayHint'],
   ['<C-y>', 'deleteWord'],
   ['<C-p>', 'deleteForwardWord'],
   ['<C-i>', 'beginningOfLine'],
@@ -44,9 +45,7 @@ export const defaultMappings = [
   ['gg', 'scrollToTop'], // <Home>
   ['G', 'scrollToBottom'], // <End>
   ['h', 'scrollLeft'],
-  ['<A-a>', 'scrollLeft'],
   ['l', 'scrollRight'],
-  ['<A-d>', 'scrollRight'],
   ['0', 'scrollToLeft'], // to the most left (begin)
   ['$', 'scrollToRight'], // to the most right (end)
 
@@ -213,7 +212,7 @@ export const defaultMappings = [
 
   ['|T', 'lastUsedTab'], // by time across windows
   ['|t', 'lastActiveTab'], // last active tab in window
-  ['tt', 'goToTab'], // <C-number> number+tt: goto tab number
+  ['tt', 'goToTab'], // <C-number> number+tt: go To the Tab
   ['tb', 'toggleBookmark'], // Toggle Bookmark in other bookmarks folder
   //* C-d: add bookmark and show add-bookmark dialog
   //* C-S-d: bookmark window tabs and show bookmark-all-tabs dialog
